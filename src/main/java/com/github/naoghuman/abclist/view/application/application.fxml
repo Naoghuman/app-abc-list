@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: AQUAMARINE;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.view.application.ApplicationPresenter">
+    <children>
+        <SplitPane fx:id="spApplication" dividerPositions="0.33" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <items>
+                <VBox spacing="14.0">
+                    <children>
+                        <ToolBar minHeight="-Infinity" prefHeight="40.0">
+                            <items>
+                                <Button fx:id="bNavigationCreateNewTopic" mnemonicParsing="false" onAction="#onActionCreateNewTopic" text="+To" />
+                                <Button fx:id="bNavigationCreateNewTerm" mnemonicParsing="false" onAction="#onActionCreateNewTerm" text="+Te" />
+                                <Button fx:id="bNavigationToHome" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToHome" text="H" />
+                                <Button fx:id="bNavigationToPrevious" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToPrevious" text="&lt;" />
+                                <Button fx:id="bNavigationToNext" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToNext" text="&gt;" />
+                                <Button fx:id="bNavigationShowAll" disable="true" mnemonicParsing="false" onAction="#onActionNavigationShowAll" text="_" />
+                            </items>
+                        </ToolBar>
+                        <TabPane fx:id="tpNavigation" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                            <tabs>
+                                <Tab closable="false" text="Topics">
+                                    <content>
+                                        <TreeView fx:id="tvNavigationTopics" showRoot="false" />
+                                    </content>
+                                </Tab>
+                                <Tab closable="false" text="Terms">
+                                    <content>
+                                        <VBox>
+                                            <children>
+                                                <Label text="Show all Terms from the selected Topic">
+                                                    <VBox.margin>
+                                                        <Insets left="14.0" right="14.0" top="14.0" />
+                                                    </VBox.margin>
+                                                </Label>
+                                                <ComboBox fx:id="cbNavigationTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowTermsFromSelectedTopic">
+                                                    <VBox.margin>
+                                                        <Insets bottom="14.0" left="14.0" right="14.0" />
+                                                    </VBox.margin>
+                                                </ComboBox>
+                                    <Label fx:id="lInfoFoundedTerms" text="Found 0 Terms">
+                                       <VBox.margin>
+                                          <Insets left="14.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                                <ListView fx:id="lvNavigationTerms" VBox.vgrow="ALWAYS" />
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+                <VBox fx:id="vbWorkingArea" spacing="14.0" />
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

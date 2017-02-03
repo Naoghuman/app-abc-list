@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox id="VBox" prefHeight="400.0" prefWidth="428.0" spacing="14.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.view.term.TermPresenter">
+    <children>
+        <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0">
+            <items>
+                <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveTerm" text="Save" />
+            </items>
+        </ToolBar>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Term">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <tabs>
+                <Tab closable="false" text="Details">
+                    <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <Label text="Title">
+                                    <VBox.margin>
+                                        <Insets top="14.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <TextField fx:id="tfTitle" maxWidth="1.7976931348623157E308" />
+                                <Label text="Description">
+                                    <VBox.margin>
+                                        <Insets top="14.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <TextArea fx:id="taDescription" maxWidth="1.7976931348623157E308" prefHeight="128.0" wrapText="true" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab closable="false" disable="true" text="Images" />
+                <Tab closable="false" disable="true" text="Additional Informations" />
+            </tabs>
+        </TabPane>
+    </children>
+</VBox>
