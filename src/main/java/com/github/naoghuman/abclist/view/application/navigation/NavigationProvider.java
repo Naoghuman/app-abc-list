@@ -199,17 +199,13 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
 //        }
     }
 
-    private void onActionRefreshNavigationTabTermsWithSelection() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Terms] with selection"); // NOI18N
+    private void onActionRefreshNavigationTabTerms(Term term) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Terms]"); // NOI18N
         
-        final int selectedIndex = cbNavigationTopics.getSelectionModel().getSelectedIndex();
-        
-        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-//        this.onActionRefreshNavigationTabTopics(observableListTopics);
-        this.onActionRefreshNavigationTabTerms(topics);
-        
-        cbNavigationTopics.getSelectionModel().clearSelection();
-        cbNavigationTopics.getSelectionModel().select(selectedIndex);
+        final int selectedIndex = lvNavigationTerms.getSelectionModel().getSelectedIndex();
+        lvNavigationTerms.getItems().remove(selectedIndex);
+        lvNavigationTerms.getItems().add(selectedIndex, term);
+        lvNavigationTerms.getSelectionModel().clearAndSelect(selectedIndex);
     }
     
     private void onActionRefreshNavigationTabTopics() {
@@ -298,7 +294,9 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
         ActionFacade.getDefault().register(
                 ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TERMS_WITH_SELECTION,
                 (ActionEvent event) -> {
-//                    this.onActionRefreshNavigationTabTermsWithSelection();
+                    final TransferData transferData = (TransferData) event.getSource();
+                    final Term term = (Term) transferData.getObject();
+                    this.onActionRefreshNavigationTabTerms(term);
                 });
     }
     

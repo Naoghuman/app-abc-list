@@ -20,6 +20,7 @@ import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.lib.action.api.ActionFacade;
+import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,6 +59,7 @@ public class TermPresenter implements Initializable, IActionConfiguration {
     }
     
     public void configure(Term term) {
+        LoggerFacade.getDefault().debug(this.getClass(), "configure"); // NOI18N
         
         this.term = term;
         
@@ -65,9 +67,11 @@ public class TermPresenter implements Initializable, IActionConfiguration {
         
         tfTitle.setText(term.getTitle());
         tfTitle.textProperty().addListener(stringChangeListener);
+        term.titleProperty().bind(tfTitle.textProperty());
         
         taDescription.setText(term.getDescription());
         taDescription.textProperty().addListener(stringChangeListener);
+        term.descriptionProperty().bind(taDescription.textProperty());
     }
     
     public long getId() {
@@ -78,21 +82,18 @@ public class TermPresenter implements Initializable, IActionConfiguration {
         LoggerFacade.getDefault().debug(this.getClass(), "On action save [Term]"); // NOI18N
         
         // TODO check if title is valid
-        
-        // Catch new data
-        final String title = tfTitle.getText();
-        term.setTitle(title);
-        
-        final String description = taDescription.getText();
-        term.setDescription(description);
-        
+        // Data in the model is updated through binding
         SqlProvider.getDefault().updateTerm(term);
         
         // Reset [MarkAsChanged]
         term.setMarkAsChanged(Boolean.FALSE);
         
-        // Reload selection from the [ComboBox] [cbNavigationTopics]
-        ActionFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TERMS_WITH_SELECTION);
+        // Refresh the [Navigation]
+        final TransferData transferData = new TransferData();
+        transferData.setActionId(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TERMS_WITH_SELECTION);
+        transferData.setObject(term);
+        
+        ActionFacade.getDefault().handle(transferData);
     }
     
     private final class StringChangeListener implements ChangeListener<String> {
