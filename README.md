@@ -40,8 +40,8 @@ Download<a name="Download" />
 
 The current `version` `0.1.0-PRERELEASE` can be here downloaded: [v0.1.0-PRERELEASE]
 
-Download the `zip-file`, extracted to a place of your choice. Double click on 
-the `jar-file` to start the application.
+Download the `zip-file`, extracted it to a place of your choice. Then double 
+click on the `jar-file` to start the application.
 
 
 
