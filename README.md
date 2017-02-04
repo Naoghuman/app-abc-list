@@ -26,9 +26,18 @@ _Image:_ Example ´terms´ extracted from an article
 Content
 ---
 
+* [Download](#Download)
 * [License](#License)
 * [Autor](#Autor)
 * [Contact](#Contact)
+
+
+
+<br />
+Download<a name="Download" />
+---
+
+The current `version` `0.1.0-PRERELEASE` can be here downloaded: [v0.1.0-PRERELEASE]
 
 
 
@@ -63,3 +72,4 @@ You can reach me under <peter.rogge@yahoo.de>.
 [General Public License 3.0]:http://www.gnu.org/licenses/gpl-3.0.en.html
 [Maven]:http://maven.apache.org/
 [NetBeans IDE]:https://netbeans.org/
+[v0.1.0-PRERELEASE]:https://github.com/Naoghuman/ABC-List/releases/tag/v0.1.0
