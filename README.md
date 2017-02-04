@@ -12,6 +12,8 @@ topic through `key terms`.
 
 ABC-List is a [JavaFX] & [Maven] application, written in [NetBeans IDE].
 
+Current `version` is `0.1.0-PRERELEASE` (02-04-2017).
+
 
 
 <br />
