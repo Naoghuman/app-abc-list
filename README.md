@@ -27,6 +27,7 @@ Content
 ---
 
 * [Download](#Download)
+* [Requirements](#Requirements)
 * [License](#License)
 * [Autor](#Autor)
 * [Contact](#Contact)
@@ -41,6 +42,15 @@ The current `version` `0.1.0-PRERELEASE` can be here downloaded: [v0.1.0-PRERELE
 
 
 
+<br />
+Requirements<a name="Requirements" />
+---
+
+* On your system you need [JRE 8] or [JDK 8] installed. That was it :smile: .
+
+
+
+<br />
 License<a name="License" />
 ---
 
@@ -48,6 +58,7 @@ The project `ABC-List` is licensed under [General Public License 3.0].
 
 
 
+<br />
 Autor<a name="Autor" />
 ---
 
@@ -55,6 +66,7 @@ The project `ABC-List` is maintained by me, Peter Rogge. See [Contact](#Contact)
 
 
 
+<br />
 Contact<a name="Contact" />
 ---
 
@@ -69,6 +81,8 @@ You can reach me under <peter.rogge@yahoo.de>.
 
 [//]: # (Links)
 [JavaFX]:http://docs.oracle.com/javase/8/javase-clienttechnologies.htm
+[JDK 8]:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[JRE 8]:http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
 [General Public License 3.0]:http://www.gnu.org/licenses/gpl-3.0.en.html
 [Maven]:http://maven.apache.org/
 [NetBeans IDE]:https://netbeans.org/

@@ -13,6 +13,7 @@ topic through `key terms`.
 
 
 #### New
+#4 [README] Add new section [Requirements] to the README.md.
 #3 [README] Add new section [Download] to the README.md.
 
 
