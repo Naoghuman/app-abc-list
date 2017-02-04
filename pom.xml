@@ -109,7 +109,7 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
         </dependency>
         <dependency>
             <groupId>com.github.naoghuman</groupId>
-            <artifactId>lib-database-objectDB</artifactId>
+            <artifactId>lib-database-objectdb</artifactId>
             <version>0.4.0</version>
             <type>jar</type>
         </dependency>
