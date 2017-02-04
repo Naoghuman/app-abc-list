@@ -43,7 +43,12 @@ public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseT
     }
     
     private ExerciseTermSqlService() {
-        
+        this.initialize();
+    }
+    
+    private void initialize() {
+        // Create a [dummy] ExerciseTerm - so the table exists in the database
+        this.create(new ExerciseTerm());
     }
     
     long countAllExerciseTermsWithTermId(long termId) {
