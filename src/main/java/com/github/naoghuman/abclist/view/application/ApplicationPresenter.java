@@ -152,7 +152,6 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         // Update the gui
         final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
         NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(topics);
-        NavigationProvider.getDefault().onActionExpandTopic(topic);
     }
     
     public void onActionCreateNewTerm() {
@@ -220,7 +219,6 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             topics.clear();
             topics.addAll(SqlProvider.getDefault().findAllTopics());
             NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(topics);
-//            NavigationProvider.getDefault().onActionRefreshNavigationTabTerms(topics);
         }
     }
     

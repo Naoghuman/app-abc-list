@@ -30,8 +30,11 @@ import com.github.naoghuman.lib.action.api.ActionFacade;
 import com.github.naoghuman.lib.action.api.IRegisterActions;
 import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -159,17 +162,19 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
         return sb.toString();
     }
     
-    public void onActionExpandTopic(Topic topic) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action expand [Topic]"); // NOI18N
+//    public void onAcitonExpandAllOpen
     
-        final Optional<TreeItem<NavigationEntity>> optionalTreeItem = rootItemNavigationTabTopics.getChildren().stream()
-                .filter(treeItem -> ((NavigationEntity) treeItem.getValue()).getNavigation().getNavigationType().equals(ENavigationType.TOPIC))
-                .filter(treeItem -> Objects.equals(((NavigationEntity) treeItem.getValue()).getNavigation().getEntityId(), topic.getId()))
-                .findFirst();
-        if (optionalTreeItem.isPresent()) {
-            optionalTreeItem.get().setExpanded(true);
-        }
-    }
+//    public void onActionExpandTopic(Topic topic) {
+//        LoggerFacade.getDefault().debug(this.getClass(), "On action expand [Topic]"); // NOI18N
+//    
+//        final Optional<TreeItem<NavigationEntity>> optionalTreeItem = rootItemNavigationTabTopics.getChildren().stream()
+//                .filter(treeItem -> ((NavigationEntity) treeItem.getValue()).getNavigation().getNavigationType().equals(ENavigationType.TOPIC))
+//                .filter(treeItem -> Objects.equals(((NavigationEntity) treeItem.getValue()).getNavigation().getEntityId(), topic.getId()))
+//                .findFirst();
+//        if (optionalTreeItem.isPresent()) {
+//            optionalTreeItem.get().setExpanded(true);
+//        }
+//    }
     
     public void onActionRefreshNavigationTabTerms(ObservableList<Topic> topics) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Term]s"); // NOI18N
@@ -207,30 +212,28 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
         lvNavigationTerms.getItems().add(selectedIndex, term);
         lvNavigationTerms.getSelectionModel().clearAndSelect(selectedIndex);
     }
-    
-    private void onActionRefreshNavigationTabTopics() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Topics]"); // NOI18N
-        
-        final ObservableList<Topic> observableListTopics = SqlProvider.getDefault().findAllTopics();
-        NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(observableListTopics);
-    }
 
     public void onActionRefreshNavigationTabTopics(ObservableList<Topic> topics) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Topic]s"); // NOI18N
         
+        // Catch expanded [TreeItem]s
+        final List<NavigationEntity> navigationEntities = new ArrayList<>();
+        rootItemNavigationTabTopics.getChildren().stream()
+                .filter((treeItem) -> treeItem.isExpanded())
+                .forEach((treeItem) -> {
+                    navigationEntities.add(treeItem.getValue());
+                });
+        
+        // Refresh the [TreeView]
         rootItemNavigationTabTopics.getChildren().clear();
         
         topics.forEach(topic -> {
-            LoggerFacade.getDefault().debug(this.getClass(), "  # " + topic.toString());
-            
             final ObservableList<Exercise> observableListExercises = SqlProvider.getDefault().findAllExercisesWithTopicId(topic.getId());
             topic.setExercises(observableListExercises.size());
             
             final NavigationEntity navigationEntity = ModelProvider.getDefault().getNavigationEntity(ENavigationType.TOPIC, topic.getId(), new TopicNavigationConverter(topic));
             final TreeItem<NavigationEntity> treeItemTopic = new TreeItem<>(navigationEntity);
             observableListExercises.forEach(exercise -> {
-                LoggerFacade.getDefault().debug(this.getClass(), "  # " + exercise.toString());
-            
                 final NavigationEntity navigationEntity2 = ModelProvider.getDefault().getNavigationEntity(ENavigationType.EXERCISE, exercise.getId(), new ExerciseNavigationConverter(exercise));
                 final TreeItem<NavigationEntity> treeItemExercise = new TreeItem<>(navigationEntity2);
                 treeItemTopic.getChildren().add(treeItemExercise);
@@ -240,6 +243,17 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
         });
         
         tvNavigationTabTopics.setRoot(rootItemNavigationTabTopics);
+        
+        // Expanded previous [TreeItem]s
+        Platform.runLater(() -> {
+            navigationEntities.stream().forEach((navigationEntity) -> {
+                rootItemNavigationTabTopics.getChildren().stream()
+                        .filter((treeItem) -> (Objects.equals(((NavigationEntity) treeItem.getValue()).getNavigation().getEntityId(), navigationEntity.getNavigation().getEntityId())))
+                        .forEach((treeItem) -> {
+                            treeItem.setExpanded(true);
+                        });
+            });
+        });
     }
     
     public void onActionSelectPreviousSelectedIndex() {
@@ -306,7 +320,8 @@ public class NavigationProvider implements IActionConfiguration, IDefaultConfigu
         ActionFacade.getDefault().register(
                 ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS,
                 (ActionEvent event) -> {
-                    this.onActionRefreshNavigationTabTopics();
+                    final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
+                    this.onActionRefreshNavigationTabTopics(topics);//topic);
                 });
     }
     

@@ -20,6 +20,7 @@ import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.lib.action.api.ActionFacade;
+import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,6 +59,7 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
     }
     
     public void configure(Topic topic) {
+        LoggerFacade.getDefault().debug(this.getClass(), "configure"); // NOI18N
         
         this.topic = topic;
         
@@ -65,9 +67,11 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
         
         tfTitle.setText(topic.getTitle());
         tfTitle.textProperty().addListener(stringChangeListener);
+        topic.titleProperty().bind(tfTitle.textProperty());
         
         taDescription.setText(topic.getDescription());
         taDescription.textProperty().addListener(stringChangeListener);
+        topic.descriptionProperty().bind(taDescription.textProperty());
     }
     
     public long getId() {
@@ -78,20 +82,13 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
         LoggerFacade.getDefault().debug(this.getClass(), "On action save [Topic]"); // NOI18N
         
         // TODO check if title is valid
-        
-        // Catch new data
-        final String title = tfTitle.getText();
-        topic.setTitle(title);
-        
-        final String description = taDescription.getText();
-        topic.setDescription(description);
-        
+        // Data in the model is updated through binding
         SqlProvider.getDefault().updateTopic(topic);
         
         // Reset [MarkAsChanged]
         topic.setMarkAsChanged(Boolean.FALSE);
         
-        // Refresh navigation-tab-topics
+        // Refresh the [Navigation]
         ActionFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
     }
     
