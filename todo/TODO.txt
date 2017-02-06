@@ -40,7 +40,13 @@ NEXT STEPS
           Terms for the Topic at this moment.
  - help like in Ikonli (guide)
  - json.xml in github/project/folder
-
+ - New Tab 'Knowledge'.
+    - It's a text-search where the user can search in 'Topics', 'Exercises', 'Terms'.
+       a) name from entity
+       b) description from entity
+       c) images from entity
+       d) links from entity
+    - Shows search results in a table? in the 4 main categories?
 
 - Use task for loading Navigation
 - Hit arrow to top, to bottom as help during the exercise.
