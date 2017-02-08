@@ -47,7 +47,7 @@ public class SimpleJsonReader implements IJSONConfiguration {
         System.out.println(project.toString());
     }
     
-    private Project read() {
+    public Project read() {
         final JSONParser parser = new JSONParser();
         final Project project = new Project();
         try {

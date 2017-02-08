@@ -20,6 +20,8 @@ import com.github.naoghuman.abclist.view.application.navigation.Navigation;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.configuration.IApplicationConfiguration;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
+import com.github.naoghuman.abclist.json.Project;
+import com.github.naoghuman.abclist.json.SimpleJsonReader;
 import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
 import com.github.naoghuman.abclist.view.exercise.ExerciseView;
 import com.github.naoghuman.abclist.model.Exercise;
@@ -92,6 +94,11 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         
 //        assert (apView != null) : "fx:id=\"apView\" was not injected: check your FXML file 'Application.fxml'."; // NOI18N
         
+        // XXX test
+        final SimpleJsonReader reader = new SimpleJsonReader();
+        final Project project = reader.read();
+        LoggerFacade.getDefault().info(this.getClass(), "release.json: " + project.toString()); // NOI18N
+
         this.initializeNavigation();
         this.initializeWelcomeView();
         
