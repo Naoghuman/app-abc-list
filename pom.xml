@@ -156,6 +156,11 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
             <version>3.4</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
     
 </project>
