@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.view.application.navigation.converter;
+package com.github.naoghuman.abclist.view.application.converter;
 
 import com.github.naoghuman.abclist.model.Topic;
 
@@ -35,7 +35,7 @@ public final class TopicNavigationConverter implements INavigationConverter {
     public void convert(Object entity) throws IllegalArgumentException {
         // Check instanceof
         if (!(entity instanceof Topic)) {
-            throw new IllegalArgumentException("Class [entity] must from type [Topic]!"); // NOI18N
+            throw new IllegalArgumentException("Object [entity] must from class [Topic]!"); // NOI18N
         }
         
         // Convert the representation
