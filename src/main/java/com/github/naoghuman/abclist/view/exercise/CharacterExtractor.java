@@ -16,11 +16,8 @@
  */
 package com.github.naoghuman.abclist.view.exercise;
 
-import com.github.naoghuman.abclist.view.application.converter.DateConverter;
-import java.util.HashMap;
 import java.util.Optional;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 /**

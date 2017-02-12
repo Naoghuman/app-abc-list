@@ -24,13 +24,11 @@ import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
@@ -38,25 +36,21 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
@@ -67,7 +61,7 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
     
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("mm:ss"); // NOI18N
     
-    private final ObservableList<FlowPane> flowPaneTerms = FXCollections.observableArrayList();
+    private final ObservableMap<Character, SignFlowPane> signFlowPanes = FXCollections.observableHashMap();
     private final PauseTransition ptExerciseTimer = new PauseTransition();
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // NOI18N
     
@@ -75,37 +69,13 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
     @FXML private Button bStartExercise;
     @FXML private Button bStopExercise;
     @FXML private ComboBox<ETime> cbTimeChooser;
-    @FXML private FlowPane tfSignA;
-    @FXML private FlowPane tfSignB;
-    @FXML private FlowPane tfSignC;
-    @FXML private FlowPane tfSignD;
-    @FXML private FlowPane tfSignE;
-    @FXML private FlowPane tfSignF;
-    @FXML private FlowPane tfSignG;
-    @FXML private FlowPane tfSignH;
-    @FXML private FlowPane tfSignI;
-    @FXML private FlowPane tfSignJ;
-    @FXML private FlowPane tfSignK;
-    @FXML private FlowPane tfSignL;
-    @FXML private FlowPane tfSignM;
-    @FXML private FlowPane tfSignN;
-    @FXML private FlowPane tfSignO;
-    @FXML private FlowPane tfSignP;
-    @FXML private FlowPane tfSignQ;
-    @FXML private FlowPane tfSignR;
-    @FXML private FlowPane tfSignS;
-    @FXML private FlowPane tfSignT;
-    @FXML private FlowPane tfSignU;
-    @FXML private FlowPane tfSignV;
-    @FXML private FlowPane tfSignW;
-    @FXML private FlowPane tfSignX;
-    @FXML private FlowPane tfSignY;
-    @FXML private FlowPane tfSignZ;
     @FXML private Label lCounterTerms;
     @FXML private Label lCounterTime;
     @FXML private Label lGenerationTime;
     @FXML private ScrollPane spSigns;
     @FXML private TextField tfUserInput;
+    @FXML private VBox vbSignFlowPanesEven;
+    @FXML private VBox vbSignFlowPanesUneven;
     
     private int counterTerms = 0;
     private int exerciseTime = 0;
@@ -179,34 +149,25 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
             final Node content = spSigns.getContent();
             spSigns.setFitToHeight(content.prefHeight(-1) < newValue.getHeight());
         });
+
+        int index = 0;
+        for (ESign sign : ESign.values()) {
+            final SignFlowPane signFlowPane = new SignFlowPane();
+            signFlowPane.configure(sign);
+            signFlowPanes.put(sign.getSign(), signFlowPane);
+            
+            if (index % 2 == 0) {
+                System.out.println("-> even: " + sign.name()); // XXX remove
+                vbSignFlowPanesEven.getChildren().add(signFlowPane);
+            }
+            else {
+                vbSignFlowPanesUneven.getChildren().add(signFlowPane);
+                System.out.println("     -> uneven: " + sign.name()); // XXX remove
+            }
+            ++index;
+        }
         
-        flowPaneTerms.add(tfSignA);
-        flowPaneTerms.add(tfSignB);
-        flowPaneTerms.add(tfSignC);
-        flowPaneTerms.add(tfSignD);
-        flowPaneTerms.add(tfSignE);
-        flowPaneTerms.add(tfSignF);
-        flowPaneTerms.add(tfSignG);
-        flowPaneTerms.add(tfSignH);
-        flowPaneTerms.add(tfSignI);
-        flowPaneTerms.add(tfSignJ);
-        flowPaneTerms.add(tfSignK);
-        flowPaneTerms.add(tfSignL);
-        flowPaneTerms.add(tfSignM);
-        flowPaneTerms.add(tfSignN);
-        flowPaneTerms.add(tfSignO);
-        flowPaneTerms.add(tfSignP);
-        flowPaneTerms.add(tfSignQ);
-        flowPaneTerms.add(tfSignR);
-        flowPaneTerms.add(tfSignS);
-        flowPaneTerms.add(tfSignT);
-        flowPaneTerms.add(tfSignU);
-        flowPaneTerms.add(tfSignV);
-        flowPaneTerms.add(tfSignW);
-        flowPaneTerms.add(tfSignX);
-        flowPaneTerms.add(tfSignY);
-        flowPaneTerms.add(tfSignZ);
-        
+        counterTerms = 0;
         lCounterTerms.setText("Terms: " + counterTerms); // NOI18N
     }
     
@@ -240,133 +201,100 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
         return exercise.getId();
     }
     
-    private FlowPane getFlowPane(char firstChar) {
-        FlowPane flowPane = new FlowPane();
-        for (FlowPane flowPane2 : flowPaneTerms) {
-            if (flowPane2.getId().toLowerCase().charAt(0) == firstChar) {
-                flowPane = flowPane2;
-            }
-        }
-        
-        return flowPane;
-    }
+//    private FlowPane getFlowPane(char firstChar) {
+//        FlowPane flowPane = new FlowPane();
+//        for (FlowPane flowPane2 : flowPaneTerms) {
+//            if (flowPane2.getId().toLowerCase().charAt(0) == firstChar) {
+//                flowPane = flowPane2;
+//            }
+//        }
+//        
+//        return flowPane;
+//    }
     
-    private Label getLabel(Term term) {
-        // Check in db if isMarkAsWrong
-        final boolean isMarkAsWrong = SqlProvider.getDefault().isExerciseTermMarkAsWrong(exercise.getId(), term.getId());
-        
-        // Create the label
-        final Label label = new Label(term.getTitle());
-        label.setUserData(term); // TODO tweak it - own component
-        label.setStyle(
-                "-fx-background-color:"
-                + (isMarkAsWrong ? "ORANGERED;" : "LIGHTGREEN;")); // NOI18N
-        
-        final Font font = label.getFont();
-        label.setFont(Font.font(
-                font.getName(),
-                (isMarkAsWrong ? FontPosture.ITALIC : FontPosture.REGULAR),
-                font.getSize()));
-        label.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                final TransferData transferData = new TransferData();
-                transferData.setActionId(ACTION__APPLICATION__OPEN_TERM);
-                transferData.setObject(term);
-                
-                ActionFacade.getDefault().handle(transferData);
-            }
-        });
-        
-        // Create [ContextMenu]
-        final ContextMenu cm = new ContextMenu();
-        final Optional<ExerciseTerm> optional = SqlProvider.getDefault().findExerciseTerm(exercise.getId(), term.getId());
-        if (isMarkAsWrong) {
-            final MenuItem mi2 = new MenuItem("Mark as right"); // NOI18N
-            mi2.setOnAction((ActionEvent event) -> {
-                if (optional.isPresent()) {
-                    final ExerciseTerm exerciseTerm = optional.get();
-                    exerciseTerm.setMarkAsWrong(false);
-                    SqlProvider.getDefault().updateExerciseTerm(exerciseTerm);
-                    
-                    // Refresh flowpane
-                    // TODO Reload only the relevant [FlowPane]
-                    this.onActionResetFlowPanes();
-                    this.onActionLoadAllTerms();
-                    this.onActionCountTerms();
-                }
-            });
-            cm.getItems().add(mi2);
-        }
-        else {
-            final MenuItem mi = new MenuItem("Mark as wrong"); // NOI18N
-            mi.setOnAction((ActionEvent event) -> {
-                if (optional.isPresent()) {
-                    final ExerciseTerm exerciseTerm = optional.get();
-                    exerciseTerm.setMarkAsWrong(true);
-                    SqlProvider.getDefault().updateExerciseTerm(exerciseTerm);
-                    
-                    // Refresh flowpane
-                    // TODO Reload only the relevant [FlowPane]
-                    this.onActionResetFlowPanes();
-                    this.onActionLoadAllTerms();
-                    this.onActionCountTerms();
-                }
-            });
-            cm.getItems().add(mi);
-        }
-
-        label.setContextMenu(cm);
-        
-        return label;
-    }
+//    private Label getLabel(Term term) {
+//        // Check in db if isMarkAsWrong
+//        final boolean isMarkAsWrong = SqlProvider.getDefault().isExerciseTermMarkAsWrong(exercise.getId(), term.getId());
+//        
+//        // Create the label
+//        final Label label = new Label(term.getTitle());
+//        label.setUserData(term); // TODO tweak it - own component
+//        label.setStyle(
+//                "-fx-background-color:"
+//                + (isMarkAsWrong ? "ORANGERED;" : "LIGHTGREEN;")); // NOI18N
+//        
+//        final Font font = label.getFont();
+//        label.setFont(Font.font(
+//                font.getName(),
+//                (isMarkAsWrong ? FontPosture.ITALIC : FontPosture.REGULAR),
+//                font.getSize()));
+//        label.setOnMouseClicked(event -> {
+//            if (event.getClickCount() == 2) {
+//                final TransferData transferData = new TransferData();
+//                transferData.setActionId(ACTION__APPLICATION__OPEN_TERM);
+//                transferData.setObject(term);
+//                
+//                ActionFacade.getDefault().handle(transferData);
+//            }
+//        });
+//        
+//        // Create [ContextMenu]
+//        final ContextMenu cm = new ContextMenu();
+//        final Optional<ExerciseTerm> optional = SqlProvider.getDefault().findExerciseTerm(exercise.getId(), term.getId());
+//        if (isMarkAsWrong) {
+//            final MenuItem mi2 = new MenuItem("Mark as right"); // NOI18N
+//            mi2.setOnAction((ActionEvent event) -> {
+//                if (optional.isPresent()) {
+//                    final ExerciseTerm exerciseTerm = optional.get();
+//                    exerciseTerm.setMarkAsWrong(false);
+//                    SqlProvider.getDefault().updateExerciseTerm(exerciseTerm);
+//                    
+//                    // Refresh flowpane
+//                    // TODO Reload only the relevant [FlowPane]
+//                    this.onActionResetFlowPanes();
+//                    this.onActionLoadAllTerms();
+//                    this.onActionCountTerms();
+//                }
+//            });
+//            cm.getItems().add(mi2);
+//        }
+//        else {
+//            final MenuItem mi = new MenuItem("Mark as wrong"); // NOI18N
+//            mi.setOnAction((ActionEvent event) -> {
+//                if (optional.isPresent()) {
+//                    final ExerciseTerm exerciseTerm = optional.get();
+//                    exerciseTerm.setMarkAsWrong(true);
+//                    SqlProvider.getDefault().updateExerciseTerm(exerciseTerm);
+//                    
+//                    // Refresh flowpane
+//                    // TODO Reload only the relevant [FlowPane]
+//                    this.onActionResetFlowPanes();
+//                    this.onActionLoadAllTerms();
+//                    this.onActionCountTerms();
+//                }
+//            });
+//            cm.getItems().add(mi);
+//        }
+//
+//        label.setContextMenu(cm);
+//        
+//        return label;
+//    }
     
     private void onActionAddTerm(Term term) {
         final char firstChar = CharacterExtractor.getDefault().computeFirstChar(term.getTitle());
-        final FlowPane flowPane = this.getFlowPane(firstChar);
-        boolean isTermAdded = false;
-        for (Node node : flowPane.getChildren()) {
-            if (node instanceof Label) {
-                final Label label = (Label) node;
-                if (label.getUserData() instanceof Term) {
-                    final Term addedTerm = (Term) label.getUserData();
-                    if (addedTerm.getTitle().equals(term.getTitle())) {
-                        isTermAdded = true;
-                        break;
-                    }
-                }
-            }
-        }
-        
-        if (!isTermAdded) {
-            flowPane.getChildren().add(this.getLabel(term));
-            if (flowPane.getChildren().size() > 1) {
-                FXCollections.sort(flowPane.getChildren(), (Node node1, Node node2) -> {
-                    int compare = 0;
-                    if (
-                            node1 instanceof Label
-                            && node2 instanceof Label
-                            && node1.getUserData() instanceof Term
-                            && node2.getUserData() instanceof Term
-                    ) {
-                        final Term term1 = (Term) node1.getUserData();
-                        final Term term2 = (Term) node2.getUserData();
-                        compare = term1.getTitle().compareTo(term2.getTitle());
-                    }
-
-                    return compare;
-                });
-            }
-        }
+        final SignFlowPane signFlowPane = signFlowPanes.get(firstChar);
+        signFlowPane.onActionAddTerm(term);
     }
     
     private void onActionCountTerms() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action count [Term]s"); // NOI18N
         
         counterTerms = 0;
-        flowPaneTerms.stream()
-                .forEach(flowPane -> {
-                    counterTerms += flowPane.getChildren().size();
-                });
+        signFlowPanes.forEach((character, signFlowPane) -> {
+            counterTerms += signFlowPane.size();
+        });
+        
         lCounterTerms.setText("Terms: " + counterTerms);
     }
     
@@ -397,10 +325,9 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
     private void onActionResetFlowPanes() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action reset [FlowPane]s"); // NOI18N
         
-        flowPaneTerms.stream()
-                .forEach(flowPane -> {
-                    flowPane.getChildren().clear();
-                });
+        signFlowPanes.forEach((character, signFlowPane) -> {
+            signFlowPane.clear();
+        });
     }
 
     private void onActionPrepareExerciseFor(EState state) {

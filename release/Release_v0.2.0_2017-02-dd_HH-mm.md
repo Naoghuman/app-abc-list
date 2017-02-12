@@ -1,4 +1,4 @@
-Welcome to `ABC-List` with the new release `vX.Y.Z`.
+Welcome to `ABC-List` with the new pre-release `v0.2.0`.
 
 `ABC-List` is a learn software which allowed the user to train his ability 
 `structured thinking` about a choosen topic and `deepen` his knowlegde in this 
@@ -23,6 +23,7 @@ topic through `key terms`.
 
 
 #### Enhancement
+#5 [View] Implement new component SignFlowPane.
 
 
 

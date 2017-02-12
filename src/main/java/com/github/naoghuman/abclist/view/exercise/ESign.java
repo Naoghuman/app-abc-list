@@ -35,6 +35,10 @@ public enum ESign {
         this.sign = sign;
     }
     
+    public char getSign() {
+        return sign;
+    }
+    
     public boolean isSign(char sign) {
         return this.sign == sign;
     }
