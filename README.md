@@ -12,12 +12,17 @@ topic through `key terms`.
 
 ABC-List is a [JavaFX] & [Maven] application, written in [NetBeans IDE].
 
-Current `version` is `0.1.0-PRERELEASE` (02-04-2017).
+Current `version` is `0.2.0-PRERELEASE` (02-12-2017).
 
 
 
 <br />
-_Image:_ Example ´terms´ extracted from an article
+_Image:_ `0.2.0-PRERELEASE`
+![ABC-List_v0.2.0-PRERELEASE.png][ABC-List_v0.2.0-PRERELEASE]
+
+
+<br />
+_Image:_ `0.1.0-PRERELEASE`: Example ´terms´ extracted from an article
 
 ![ABC-List_example_v0.1.0-PRERELEASE.png][ABC-List_example_v0.1.0-PRERELEASE]
 
@@ -79,6 +84,7 @@ You can reach me under <peter.rogge@yahoo.de>.
 
 [//]: # (Images)
 [ABC-List_example_v0.1.0-PRERELEASE]:https://cloud.githubusercontent.com/assets/8161815/22596782/3201f87e-ea2d-11e6-8441-1df86014cfb2.png
+[ABC-List_v0.2.0-PRERELEASE]:https://cloud.githubusercontent.com/assets/8161815/22865561/f80e086a-f166-11e6-9cce-0b5f7d57832e.png
 
 
 

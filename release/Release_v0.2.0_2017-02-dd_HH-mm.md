@@ -7,8 +7,7 @@ topic through `key terms`.
 
 
 #### Summary
-* ...
-* ...
+* #5 [View] Implement new component SignFlowPane.
 
 
 
@@ -36,6 +35,7 @@ topic through `key terms`.
 
 
 #### Additional
+#2 [Image] Add image for v0.2.0-PRERELEASE.
 
 
 
