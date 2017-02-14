@@ -6,6 +6,10 @@ ERROR
 --------------------------------------------------------------------------------
 REFACTORING
 
+DateConverter
+ - Remove dependency to joda-time
+ - Both DateConverter needs to merge
+
 ExerciseView
  - [Term]s have more options in the [ContextMenu]
     - [Delete Term]
@@ -29,8 +33,9 @@ SqlProviderTest
 
 --------------------------------------------------------------------------------
 NEXT STEPS
- - Charts
  - Testdata
+    - Topics
+ - Charts
  - own component for sign-flowpane
  - own component for listview-cell
  - own component for links (topic, exercise, term)

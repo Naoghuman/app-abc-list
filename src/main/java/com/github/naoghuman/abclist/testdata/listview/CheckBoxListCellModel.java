@@ -41,7 +41,7 @@ public class CheckBoxListCellModel {
     }
     
     public final boolean isSelected() {
-        return selectedProperty().get();
+        return this.selectedProperty().get();
     }
     
     public final BooleanProperty selectedProperty() {
@@ -49,7 +49,7 @@ public class CheckBoxListCellModel {
     }
 
     public final void setSelected(final boolean selected) {
-        selectedProperty().set(selected);
+        this.selectedProperty().set(selected);
     }
     
     public final StringProperty nameProperty() {
@@ -57,11 +57,11 @@ public class CheckBoxListCellModel {
     }
 
     public final String getName() {
-        return this.nameProperty().getValue();
+        return this.nameProperty().get();
     }
 
     public final void setName(final String name) {
-        this.nameProperty().setValue(name);
+        this.nameProperty().set(name);
     }
 
     @Override

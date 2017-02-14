@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.testdata.TestdataPresenter">
+    <children>
+        <SplitPane dividerPositions="0.3" layoutX="62.0" layoutY="79.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <items>
+                <TabPane fx:id="tpEntities" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab closable="false" text="Entities">
+                            <content>
+                                <VBox>
+                                    <children>
+                                        <ToolBar minHeight="-Infinity" prefHeight="40.0" prefWidth="200.0">
+                                            <items>
+                                                <CheckBox fx:id="cbSelectAll" mnemonicParsing="false" onAction="#onActionSelectAll" text="Select all entitites" />
+                                            </items>
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                            <padding>
+                                                <Insets left="14.0" />
+                                            </padding>
+                                        </ToolBar>
+                                        <ListView fx:id="lvEntities" VBox.vgrow="ALWAYS">
+                                            <VBox.margin>
+                                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                            </VBox.margin>
+                                        </ListView>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+                <TabPane fx:id="tpTestdata" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab closable="false" text="Testdata">
+                            <content>
+                                <VBox spacing="14.0">
+                                    <children>
+                                        <ToolBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+                                            <items>
+                                                <Button fx:id="bCreateTestdata" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onActionCreateTestdata" prefWidth="64.0" text="Create" />
+                                            </items>
+                                            <padding>
+                                                <Insets left="14.0" />
+                                            </padding>
+                                        </ToolBar>
+                                        <VBox style="-fx-background-color: yellow;">
+                                            <children>
+                                                <Label text="Database handling">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <CheckBox fx:id="cbDeleteDatabase" mnemonicParsing="false" onAction="#onActionDeleteDatabase" text="Delete existing Database">
+                                                    <VBox.margin>
+                                                        <Insets left="14.0" />
+                                                    </VBox.margin>
+                                                </CheckBox>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets left="14.0" right="14.0" />
+                                            </VBox.margin>
+                                            <padding>
+                                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                            </padding>
+                                        </VBox>
+                              <ScrollPane fx:id="spEntities" fitToHeight="true" fitToWidth="true" prefViewportWidth="228.0" VBox.vgrow="ALWAYS">
+                                 <content>
+                                              <VBox fx:id="vbEntities" spacing="14.0">
+                                                  <VBox.margin>
+                                                      <Insets left="14.0" right="14.0" />
+                                                  </VBox.margin>
+                                              </VBox>
+                                 </content>
+                                 <VBox.margin>
+                                    <Insets bottom="14.0" left="14.0" right="14.0" />
+                                 </VBox.margin>
+                              </ScrollPane>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </items>
+        </SplitPane>
+        <AnchorPane fx:id="apDialogLayer" mouseTransparent="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(0,0,0,0.25);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    </children>
+</AnchorPane>
