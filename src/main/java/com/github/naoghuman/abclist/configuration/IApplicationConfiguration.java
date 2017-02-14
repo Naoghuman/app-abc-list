@@ -34,7 +34,7 @@ public interface IApplicationConfiguration {
     public static final String KEY__APPLICATION__DATABASE = "application.database"; // NOI18N
     public static final String KEY__APPLICATION__MESSAGE_START = "application.message.start"; // NOI18N
     public static final String KEY__APPLICATION__MESSAGE_STOP = "application.message.stop"; // NOI18N
-    public static final String KEY__APPLICATION__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/view/application/application.properties"; // NOI18N
+    public static final String KEY__APPLICATION__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/application.properties"; // NOI18N
     public static final String KEY__APPLICATION__TITLE = "application.title"; // NOI18N
     public static final String KEY__APPLICATION__VERSION = "application.version"; // NOI18N
     

@@ -33,6 +33,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import static javafx.application.Application.launch;
 
 /**
  *
@@ -64,8 +65,6 @@ public class StartApplication extends Application implements IApplicationConfigu
     @Override
     public void start(Stage primaryStage) throws Exception {
         final ApplicationView applicationView = new ApplicationView();
-        final ApplicationPresenter applicationPresenter = applicationView.getRealPresenter();
-        
         final Scene scene = new Scene(applicationView.getView(), 1280, 720);
         primaryStage.setTitle(this.getProperty(KEY__APPLICATION__TITLE) + this.getProperty(KEY__APPLICATION__VERSION));
         primaryStage.setScene(scene);
