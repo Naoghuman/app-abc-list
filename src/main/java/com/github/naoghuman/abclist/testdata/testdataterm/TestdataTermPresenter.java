@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.testdata.testdatatopic;
+package com.github.naoghuman.abclist.testdata.testdataterm;
 
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.testdata.entity.EntityHelper;
@@ -37,7 +37,7 @@ import javafx.util.Callback;
  *
  * @author PRo
  */
-public class TestdataTopicPresenter implements Initializable, IPreferencesConfiguration {
+public class TestdataTermPresenter implements Initializable, IPreferencesConfiguration {
     
     @FXML private ComboBox cbQuantityEntities;
     @FXML private ComboBox cbQuantityTimePeriod;

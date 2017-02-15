@@ -19,6 +19,7 @@ package com.github.naoghuman.abclist.testdata;
 import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.ITestdataConfiguration;
+import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicView;
@@ -26,6 +27,9 @@ import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
 import com.github.naoghuman.abclist.testdata.service.SequentialThreadFactory;
+import com.github.naoghuman.abclist.testdata.service.TermService;
+import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
+import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
@@ -129,6 +133,11 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
     
     private void initializeEntities() {
         LoggerFacade.getDefault().info(this.getClass(), "Register entities"); // NOI18N
+        
+        final TestdataTermView termView = new TestdataTermView();
+        termView.getView().setId(Term.class.getSimpleName());
+        termView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(Term.class.getSimpleName(), termView);
         
         final TestdataTopicView topicView = new TestdataTopicView();
         topicView.getView().setId(Topic.class.getSimpleName());
@@ -422,8 +431,26 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         final String lastActiveService = activeEntities.get(activeEntities.size() - 1);
         activeEntities.stream()
                 .forEach((entityName) -> {
+                    this.configureServiceForEntityTerm(entityName, lastActiveService);
                     this.configureServiceForEntityTopic(entityName, lastActiveService);
                 });
+    }
+
+    private void configureServiceForEntityTerm(String entityName, String lastActiveService) {
+        if (!entityName.equals(Term.class.getSimpleName())) {
+            return;
+        }
+        
+        final TermService service = new TermService(Term.class.getName());
+        final TestdataTermPresenter presenter = (TestdataTermPresenter) ENTITIES.get(Term.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation from entity Term..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation from entity Term..."); // NOI18N
+        
+        service.start();
     }
 
     private void configureServiceForEntityTopic(String entityName, String lastActiveService) {
