@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.testdata.loremipsum;
+package com.github.naoghuman.abclist.testdata;
 
 import java.util.List;
 import java.util.Random;
@@ -24,9 +24,20 @@ import javafx.collections.FXCollections;
  *
  * @author Naoghuman
  */
-public class LoremIpsum {
+public class TestdataGenerator {
     
     private static final Random RANDOM = new Random();
+    
+    private static final List<String> SIGNS_0 = FXCollections.observableArrayList("A", "fA", "kf", "kAp", "kfUAp", "AfkZpU"); // NOI18N
+    private static final List<String> SIGNS_1 = FXCollections.observableArrayList("a", "Fa", "aKF", "FKaP", "uFPaK", "aPzFK"); // NOI18N
+    private static final List<String> SIGNS_2 = FXCollections.observableArrayList("B", "gB", "Blg", "gqlB", "BglV", "ÄglBV"); // NOI18N
+    private static final List<String> SIGNS_3 = FXCollections.observableArrayList("b", "bG", "bLG", "GLbQ", "bLGQv", "äQLGbv"); // NOI18N
+    private static final List<String> SIGNS_4 = FXCollections.observableArrayList("C", "hC", "hmC", "RChm", "WmRhC", "ümhRCW"); // NOI18N
+    private static final List<String> SIGNS_5 = FXCollections.observableArrayList("c", "Hc", "cMH", "rcH", "rHwc", "rwÜHc"); // NOI18N
+    private static final List<String> SIGNS_6 = FXCollections.observableArrayList("D", "iD", "NiD", "DNsi", "NisDX", "DXNisÖ"); // NOI18N
+    private static final List<String> SIGNS_7 = FXCollections.observableArrayList("d", "Id", "nId", "dSI", "ISdx"); // NOI18N
+    private static final List<String> SIGNS_8 = FXCollections.observableArrayList("E", "jE", "oEj", "TEj", "TEjY", "jETöY"); // NOI18N
+    private static final List<String> SIGNS_9 = FXCollections.observableArrayList("e", "eJ", "JOe", "eOJt", "ytJOe", "OeßtyJ"); // NOI18N
     
     private static final List<String> DESCRIPTIONS = FXCollections.observableArrayList(
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", // NOI18N
@@ -130,20 +141,42 @@ public class LoremIpsum {
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.\n\nUt wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.\n\nNam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.\n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.\n\nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. Sanctus sea sed takimata ut vero voluptua. Est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.\n\nConsetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus.\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.", // NOI18N
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.\n\nUt wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.\n\nNam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.\n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.\n\nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. Sanctus sea sed takimata ut vero voluptua. Est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.\n\nConsetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus.\n\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."); // NOI18N
     
-    private static LoremIpsum instance = null;
+    private static TestdataGenerator instance = null;
     
-    public static final LoremIpsum getDefault() {
+    public static final TestdataGenerator getDefault() {
         if (instance == null) {
-            instance = new LoremIpsum();
+            instance = new TestdataGenerator();
         }
         
         return instance;
     }
     
-    private LoremIpsum() { }
+    private TestdataGenerator() { }
     
     public String getDescription() {
         return DESCRIPTIONS.get(RANDOM.nextInt(DESCRIPTIONS.size()));
+    }
+    
+    public String getUniqueTitles(final int index) {
+        final String indexAsString = "" + index; // NOI18N
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < indexAsString.length(); i++) {
+            final int count = Integer.parseInt(String.valueOf(indexAsString.charAt(i)));
+            switch(count) {
+                case 0: { sb.append(SIGNS_0.get(RANDOM.nextInt(SIGNS_0.size()))); break; }
+                case 1: { sb.append(SIGNS_1.get(RANDOM.nextInt(SIGNS_1.size()))); break; }
+                case 2: { sb.append(SIGNS_2.get(RANDOM.nextInt(SIGNS_2.size()))); break; }
+                case 3: { sb.append(SIGNS_3.get(RANDOM.nextInt(SIGNS_3.size()))); break; }
+                case 4: { sb.append(SIGNS_4.get(RANDOM.nextInt(SIGNS_4.size()))); break; }
+                case 5: { sb.append(SIGNS_5.get(RANDOM.nextInt(SIGNS_5.size()))); break; }
+                case 6: { sb.append(SIGNS_6.get(RANDOM.nextInt(SIGNS_6.size()))); break; }
+                case 7: { sb.append(SIGNS_7.get(RANDOM.nextInt(SIGNS_7.size()))); break; }
+                case 8: { sb.append(SIGNS_8.get(RANDOM.nextInt(SIGNS_8.size()))); break; }
+                case 9: { sb.append(SIGNS_9.get(RANDOM.nextInt(SIGNS_9.size()))); break; }
+            }
+        }
+        
+        return sb.toString();
     }
     
     public String getTitle() {
