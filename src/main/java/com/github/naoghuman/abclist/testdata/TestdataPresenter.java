@@ -20,8 +20,8 @@ import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.ITestdataConfiguration;
 import com.github.naoghuman.abclist.model.Topic;
-import com.github.naoghuman.abclist.testdata.topic.TopicPresenter;
-import com.github.naoghuman.abclist.testdata.topic.TopicView;
+import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
+import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicView;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
@@ -130,7 +130,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
     private void initializeEntities() {
         LoggerFacade.getDefault().info(this.getClass(), "Register entities"); // NOI18N
         
-        final TopicView topicView = new TopicView();
+        final TestdataTopicView topicView = new TestdataTopicView();
         topicView.getView().setId(Topic.class.getSimpleName());
         topicView.getRealPresenter().bind(disableProperty);
         ENTITIES.put(Topic.class.getSimpleName(), topicView);
@@ -432,7 +432,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         }
         
         final TopicService service = new TopicService(Topic.class.getName());
-        final TopicPresenter presenter = (TopicPresenter) ENTITIES.get(Topic.class.getSimpleName()).getPresenter();
+        final TestdataTopicPresenter presenter = (TestdataTopicPresenter) ENTITIES.get(Topic.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
         service.setOnStart("Start with testdata generation from entity Topic..."); // NOI18N

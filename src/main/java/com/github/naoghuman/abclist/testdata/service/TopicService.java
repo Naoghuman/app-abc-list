@@ -20,7 +20,7 @@ import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.TestdataPresenter;
 import com.github.naoghuman.abclist.testdata.converter.IDateConverter;
-import com.github.naoghuman.abclist.testdata.topic.TopicPresenter;
+import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
 import com.github.naoghuman.abclist.testdata.loremipsum.LoremIpsum;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.database.api.ICrudService;
@@ -51,7 +51,7 @@ public class TopicService extends Service<Void> {
     private int timePeriod = 0;
     private long convertedTimePeriod = 0L;
     
-    private TopicPresenter presenter = null;
+    private TestdataTopicPresenter presenter = null;
     private String entityName = null;
     private String onStartMessage = null;
     
@@ -59,7 +59,7 @@ public class TopicService extends Service<Void> {
         this.entityName = entityName;
     }
 
-    public void bind(TopicPresenter presenter) {
+    public void bind(TestdataTopicPresenter presenter) {
         this.presenter = presenter;
         
         saveMaxEntities = presenter.getSaveMaxEntities();
