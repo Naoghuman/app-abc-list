@@ -34,7 +34,8 @@ SqlProviderTest
 --------------------------------------------------------------------------------
 NEXT STEPS
  - Testdata
-    - Topics
+    - Topics, Terms, Exercise
+    - Exercise need warning dialog if no Topics are generated before.
  - Charts
  - own component for sign-flowpane
  - own component for listview-cell

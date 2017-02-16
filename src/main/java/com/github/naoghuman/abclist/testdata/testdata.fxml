@@ -75,18 +75,18 @@
                                                 <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                                             </padding>
                                         </VBox>
-                              <ScrollPane fx:id="spEntities" fitToHeight="true" fitToWidth="true" prefViewportWidth="228.0" VBox.vgrow="ALWAYS">
-                                 <content>
-                                              <VBox fx:id="vbEntities" spacing="14.0">
-                                                  <VBox.margin>
-                                                      <Insets left="14.0" right="14.0" />
-                                                  </VBox.margin>
-                                              </VBox>
-                                 </content>
-                                 <VBox.margin>
-                                    <Insets bottom="14.0" left="14.0" right="14.0" />
-                                 </VBox.margin>
-                              </ScrollPane>
+                                        <ScrollPane fx:id="spEntities" fitToHeight="true" fitToWidth="true" prefViewportWidth="228.0" VBox.vgrow="ALWAYS">
+                                            <content>
+                                                <VBox fx:id="vbEntities" spacing="7.0">
+                                                    <VBox.margin>
+                                                        <Insets left="14.0" right="14.0" />
+                                                    </VBox.margin>
+                                                </VBox>
+                                            </content>
+                                            <VBox.margin>
+                                                <Insets bottom="14.0" left="14.0" right="14.0" />
+                                            </VBox.margin>
+                                        </ScrollPane>
                                     </children>
                                 </VBox>
                             </content>

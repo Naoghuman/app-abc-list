@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="210.0" prefWidth="400.0" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter">
+<AnchorPane id="AnchorPane" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter">
     <children>
         <VBox layoutX="100.0" layoutY="23.0" spacing="7.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
@@ -19,94 +19,85 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <VBox spacing="2.0">
-                    <children>
-                        <Label text="Configuration">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <HBox spacing="7.0">
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <Label text="Quantity entities">
-                                            <VBox.margin>
-                                                <Insets left="14.0" />
-                                            </VBox.margin>
-                                            <font>
-                                                <Font size="13.0" />
-                                            </font>
-                                        </Label>
-                                        <ComboBox fx:id="cbQuantityEntities" onAction="#onActionQuantityEntities" prefWidth="150.0">
-                                            <VBox.margin>
-                                                <Insets left="14.0" />
-                                            </VBox.margin>
-                                        </ComboBox>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Timeperiod in years">
-                                            <font>
-                                                <Font size="13.0" />
-                                            </font>
-                                        </Label>
-                                        <ComboBox fx:id="cbQuantityTimePeriod" onAction="#onActionQuantityTimePeriod" prefWidth="150.0" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </HBox>
-                    </children>
-                    <VBox.margin>
-                        <Insets left="14.0" />
-                    </VBox.margin>
-                </VBox>
-                <VBox prefHeight="200.0" prefWidth="100.0" spacing="2.0">
-                    <children>
-                        <Label text="Processes">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <VBox>
-                            <children>
-                                <Label text="Process entities Topic">
-                                    <VBox.margin>
-                                        <Insets left="14.0" />
-                                    </VBox.margin>
-                                    <font>
-                                        <Font size="13.0" />
-                                    </font>
-                                </Label>
-                                <StackPane alignment="TOP_LEFT">
-                                    <children>
-                                        <ProgressBar fx:id="pbEntity" prefHeight="25.0" prefWidth="307.0" progress="0.0" />
-                                        <Label fx:id="lProgressBarPercentInformation" alignment="CENTER" minHeight="-Infinity" prefHeight="25.0" prefWidth="307.0" text="0%" StackPane.alignment="CENTER_LEFT">
-                                            <StackPane.margin>
-                                                <Insets />
-                                            </StackPane.margin>
-                                        </Label>
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets left="14.0" />
-                                    </VBox.margin>
-                                </StackPane>
-                            </children>
-                        </VBox>
-                        <Label fx:id="lProgressBarInformation" text="&lt;Process Information&gt;">
-                            <VBox.margin>
-                                <Insets left="14.0" />
-                            </VBox.margin>
-                            <font>
-                                <Font size="11.0" />
-                            </font>
-                        </Label>
-                    </children>
-                    <VBox.margin>
-                        <Insets left="14.0" />
-                    </VBox.margin>
-                </VBox>
+            <HBox spacing="14.0">
+               <VBox.margin>
+                  <Insets left="14.0" />
+               </VBox.margin>
+               <children>
+                      <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                          <children>
+                              <HBox spacing="7.0">
+                                  <children>
+                                      <VBox>
+                                          <children>
+                                              <Label text="Quantity entities">
+                                                  <VBox.margin>
+                                                      <Insets />
+                                                  </VBox.margin>
+                                                  <font>
+                                                      <Font size="13.0" />
+                                                  </font>
+                                              </Label>
+                                              <ComboBox fx:id="cbQuantityEntities" onAction="#onActionQuantityEntities" prefWidth="150.0">
+                                                  <VBox.margin>
+                                                      <Insets />
+                                                  </VBox.margin>
+                                              </ComboBox>
+                                          </children>
+                                      </VBox>
+                                      <VBox>
+                                          <children>
+                                              <Label text="Timeperiod in years">
+                                                  <font>
+                                                      <Font size="13.0" />
+                                                  </font>
+                                              </Label>
+                                              <ComboBox fx:id="cbQuantityTimePeriod" onAction="#onActionQuantityTimePeriod" prefWidth="150.0" />
+                                          </children>
+                                      </VBox>
+                                  </children>
+                              </HBox>
+                          </children>
+                      </VBox>
+                      <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                          <children>
+                              <VBox>
+                                  <children>
+                                      <Label text="Process entities Topic">
+                                          <VBox.margin>
+                                              <Insets />
+                                          </VBox.margin>
+                                          <font>
+                                              <Font size="13.0" />
+                                          </font>
+                                      </Label>
+                                      <StackPane alignment="TOP_LEFT">
+                                          <children>
+                                              <ProgressBar fx:id="pbEntity" prefHeight="25.0" prefWidth="307.0" progress="0.0" />
+                                              <Label fx:id="lProgressBarPercentInformation" alignment="CENTER" minHeight="-Infinity" prefHeight="25.0" prefWidth="307.0" text="0%" StackPane.alignment="CENTER_LEFT">
+                                                  <StackPane.margin>
+                                                      <Insets />
+                                                  </StackPane.margin>
+                                              </Label>
+                                          </children>
+                                          <VBox.margin>
+                                              <Insets />
+                                          </VBox.margin>
+                                      </StackPane>
+                                  </children>
+                              </VBox>
+                              <Label fx:id="lProgressBarInformation" text="&lt;Process Information&gt;">
+                                  <VBox.margin>
+                                      <Insets left="14.0" />
+                                  </VBox.margin>
+                                  <font>
+                                      <Font size="11.0" />
+                                  </font>
+                              </Label>
+                          </children>
+                      </VBox>
+               </children>
+            </HBox>
             </children>
         </VBox>
     </children>
