@@ -1,4 +1,5 @@
-/database/
-/log/
-/target/
+/database/*
+/log/*
+/target/*
 *.versionsBackup
+*.properties
