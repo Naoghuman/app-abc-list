@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.testdata.testdataterm;
+package com.github.naoghuman.abclist.testdata.testdataexercise;
 
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.testdata.entity.EntityHelper;
@@ -37,7 +37,7 @@ import javafx.util.Callback;
  *
  * @author PRo
  */
-public class TestdataTermPresenter implements Initializable, IPreferencesConfiguration {
+public class TestdataExercisePresenter implements Initializable, IPreferencesConfiguration {
     
     @FXML private ComboBox cbQuantityEntities;
     @FXML private ComboBox cbQuantityTimePeriod;
@@ -47,7 +47,7 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataTermPresenter"); // NOI18N
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataExercisePresenter"); // NOI18N
         
         assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
         assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
@@ -84,8 +84,8 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
         });
         
         final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
-                PREF__TESTDATA__QUANTITY_ENTITIES__TERM,
-                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__TERM);
+                PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE,
+                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__EXERCISE);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
         
         cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
@@ -111,8 +111,8 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
         });
         
         final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__TERM,
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__TERM);
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__EXERCISE,
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__EXERCISE);
         cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 
@@ -150,14 +150,14 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
         LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity Entities"); // NOI18N
         
         final Integer quantityEntities = (Integer) cbQuantityEntities.getSelectionModel().getSelectedItem();
-        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES__TERM, quantityEntities);
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE, quantityEntities);
     }
     
     public void onActionQuantityTimePeriod() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity TimePeriod"); // NOI18N
         
         final Integer quantityTimePeriod = (Integer) cbQuantityTimePeriod.getSelectionModel().getSelectedItem();
-        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD__TERM, quantityTimePeriod);
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD__EXERCISE, quantityTimePeriod);
     }
     
     public DoubleProperty progressPropertyFromEntityDream() {

@@ -109,6 +109,9 @@ Navigaiton-Tab-Topics
 ExercisePresenter
  - // TODO Reload only the relevant [FlowPane] if a [Term] isMarkAsChanged.
 
+TestdataGeneration
+ - Exercise.consolidated
+
 --------------------------------------------------------------------------------
 ApplicationPresenter
  - (v) Add during [Startup] from the application a [WelcomeView]

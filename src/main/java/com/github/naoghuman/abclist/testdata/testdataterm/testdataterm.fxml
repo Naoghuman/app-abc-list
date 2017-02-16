@@ -81,7 +81,7 @@
                                 </Label>
                                 <StackPane alignment="TOP_LEFT">
                                     <children>
-                                        <ProgressBar fx:id="pbEntityTopic" prefHeight="25.0" prefWidth="307.0" progress="0.0" />
+                                        <ProgressBar fx:id="pbEntity" prefHeight="25.0" prefWidth="307.0" progress="0.0" />
                                         <Label fx:id="lProgressBarPercentInformation" alignment="CENTER" minHeight="-Infinity" prefHeight="25.0" prefWidth="307.0" text="0%" StackPane.alignment="CENTER_LEFT">
                                             <StackPane.margin>
                                                 <Insets />

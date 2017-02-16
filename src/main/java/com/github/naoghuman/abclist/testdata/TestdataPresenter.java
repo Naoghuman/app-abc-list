@@ -19,15 +19,19 @@ package com.github.naoghuman.abclist.testdata;
 import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.ITestdataConfiguration;
+import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicView;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
+import com.github.naoghuman.abclist.testdata.service.ExerciseService;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
 import com.github.naoghuman.abclist.testdata.service.SequentialThreadFactory;
 import com.github.naoghuman.abclist.testdata.service.TermService;
+import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExercisePresenter;
+import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExerciseView;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -35,9 +39,12 @@ import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
 import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 import java.net.URL;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -69,7 +76,7 @@ import javafx.util.Duration;
  */
 public class TestdataPresenter implements Initializable, IPreferencesConfiguration, ITestdataConfiguration {
     
-    private static final Map<String, FXMLView> ENTITIES = FXCollections.observableHashMap();
+    private static final Map<String, FXMLView> ENTITIES = FXCollections.observableMap(new LinkedHashMap<String, FXMLView>());
     
     private final BooleanProperty disableProperty = new SimpleBooleanProperty(Boolean.FALSE);
     
@@ -143,6 +150,11 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         topicView.getView().setId(Topic.class.getSimpleName());
         topicView.getRealPresenter().bind(disableProperty);
         ENTITIES.put(Topic.class.getSimpleName(), topicView);
+        
+        final TestdataExerciseView exerciseView = new TestdataExerciseView();
+        exerciseView.getView().setId(Exercise.class.getSimpleName());
+        exerciseView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(Exercise.class.getSimpleName(), exerciseView);
     }
     
     private void initializeListView() {
@@ -367,7 +379,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
                 .forEach((key) -> {
                     models.add(this.getCheckBoxListCellModel(key));
                 });
-
+        
         lvEntities.getItems().addAll(models);
     }
     
@@ -433,6 +445,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
                 .forEach((entityName) -> {
                     this.configureServiceForEntityTerm(entityName, lastActiveService);
                     this.configureServiceForEntityTopic(entityName, lastActiveService);
+                    this.configureServiceForEntityExercise(entityName, lastActiveService);
                 });
     }
 
@@ -466,6 +479,23 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
                 "Ready with testdata generation from entity Topic..."); // NOI18N
+        
+        service.start();
+    }
+
+    private void configureServiceForEntityExercise(String entityName, String lastActiveService) {
+        if (!entityName.equals(Exercise.class.getSimpleName())) {
+            return;
+        }
+        
+        final ExerciseService service = new ExerciseService(Topic.class.getName());
+        final TestdataExercisePresenter presenter = (TestdataExercisePresenter) ENTITIES.get(Exercise.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation from entity Exercise..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation from entity Exercise..."); // NOI18N
         
         service.start();
     }

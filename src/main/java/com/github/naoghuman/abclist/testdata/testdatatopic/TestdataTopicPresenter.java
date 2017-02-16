@@ -43,7 +43,7 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
     @FXML private ComboBox cbQuantityTimePeriod;
     @FXML private Label lProgressBarInformation;
     @FXML private Label lProgressBarPercentInformation;
-    @FXML private ProgressBar pbEntityTopic;
+    @FXML private ProgressBar pbEntity;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +53,7 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
         assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
         assert (lProgressBarInformation != null)        : "fx:id=\"lProgressBarInformation\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
         assert (lProgressBarPercentInformation != null) : "fx:id=\"lProgressBarPercentInformation\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
-        assert (pbEntityTopic != null)                  : "fx:id=\"pbEntityTopic\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
+        assert (pbEntity != null)                       : "fx:id=\"pbEntity\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
     
         this.initializeComboBoxes();
     }
@@ -62,6 +62,8 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
         LoggerFacade.getDefault().info(this.getClass(), "Initialize ComboBoxes"); // NOI18N
         
         cbQuantityEntities.getItems().addAll(EntityHelper.getDefault().getQuantityEntities());
+//        cbQuantityEntities.getItems().remove(cbQuantityEntities.getItems().size() - 1);
+//        cbQuantityEntities.getItems().remove(cbQuantityEntities.getItems().size() - 1);
         cbQuantityEntities.setCellFactory(new Callback<ListView<Integer>, ListCell<Integer>>() {
 
             @Override
@@ -83,8 +85,9 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
             }
         });
         
-        final Integer quantityEntities = PreferencesFacade.getDefault().getInt(PREF__TESTDATA__QUANTITY_ENTITIES,
-                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE);
+        final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
+                PREF__TESTDATA__QUANTITY_ENTITIES__TOPIC,
+                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__TOPIC);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
         
         cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
@@ -109,8 +112,9 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
             }
         });
         
-        final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD,
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE);
+        final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__TOPIC,
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__TOPIC);
         cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 
@@ -148,18 +152,18 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
         LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity Entities"); // NOI18N
         
         final Integer quantityEntities = (Integer) cbQuantityEntities.getSelectionModel().getSelectedItem();
-        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES, quantityEntities);
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES__TOPIC, quantityEntities);
     }
     
     public void onActionQuantityTimePeriod() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity TimePeriod"); // NOI18N
         
         final Integer quantityTimePeriod = (Integer) cbQuantityTimePeriod.getSelectionModel().getSelectedItem();
-        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD, quantityTimePeriod);
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD__TOPIC, quantityTimePeriod);
     }
     
     public DoubleProperty progressPropertyFromEntityDream() {
-        return pbEntityTopic.progressProperty();
+        return pbEntity.progressProperty();
     }
     
     public void setProgressBarInformation(String message) {

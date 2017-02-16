@@ -26,7 +26,7 @@ import javafx.collections.FXCollections;
  */
 public class TestdataGenerator {
     
-    private static final Random RANDOM = new Random();
+    public static final Random RANDOM = new Random();
     
     private static final List<String> SIGNS_0 = FXCollections.observableArrayList("A", "fA", "kf", "kAp", "kfUAp", "AfkZpU"); // NOI18N
     private static final List<String> SIGNS_1 = FXCollections.observableArrayList("a", "Fa", "aKF", "FKaP", "uFPaK", "aPzFK"); // NOI18N
