@@ -35,7 +35,7 @@ import javafx.util.Callback;
 
 /**
  *
- * @author PRo
+ * @author Naoghuman
  */
 public class TestdataTermPresenter implements Initializable, IPreferencesConfiguration {
     
@@ -49,11 +49,11 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
     public void initialize(URL location, ResourceBundle resources) {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataTermPresenter"); // NOI18N
         
-        assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
-        assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
-        assert (lProgressBarInformation != null)        : "fx:id=\"lProgressBarInformation\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
-        assert (lProgressBarPercentInformation != null) : "fx:id=\"lProgressBarPercentInformation\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
-        assert (pbEntity != null)                       : "fx:id=\"pbEntity\" was not injected: check your FXML file 'Dream.fxml'."; // NOI18N
+        assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'testdataterm.fxml'."; // NOI18N
+        assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'testdataterm.fxml'."; // NOI18N
+        assert (lProgressBarInformation != null)        : "fx:id=\"lProgressBarInformation\" was not injected: check your FXML file 'testdataterm.fxml'."; // NOI18N
+        assert (lProgressBarPercentInformation != null) : "fx:id=\"lProgressBarPercentInformation\" was not injected: check your FXML file 'testdataterm.fxml'."; // NOI18N
+        assert (pbEntity != null)                       : "fx:id=\"pbEntity\" was not injected: check your FXML file 'testdataterm.fxml'."; // NOI18N
     
         this.initializeComboBoxes();
     }
