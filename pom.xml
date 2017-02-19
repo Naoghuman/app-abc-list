@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.naoghuman</groupId>
     <artifactId>abc-list</artifactId>
-    <version>0.3.0-PRERELEASE</version> <!-- -SNAPSHOT -PRERELEASE -->
+    <version>0.3.1-SNAPSHOT</version> <!-- -SNAPSHOT -PRERELEASE -->
     
     <packaging>jar</packaging>
     <name>ABC-List</name>
