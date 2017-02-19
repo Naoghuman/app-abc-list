@@ -20,6 +20,7 @@ import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.ITestdataConfiguration;
 import com.github.naoghuman.abclist.model.Exercise;
+import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
@@ -27,11 +28,14 @@ import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicView;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
 import com.github.naoghuman.abclist.testdata.service.ExerciseService;
+import com.github.naoghuman.abclist.testdata.service.ExerciseTermService;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
 import com.github.naoghuman.abclist.testdata.service.SequentialThreadFactory;
 import com.github.naoghuman.abclist.testdata.service.TermService;
 import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExercisePresenter;
 import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExerciseView;
+import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermPresenter;
+import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermView;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -43,8 +47,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -141,11 +143,6 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
     private void initializeEntities() {
         LoggerFacade.getDefault().info(this.getClass(), "Register entities"); // NOI18N
         
-        final TestdataTermView termView = new TestdataTermView();
-        termView.getView().setId(Term.class.getSimpleName());
-        termView.getRealPresenter().bind(disableProperty);
-        ENTITIES.put(Term.class.getSimpleName(), termView);
-        
         final TestdataTopicView topicView = new TestdataTopicView();
         topicView.getView().setId(Topic.class.getSimpleName());
         topicView.getRealPresenter().bind(disableProperty);
@@ -155,6 +152,16 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         exerciseView.getView().setId(Exercise.class.getSimpleName());
         exerciseView.getRealPresenter().bind(disableProperty);
         ENTITIES.put(Exercise.class.getSimpleName(), exerciseView);
+        
+        final TestdataTermView termView = new TestdataTermView();
+        termView.getView().setId(Term.class.getSimpleName());
+        termView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(Term.class.getSimpleName(), termView);
+        
+        final TestdataExerciseTermView exerciseTermView = new TestdataExerciseTermView();
+        exerciseTermView.getView().setId(ExerciseTerm.class.getSimpleName());
+        exerciseTermView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(ExerciseTerm.class.getSimpleName(), exerciseTermView);
     }
     
     private void initializeListView() {
@@ -402,14 +409,12 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         
         final CheckBox checkBox = (CheckBox) ae.getSource();
         final Boolean isSelected = checkBox.isSelected();
-        for (Object item : lvEntities.getItems()) {
-            if (!(item instanceof CheckBoxListCellModel)) {
-                continue;
-            }
-            
-            final CheckBoxListCellModel model = (CheckBoxListCellModel) item;
-            model.setSelected(isSelected);
-        }
+        lvEntities.getItems().stream()
+                .filter((item) -> (item instanceof CheckBoxListCellModel))
+                .forEach((item) -> {
+                    final CheckBoxListCellModel model = (CheckBoxListCellModel) item;
+                    model.setSelected(isSelected);
+                });
     }
     
     public void shutdown() throws InterruptedException {
@@ -421,18 +426,14 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         LoggerFacade.getDefault().debug(this.getClass(), "##### Start with Testdata generation..."); // NOI18N
         
         final List<String> activeEntities = FXCollections.observableArrayList();
-        for (Object item : lvEntities.getItems()) {
-            if (!(item instanceof CheckBoxListCellModel)) {
-                continue;
-            }
-
-            final CheckBoxListCellModel checkBoxListCellModel = (CheckBoxListCellModel) item;
-            if (!checkBoxListCellModel.isSelected()) {
-                continue;
-            }
-            
-            activeEntities.add(checkBoxListCellModel.getId());
-        }
+        lvEntities.getItems().stream()
+                .filter((item) -> (item instanceof CheckBoxListCellModel))
+                .forEach((item) -> {
+                    final CheckBoxListCellModel model = (CheckBoxListCellModel) item;
+                    if (model.isSelected()) {
+                        activeEntities.add(model.getId());
+                    }
+                });
         
         /**
          * The last service need to do:
@@ -443,10 +444,47 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         final String lastActiveService = activeEntities.get(activeEntities.size() - 1);
         activeEntities.stream()
                 .forEach((entityName) -> {
-                    this.configureServiceForEntityTerm(entityName, lastActiveService);
                     this.configureServiceForEntityTopic(entityName, lastActiveService);
                     this.configureServiceForEntityExercise(entityName, lastActiveService);
+                    this.configureServiceForEntityTerm(entityName, lastActiveService);
+                    this.configureServiceForEntityExerciseTerm(entityName, lastActiveService);
                 });
+    }
+
+    private void configureServiceForEntityExercise(String entityName, String lastActiveService) {
+        if (!entityName.equals(Exercise.class.getSimpleName())) {
+            return;
+        }
+        
+        final ExerciseService service = new ExerciseService(Exercise.class.getName());
+        final TestdataExercisePresenter presenter = (TestdataExercisePresenter) ENTITIES.get(
+                Exercise.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation from entity Exercise..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation from entity Exercise..."); // NOI18N
+        
+        service.start();
+    }
+
+    private void configureServiceForEntityExerciseTerm(String entityName, String lastActiveService) {
+        if (!entityName.equals(ExerciseTerm.class.getSimpleName())) {
+            return;
+        }
+        
+        final ExerciseTermService service = new ExerciseTermService(ExerciseTerm.class.getName());
+        final TestdataExerciseTermPresenter presenter = (TestdataExerciseTermPresenter) ENTITIES.get(
+                ExerciseTerm.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation from entity ExerciseTerm..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation from entity ExerciseTerm..."); // NOI18N
+        
+        service.start();
     }
 
     private void configureServiceForEntityTerm(String entityName, String lastActiveService) {
@@ -479,23 +517,6 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
                 "Ready with testdata generation from entity Topic..."); // NOI18N
-        
-        service.start();
-    }
-
-    private void configureServiceForEntityExercise(String entityName, String lastActiveService) {
-        if (!entityName.equals(Exercise.class.getSimpleName())) {
-            return;
-        }
-        
-        final ExerciseService service = new ExerciseService(Topic.class.getName());
-        final TestdataExercisePresenter presenter = (TestdataExercisePresenter) ENTITIES.get(Exercise.class.getSimpleName()).getPresenter();
-        service.bind(presenter);
-        service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity Exercise..."); // NOI18N
-        service.setOnSuccededAfterService(
-                this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity Exercise..."); // NOI18N
         
         service.start();
     }

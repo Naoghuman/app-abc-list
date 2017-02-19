@@ -116,16 +116,12 @@ public class TopicService extends Service<Void> {
                 final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 long id = -1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName);
                 for (int index = 0; index < saveMaxEntities; index++) {
-                    crudService.beginTransaction();
-                    
                     final Topic topic = ModelProvider.getDefault().getTopic(id++, TestdataGenerator.getDefault().getUniqueTitles(index));
                     topic.setDescription(TestdataGenerator.getDefault().getDescription());
                     topic.setGenerationTime(TopicService.this.createGenerationTime());
                     
-                    crudService.create(topic, false);
+                    crudService.create(topic);
                     updateProgress(index, saveMaxEntities);
-                    
-                    crudService.commitTransaction();
                 }
                 
                 LoggerFacade.getDefault().deactivate(Boolean.FALSE);

@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter">
+<AnchorPane id="AnchorPane" style="-fx-background-color: lightgreen;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermPresenter">
     <children>
         <VBox layoutX="100.0" layoutY="23.0" spacing="7.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
-                <Label text="Entity: Topic">
+                <Label text="Entity: ExerciseTerm">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -24,46 +24,32 @@
                         <Insets left="14.0" />
                     </VBox.margin>
                     <children>
-                        <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                        <VBox spacing="2.0">
                             <children>
-                                <HBox spacing="7.0">
+                                <VBox>
                                     <children>
-                                        <VBox>
-                                            <children>
-                                                <Label text="Quantity entities">
-                                                    <VBox.margin>
-                                                        <Insets />
-                                                    </VBox.margin>
-                                                    <font>
-                                                        <Font size="13.0" />
-                                                    </font>
-                                                </Label>
-                                                <ComboBox fx:id="cbQuantityEntities" onAction="#onActionQuantityEntities" prefWidth="150.0">
-                                                    <VBox.margin>
-                                                        <Insets />
-                                                    </VBox.margin>
-                                                </ComboBox>
-                                            </children>
-                                        </VBox>
-                                        <VBox>
-                                            <children>
-                                                <Label text="Timeperiod in years">
-                                                    <font>
-                                                        <Font size="13.0" />
-                                                    </font>
-                                                </Label>
-                                                <ComboBox fx:id="cbQuantityTimePeriod" onAction="#onActionQuantityTimePeriod" prefWidth="150.0" />
-                                            </children>
-                                        </VBox>
+                                        <Label text="Quantity entities">
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="cbQuantityEntities" onAction="#onActionQuantityEntities" prefWidth="150.0">
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                        </ComboBox>
                                     </children>
-                                </HBox>
+                                </VBox>
                             </children>
                         </VBox>
                         <VBox spacing="2.0" HBox.hgrow="ALWAYS">
                             <children>
                                 <VBox>
                                     <children>
-                                        <Label text="Process entities Topic">
+                                        <Label text="Process entities ExerciseTerm">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>

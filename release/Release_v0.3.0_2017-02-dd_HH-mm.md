@@ -7,8 +7,7 @@ topic through `key terms`.
 
 
 #### Summary
-* ...
-* ...
+* Added new functionalities to generate Testdata for Entities.
 
 
 
@@ -17,6 +16,7 @@ topic through `key terms`.
 
 
 #### Feature
+#6 [Feature] Add new functionalities to generate Testdata for Entities.
 
 
 

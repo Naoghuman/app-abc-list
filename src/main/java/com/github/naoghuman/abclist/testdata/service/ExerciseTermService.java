@@ -17,17 +17,19 @@
 package com.github.naoghuman.abclist.testdata.service;
 
 import com.github.naoghuman.abclist.model.Exercise;
+import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.ModelProvider;
+import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.abclist.testdata.TestdataPresenter;
-import com.github.naoghuman.abclist.testdata.converter.IDateConverter;
 import com.github.naoghuman.abclist.testdata.TestdataGenerator;
-import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExercisePresenter;
-import com.github.naoghuman.abclist.view.exercise.ETime;
+import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermPresenter;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.database.api.ICrudService;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.beans.binding.Bindings;
@@ -45,36 +47,24 @@ import org.apache.commons.lang3.time.StopWatch;
  *
  * @author Naoghuman
  */
-public class ExerciseService extends Service<Void> {
-    
-    private final long now = System.currentTimeMillis();
+public class ExerciseTermService extends Service<Void> {
     
     private final DoubleProperty entityProperty = new SimpleDoubleProperty(0.0d);
     
     private int saveMaxEntities = 0;
-    private int timePeriod = 0;
-    private long convertedTimePeriod = 0L;
     
-    private TestdataExercisePresenter presenter = null;
+    private TestdataExerciseTermPresenter presenter = null;
     private String entityName = null;
     private String onStartMessage = null;
     
-    public ExerciseService(String entityName) {
+    public ExerciseTermService(String entityName) {
         this.entityName = entityName;
     }
 
-    public void bind(TestdataExercisePresenter presenter) {
+    public void bind(TestdataExerciseTermPresenter presenter) {
         this.presenter = presenter;
         
         saveMaxEntities = presenter.getSaveMaxEntities();
-        timePeriod = presenter.getTimePeriod();
-        
-        String startTime = com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().convertLongToDateTime(now, IDateConverter.PATTERN__DATE);
-        int year = Integer.parseInt(startTime.substring(6)) - timePeriod;
-        startTime = startTime.substring(0, 6) + year;
-        
-        final long convertedStartTime = com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().convertDateTimeToLong(startTime, IDateConverter.PATTERN__DATE);
-        convertedTimePeriod = now - convertedStartTime;
         
         entityProperty.unbind();
         entityProperty.setValue(0);
@@ -96,12 +86,6 @@ public class ExerciseService extends Service<Void> {
         this.presenter.progressPropertyFromEntityDream().unbind();
         this.presenter.progressPropertyFromEntityDream().bind(super.progressProperty());
     }
-    
-    private long createGenerationTime() {
-        final long generationTime = now - com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().getLongInPeriodFromNowTo(convertedTimePeriod);
-        
-        return generationTime;
-    }
 
     @Override
     protected Task<Void> createTask() {
@@ -118,41 +102,36 @@ public class ExerciseService extends Service<Void> {
                 stopWatch.start();
                 
                 final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-                final int removeMaxTopics = (int) (Double.parseDouble(String.valueOf(topics.size())) * 0.001d);
-                for (int counter = removeMaxTopics; counter > 0; counter--) {
-                    topics.remove(TestdataGenerator.RANDOM.nextInt(topics.size()));
-                }
-                final int sizeTopics = topics.size();
+                final ObservableList<Term> terms = SqlProvider.getDefault().findAllTerms();
+                final int sizeTerms = terms.size();
+                final AtomicInteger index = new AtomicInteger(0);
                 
                 final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
-                final ETime[] times = ETime.values();
-                final int sizeTimes = times.length;
-                long id = -1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName);
-                for (int index = 0; index < saveMaxEntities; index++) {
-                    final Exercise exercise = ModelProvider.getDefault().getExercise();
-                    exercise.setChoosenTime((times[TestdataGenerator.RANDOM.nextInt(sizeTimes)]).toString());
-                    exercise.setConsolidated(false); // TODO later ?
-                    exercise.setFinishedTime(ExerciseService.this.createGenerationTime());
-                    exercise.setGenerationTime(ExerciseService.this.createGenerationTime());
-                    if (exercise.getGenerationTime() > exercise.getFinishedTime()) {
-                        final long generationTime = exercise.getGenerationTime();
-                        final long finishedTime = exercise.getFinishedTime();
-                        exercise.setGenerationTime(finishedTime);
-                        exercise.setFinishedTime(generationTime);
-                    }
-                    exercise.setId(id++);
-                    exercise.setReady(TestdataGenerator.RANDOM.nextDouble() > 0.001d); // TODO if ready then add terms
-                    
-                    final long topicId = topics.get(TestdataGenerator.RANDOM.nextInt(sizeTopics)).getId();
-                    exercise.setTopicId(topicId);
-                    
-                    crudService.create(exercise);
-                    updateProgress(index, saveMaxEntities);
-                }
+                final AtomicLong id = new AtomicLong(-1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName));
+                topics.stream()
+                        .forEach(topic -> {
+                            final ObservableList<Exercise> exercises = SqlProvider.getDefault().findAllExercisesWithTopicId(topic.getId());
+                            exercises.stream()
+                                    .filter(exercise -> exercise.isReady())
+                                    .forEach(exercise -> {
+                                        final int maxExerciseTerms = TestdataGenerator.RANDOM.nextInt(70) + 10;
+                                        for (int i = 0; i < maxExerciseTerms; i++) {
+                                            final Term term = terms.get(TestdataGenerator.RANDOM.nextInt(sizeTerms));
+                                            final ExerciseTerm exerciseTerm = ModelProvider.getDefault().getExerciseTerm();
+                                            exerciseTerm.setExerciseId(exercise.getId());
+                                            exerciseTerm.setId(id.getAndIncrement());
+                                            exerciseTerm.setTermId(term.getId());
+                                            
+                                            crudService.create(exerciseTerm);
+                                        }
+                                    });
+                            
+                            updateProgress(index.getAndIncrement(), saveMaxEntities);
+                        });
                 
                 LoggerFacade.getDefault().deactivate(Boolean.FALSE);
                 stopWatch.split();
-                LoggerFacade.getDefault().debug(this.getClass(), "  + " + stopWatch.toSplitString() + " for " + saveMaxEntities + " Exercises."); // NOI18N
+                LoggerFacade.getDefault().debug(this.getClass(), "  + " + stopWatch.toSplitString() + " for " + saveMaxEntities + " ExerciseTerms."); // NOI18N
 		stopWatch.stop();
                 
                 return null;

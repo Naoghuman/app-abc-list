@@ -116,17 +116,13 @@ public class TermService extends Service<Void> {
                 final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 long id = -1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName);
                 for (int index = 0; index < saveMaxEntities; index++) {
-                    crudService.beginTransaction();
-                    
                     final Term term = ModelProvider.getDefault().getTerm(TestdataGenerator.getDefault().getUniqueTitles(index));
                     term.setId(id++);
                     term.setDescription(TestdataGenerator.getDefault().getDescription());
                     term.setGenerationTime(TermService.this.createGenerationTime());
                     
-                    crudService.create(term, false);
+                    crudService.create(term);
                     updateProgress(index, saveMaxEntities);
-                    
-                    crudService.commitTransaction();
                 }
                 
                 LoggerFacade.getDefault().deactivate(Boolean.FALSE);
