@@ -161,13 +161,6 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9.1</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     
 </project>

@@ -6,9 +6,7 @@ ERROR
 --------------------------------------------------------------------------------
 REFACTORING
 
-DateConverter
- - Remove dependency to joda-time
- - Both DateConverter needs to merge
+UnitTests for DateConverter
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]

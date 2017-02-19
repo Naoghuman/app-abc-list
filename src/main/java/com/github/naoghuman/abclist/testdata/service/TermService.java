@@ -19,9 +19,10 @@ package com.github.naoghuman.abclist.testdata.service;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.testdata.TestdataPresenter;
-import com.github.naoghuman.abclist.testdata.converter.IDateConverter;
+import com.github.naoghuman.abclist.view.application.converter.IDateConverter;
 import com.github.naoghuman.abclist.testdata.TestdataGenerator;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
+import com.github.naoghuman.abclist.view.application.converter.DateConverter;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.database.api.ICrudService;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
@@ -65,11 +66,11 @@ public class TermService extends Service<Void> {
         saveMaxEntities = presenter.getSaveMaxEntities();
         timePeriod = presenter.getTimePeriod();
         
-        String startTime = com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().convertLongToDateTime(now, IDateConverter.PATTERN__DATE);
+        String startTime = DateConverter.getDefault().convertLongToDateTime(now, IDateConverter.PATTERN__DATE);
         int year = Integer.parseInt(startTime.substring(6)) - timePeriod;
         startTime = startTime.substring(0, 6) + year;
         
-        final long convertedStartTime = com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().convertDateTimeToLong(startTime, IDateConverter.PATTERN__DATE);
+        final long convertedStartTime = DateConverter.getDefault().convertDateTimeToLong(startTime, IDateConverter.PATTERN__DATE);
         convertedTimePeriod = now - convertedStartTime;
         
         entityProperty.unbind();
@@ -94,7 +95,7 @@ public class TermService extends Service<Void> {
     }
     
     private long createGenerationTime() {
-        final long generationTime = now - com.github.naoghuman.abclist.testdata.converter.DateConverter.getDefault().getLongInPeriodFromNowTo(convertedTimePeriod);
+        final long generationTime = now - DateConverter.getDefault().getLongInPeriodFromNowTo(convertedTimePeriod);
         
         return generationTime;
     }

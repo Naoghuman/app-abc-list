@@ -29,6 +29,7 @@ topic through `key terms`.
 
 
 #### Refactoring
+#9 [Dependency] Remove dependency to the library joda-time.
 
 
 
