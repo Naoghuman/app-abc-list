@@ -25,6 +25,7 @@ topic through `key terms`.
 
 
 #### Bug
+#8 [Exercise] When an exercise is ready the TextField should be cleared.
 
 
 
@@ -42,6 +43,8 @@ Naoghuman
 
 
 [//]: # (Issues which will be integrated in this release)
+#7 [Documentation] Update ReadMe to v0.3.0.
+#6 [Feature] Add new functionalities to generate Testdata for Entities.
 
 
 

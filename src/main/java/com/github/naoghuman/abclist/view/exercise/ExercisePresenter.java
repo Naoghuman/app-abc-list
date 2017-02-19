@@ -345,6 +345,7 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
             case PREPARE_STATE_FOR__INITIALIZE:
             case PREPARE_STATE_FOR__IS_READY: {
                 lCounterTime.setText("00:00"); // NOI18N
+                tfUserInput.setText(null);
                 exerciseTime = 0;
                 break;
             }
