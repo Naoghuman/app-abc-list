@@ -34,6 +34,7 @@ topic through `key terms`.
 
 
 #### Additional
+#7 [Documentation] Update ReadMe to v0.3.0.
 
 
 
