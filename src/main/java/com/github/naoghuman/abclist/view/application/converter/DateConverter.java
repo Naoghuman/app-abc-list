@@ -63,7 +63,7 @@ public final class DateConverter implements IDateConverter {
         
         try {
             final DateFormat formatter = new SimpleDateFormat(pattern);
-            final Date converted = (Date) formatter.parse(dateTime);
+            final Date converted = formatter.parse(dateTime);
             return converted.getTime();
         } catch (ParseException pe) {
             LoggerFacade.getDefault().error(this.getClass(), String.format(
