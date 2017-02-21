@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,29 +76,15 @@ public class DateConverterTest {
     }
 
     @Test
-    @Ignore
     public void testConvertLongToDateTime() {
-        System.out.println("convertLongToDateTime");
-        Long millis = null;
-        String pattern = "";
-        DateConverter instance = null;
-        String expResult = "";
-        String result = instance.convertLongToDateTime(millis, pattern);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    @Ignore
-    public void testConvertLongToDateTimeForPerformance() {
-        System.out.println("convertLongToDateTimeForPerformance");
-        Long millis = null;
-        String pattern = "";
-        DateConverter instance = null;
-        String expResult = "";
-        String result = instance.convertLongToDateTimeForPerformance(millis, pattern);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        final LocalDateTime localDateTime = LocalDateTime.now();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(IDateConverter.PATTERN__DATETIME);
+        final String expected = localDateTime.format(formatter);
+        
+        final long millies = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        String result = DateConverter.getDefault().convertLongToDateTime(millies, IDateConverter.PATTERN__DATETIME);
+        
+        assertEquals(expected, result);
     }
 
     @Test

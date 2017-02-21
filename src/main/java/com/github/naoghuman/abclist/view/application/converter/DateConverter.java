@@ -52,7 +52,7 @@ public final class DateConverter implements IDateConverter {
     
     public Long addDays(int days) {
         final LocalDateTime localDateTime = LocalDateTime.now().plusDays(days);
-        final long generationTime3DaysInFuture = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        final long generationTime3DaysInFuture = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         
         return generationTime3DaysInFuture;
     }
@@ -75,15 +75,6 @@ public final class DateConverter implements IDateConverter {
     
     public String convertLongToDateTime(Long millis, String pattern) {
         final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        
-        return localDateTime.format(formatter);
-    }
-    
-    public String convertLongToDateTimeForPerformance(Long millis, String pattern) {
-        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
-        localDateTime.minusHours(1); // XXX ?
-        
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         
         return localDateTime.format(formatter);
@@ -123,7 +114,7 @@ public final class DateConverter implements IDateConverter {
     
     public boolean isDateInNewRange(long generationTime) {
         final LocalDateTime localDateTime = LocalDateTime.now().minusDays(3L);
-        final long generationTime3DaysInPast = localDateTime.atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        final long generationTime3DaysInPast = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         final boolean isDateInNewRange = generationTime3DaysInPast < generationTime;
         
         return isDateInNewRange;
