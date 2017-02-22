@@ -7,6 +7,9 @@ ERROR
 REFACTORING
 
 UnitTests for DateConverter
+TODO what is the meaning from the method to test?
+*/
+public void testGetLongInPeriodFromNowTo() {
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]

@@ -82,7 +82,7 @@ public final class DateConverter implements IDateConverter {
     
     public long getLongInPeriodFromNowTo(Long startTime) {
         if (startTime <=0) {
-            throw new IllegalArgumentException("startTime must be positive"); // NOI18N
+            throw new IllegalArgumentException("startTime must be greater zero"); // NOI18N
         }
         
         long bits, val;

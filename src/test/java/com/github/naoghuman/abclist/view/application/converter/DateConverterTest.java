@@ -86,17 +86,32 @@ public class DateConverterTest {
         
         assertEquals(expected, result);
     }
+    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetLongInPeriodFromNowToThrowsIllegalArgumentException() {
+        DateConverter.getDefault().getLongInPeriodFromNowTo(-1L);
+    }
 
     @Test
     @Ignore
+    /*
+    TODO what is the meaning from the method to test?
+    */
     public void testGetLongInPeriodFromNowTo() {
-        System.out.println("getLongInPeriodFromNowTo");
-        Long startTime = null;
-        DateConverter instance = null;
-        long expResult = 0L;
-        long result = instance.getLongInPeriodFromNowTo(startTime);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        final LocalDateTime localDateTimeNow = LocalDateTime.now();
+        final long milliesNow = localDateTimeNow.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        
+        final LocalDateTime localDateTimePast = LocalDateTime.now().minusMonths(2);
+        final long milliesPast = localDateTimePast.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        
+        long result = DateConverter.getDefault().getLongInPeriodFromNowTo(milliesPast);
+        System.out.println("now : " + milliesNow);
+        System.out.println("past: " + milliesPast);
+        System.out.println("re:   " + result);
+        
+        assertTrue(result < milliesNow);
+        assertTrue(milliesPast < result);
     }
 
     @Test
