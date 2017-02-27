@@ -94,23 +94,23 @@ public final class DateConverter implements IDateConverter {
         return val;
     }
     
-    public Boolean isAfter(int days, Long millis) {
-        final LocalDateTime localDateTimeNow = LocalDateTime.now();
-        localDateTimeNow.plusDays(days);
-        
-        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
-        
-        return localDateTime.isAfter(localDateTimeNow);
-    }
+//    public Boolean isAfter(int days, Long millis) {
+//        final LocalDateTime localDateTimeNow = LocalDateTime.now();
+//        localDateTimeNow.plusDays(days);
+//        
+//        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+//        
+//        return localDateTime.isAfter(localDateTimeNow);
+//    }
     
-    public Boolean isBefore(int days, Long millis) {
-        final LocalDateTime localDateTimeNow = LocalDateTime.now();
-        localDateTimeNow.plusDays(days);
-        
-        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
-        
-        return localDateTime.isBefore(localDateTimeNow);
-    }
+//    public Boolean isBefore(int days, Long millis) {
+//        final LocalDateTime localDateTimeNow = LocalDateTime.now();
+//        localDateTimeNow.plusDays(days);
+//        
+//        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+//        
+//        return localDateTime.isBefore(localDateTimeNow);
+//    }
     
     public boolean isDateInNewRange(long generationTime) {
         final LocalDateTime localDateTime = LocalDateTime.now().minusDays(3L);
@@ -120,22 +120,22 @@ public final class DateConverter implements IDateConverter {
         return isDateInNewRange;
     }
     
-    public Boolean isValid(String pattern, String dateTime) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-            if (pattern.equals(PATTERN__DATE)) {
-                LocalDate.parse(dateTime, formatter);
-                return Boolean.TRUE;
-            }
-            if (pattern.equals(PATTERN__TIME)) {
-                LocalTime.parse(dateTime, formatter);
-                return Boolean.TRUE;
-            }
-        } catch (DateTimeParseException ex) {
-            /* not needed */
-        }
-        
-        return Boolean.FALSE;
-    }
+//    public Boolean isValid(String pattern, String dateTime) {
+//        try {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+//            if (pattern.equals(PATTERN__DATE)) {
+//                LocalDate.parse(dateTime, formatter);
+//                return Boolean.TRUE;
+//            }
+//            if (pattern.equals(PATTERN__TIME)) {
+//                LocalTime.parse(dateTime, formatter);
+//                return Boolean.TRUE;
+//            }
+//        } catch (DateTimeParseException ex) {
+//            /* not needed */
+//        }
+//        
+//        return Boolean.FALSE;
+//    }
     
 }

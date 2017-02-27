@@ -115,54 +115,21 @@ public class DateConverterTest {
     }
 
     @Test
-    @Ignore
-    public void testIsAfter() {
-        System.out.println("isAfter");
-        int days = 0;
-        Long millis = null;
-        DateConverter instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.isAfter(days, millis);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    @Ignore
-    public void testIsBefore() {
-        System.out.println("isBefore");
-        int days = 0;
-        Long millis = null;
-        DateConverter instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.isBefore(days, millis);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    @Ignore
     public void testIsDateInNewRange() {
-        System.out.println("isDateInNewRange");
-        long generationTime = 0L;
-        DateConverter instance = null;
-        boolean expResult = false;
-        boolean result = instance.isDateInNewRange(generationTime);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    @Ignore
-    public void testIsValid() {
-        System.out.println("isValid");
-        String pattern = "";
-        String dateTime = "";
-        DateConverter instance = null;
-        Boolean expResult = null;
-        Boolean result = instance.isValid(pattern, dateTime);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        LocalDateTime localDateTimeNow = LocalDateTime.now();
+        long milliesNow = localDateTimeNow.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        boolean isDateInNewRange = DateConverter.getDefault().isDateInNewRange(milliesNow);
+        assertTrue(isDateInNewRange);
+        
+        localDateTimeNow = LocalDateTime.now().minusDays(2).minusHours(23);
+        milliesNow = localDateTimeNow.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        isDateInNewRange = DateConverter.getDefault().isDateInNewRange(milliesNow);
+        assertTrue(isDateInNewRange);
+        
+        localDateTimeNow = LocalDateTime.now().minusDays(4);
+        milliesNow = localDateTimeNow.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        isDateInNewRange = DateConverter.getDefault().isDateInNewRange(milliesNow);
+        assertFalse(isDateInNewRange);
     }
     
 }
