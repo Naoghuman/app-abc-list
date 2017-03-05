@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
@@ -63,7 +62,7 @@ public class DateConverterTest {
     @Test
     public void testConvertDateTimeToLong() {
         String dateTime = "02-03-2004 05:06:07"; // MM-dd-yyyy HH:mm:ss
-        final long result = DateConverter.getDefault().convertDateTimeToLong(dateTime, IDateConverter.PATTERN__DATETIME);
+        final long result = DateConverter.getDefault().convertDateTimeToLong(dateTime, DateConverter.PATTERN__DATETIME);
         final LocalDateTime ldt = LocalDateTime.ofInstant(Instant.ofEpochMilli(result), ZoneId.systemDefault());
         
         assertEquals(2, ldt.getMonthValue());
@@ -78,11 +77,11 @@ public class DateConverterTest {
     @Test
     public void testConvertLongToDateTime() {
         final LocalDateTime localDateTime = LocalDateTime.now();
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(IDateConverter.PATTERN__DATETIME);
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateConverter.PATTERN__DATETIME);
         final String expected = localDateTime.format(formatter);
         
         final long millies = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        String result = DateConverter.getDefault().convertLongToDateTime(millies, IDateConverter.PATTERN__DATETIME);
+        String result = DateConverter.getDefault().convertLongToDateTime(millies, DateConverter.PATTERN__DATETIME);
         
         assertEquals(expected, result);
     }

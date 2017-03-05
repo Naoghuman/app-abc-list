@@ -21,7 +21,6 @@ import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.abclist.testdata.TestdataPresenter;
-import com.github.naoghuman.abclist.view.application.converter.IDateConverter;
 import com.github.naoghuman.abclist.testdata.TestdataGenerator;
 import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExercisePresenter;
 import com.github.naoghuman.abclist.view.application.converter.DateConverter;
@@ -70,11 +69,11 @@ public class ExerciseService extends Service<Void> {
         saveMaxEntities = presenter.getSaveMaxEntities();
         timePeriod = presenter.getTimePeriod();
         
-        String startTime = DateConverter.getDefault().convertLongToDateTime(now, IDateConverter.PATTERN__DATE);
+        String startTime = DateConverter.getDefault().convertLongToDateTime(now, DateConverter.PATTERN__DATE);
         int year = Integer.parseInt(startTime.substring(6)) - timePeriod;
         startTime = startTime.substring(0, 6) + year;
         
-        final long convertedStartTime = DateConverter.getDefault().convertDateTimeToLong(startTime, IDateConverter.PATTERN__DATE);
+        final long convertedStartTime = DateConverter.getDefault().convertDateTimeToLong(startTime, DateConverter.PATTERN__DATE);
         convertedTimePeriod = now - convertedStartTime;
         
         entityProperty.unbind();

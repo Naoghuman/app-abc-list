@@ -21,13 +21,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
@@ -36,7 +32,16 @@ import java.util.Random;
  *
  * @author Naoghuman
  */
-public final class DateConverter implements IDateConverter {
+public final class DateConverter {
+    
+    public static final String PATTERN__DATE = "MM-dd-yyyy"; // NOI18N
+    public static final String PATTERN__DATE__COMMENT = "EEEE, MMM d yyyy"; // NOI18N
+    public static final String PATTERN__DATE__HISTORY = "EEEE, MMM d yyyy"; // NOI18N
+    public static final String PATTERN__DATETIME = "MM-dd-yyyy HH:mm:ss"; // NOI18N
+    public static final String PATTERN__GENERATIONTIME = "MM-dd-yyyy  HH:mm:ss"; // NOI18N
+    public static final String PATTERN__TIME = "HH:mm:ss"; // NOI18N
+    public static final String PATTERN__TIME_IS_EMPTY = "00:00:00"; // NOI18N
+    public static final String PATTERN__TIME_WITH_MILLIS = "HH:mm:ss.SSS"; // NOI18N
     
     private static final Optional<DateConverter> instance = Optional.of(new DateConverter());
 

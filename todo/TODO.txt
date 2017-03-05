@@ -5,8 +5,7 @@ ERROR
 
 --------------------------------------------------------------------------------
 REFACTORING
-#10 [Performance] Loading more then 3000 testdata entities slows very Navigation Topics.
-
+#11 [Performance] Loading more then 3000 testdata entities slows very Navigation Terms.
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]
