@@ -24,7 +24,7 @@ import com.github.naoghuman.abclist.model.Topic;
  */
 public final class TopicPresentationConverter implements IPresentationConverter {
     
-    private final StringBuilder representation = new StringBuilder();
+    private final StringBuilder presentation = new StringBuilder();
     private final StringBuilder tooltip = new StringBuilder();
     
     public TopicPresentationConverter(Topic topic) {
@@ -35,18 +35,18 @@ public final class TopicPresentationConverter implements IPresentationConverter 
     public void convert(Object entity) throws IllegalArgumentException {
         // Check instanceof
         if (!(entity instanceof Topic)) {
-            throw new IllegalArgumentException("Object [entity] must from class [Topic]!"); // NOI18N
+            throw new IllegalArgumentException("Object [entity] must instance from class [Topic]!"); // NOI18N
         }
         
         // Convert the representation
         final Topic topic = (Topic) entity;
         if (DateConverter.getDefault().isDateInNewRange(topic.getGenerationTime())) {
-            representation.append("New | "); // NOI18N
+            presentation.append("New | "); // NOI18N
         }
-        representation.append(topic.getTitle());
-        representation.append(" ("); // NOI18N
-        representation.append(topic.getExercises());
-        representation.append(")"); // NOI18N
+        presentation.append(topic.getTitle());
+        presentation.append(" ("); // NOI18N
+        presentation.append(topic.getExercises());
+        presentation.append(")"); // NOI18N
         
         // Convert the tooltip
         tooltip.append(""); // NOI18N
@@ -58,8 +58,8 @@ public final class TopicPresentationConverter implements IPresentationConverter 
     }
 
     @Override
-    public String getRepresentation() {
-        return representation.toString();
+    public String getPresentation() {
+        return presentation.toString();
     }
 
     @Override

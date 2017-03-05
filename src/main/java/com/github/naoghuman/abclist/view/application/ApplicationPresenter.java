@@ -210,7 +210,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 }
                 
                 this.setGraphic(null);
-                this.setText(!empty ? navigationEntity.getEntityConverter().getRepresentation() : null);
+                this.setText(!empty ? navigationEntity.getEntityConverter().getPresentation() : null);
             }
         };
         // TODO rename NavigationEntity to NavigationElement ? or NavigationTopicChild

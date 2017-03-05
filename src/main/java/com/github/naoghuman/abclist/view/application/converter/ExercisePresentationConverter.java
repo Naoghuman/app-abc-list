@@ -27,7 +27,7 @@ import java.util.Date;
 public final class ExercisePresentationConverter implements IPresentationConverter {
     
     private final Date date = new Date();
-    private final StringBuilder representation = new StringBuilder();
+    private final StringBuilder presentation = new StringBuilder();
     private final StringBuilder tooltip = new StringBuilder();
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // NOI18N
 
@@ -39,24 +39,24 @@ public final class ExercisePresentationConverter implements IPresentationConvert
     public void convert(Object entity) throws IllegalArgumentException {
         // Check instanceof
         if (!(entity instanceof Exercise)) {
-            throw new IllegalArgumentException("Object [entity] must from class [Exercise]!"); // NOI18N
+            throw new IllegalArgumentException("Object [entity] must instance from class [Exercise]!"); // NOI18N
         }
         
         // Convert the representation
         final Exercise exercise = (Exercise) entity;
         date.setTime(exercise.getGenerationTime());
-        representation.append(simpleDateFormat.format(date));
-        representation.append(" ("); // NOI18N
-        representation.append(exercise.isReady() ? "v" : "-"); // NOI18N
-        representation.append(")"); // NOI18N
+        presentation.append(simpleDateFormat.format(date));
+        presentation.append(" ("); // NOI18N
+        presentation.append(exercise.isReady() ? "v" : "-"); // NOI18N
+        presentation.append(")"); // NOI18N
         
         // Convert the tooltip
 //        tooltip.append(""); // NOI18N
     }
 
     @Override
-    public String getRepresentation() {
-        return representation.toString();
+    public String getPresentation() {
+        return presentation.toString();
     }
 
     @Override

@@ -24,7 +24,7 @@ public interface IPresentationConverter {
     
     public void convert(Object entity) throws IllegalArgumentException;
     
-    public String getRepresentation();
+    public String getPresentation();
     public String getTooltip();
     
 }
