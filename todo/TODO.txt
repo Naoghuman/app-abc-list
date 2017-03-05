@@ -5,11 +5,8 @@ ERROR
 
 --------------------------------------------------------------------------------
 REFACTORING
+#10 [Performance] Loading more then 3000 testdata entities slows very Navigation Topics.
 
-UnitTests for DateConverter
-TODO what is the meaning from the method to test?
-*/
-public void testGetLongInPeriodFromNowTo() {
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]
@@ -205,21 +202,15 @@ WelcomeView
 
 --------------------------------------------------------------------------------
 FEATURES
-Navigation-Area
 
-Navigation-Tab-Terms
-
-Navigation-Tab-Terms
- - ComboBox "Show all Terms from selected Topic"
-    - Topic "Show all existing Terms"
-    - Topic "Show all Terms without Parent"
-    - Topic "XYZ"
 
 Working-Area
 
 --------------------------------------------------------------------------------
+IDEAS
+- Add navigation-buttons to navigate between previously open views.
 
-
+--------------------------------------------------------------------------------
 
 
 

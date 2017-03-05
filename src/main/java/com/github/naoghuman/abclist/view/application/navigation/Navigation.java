@@ -21,22 +21,22 @@ package com.github.naoghuman.abclist.view.application.navigation;
  * @author Naoghuman
  */
 public final class Navigation {
-    
+
     private final ENavigationType navigationType;
-    
+
     private final long entityId;
-    
+
     public Navigation(ENavigationType navigationType, long entityId) {
         this.navigationType = navigationType;
         this.entityId = entityId;
     }
-    
+
     public long getEntityId() {
         return entityId;
     }
-    
+
     public ENavigationType getNavigationType() {
         return navigationType;
     }
-    
+
 }

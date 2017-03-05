@@ -16,9 +16,10 @@
  */
 package com.github.naoghuman.abclist.view.application;
 
-import com.github.naoghuman.abclist.view.application.navigation.Navigation;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
+import static com.github.naoghuman.abclist.configuration.IActionConfiguration.ACTION__APPLICATION__OPEN_TERM;
 import com.github.naoghuman.abclist.configuration.IApplicationConfiguration;
+import static com.github.naoghuman.abclist.configuration.IApplicationConfiguration.KEY__APPLICATION__RESOURCE_BUNDLE;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.json.Project;
 import com.github.naoghuman.abclist.json.SimpleJsonReader;
@@ -30,8 +31,8 @@ import com.github.naoghuman.abclist.model.NavigationEntity;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
+import com.github.naoghuman.abclist.view.application.converter.ExerciseNavigationConverter;
 import com.github.naoghuman.abclist.view.application.navigation.ENavigationType;
-import com.github.naoghuman.abclist.view.application.navigation.NavigationProvider;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
 import com.github.naoghuman.abclist.view.term.TermView;
 import com.github.naoghuman.abclist.view.topic.TopicPresenter;
@@ -41,10 +42,12 @@ import com.github.naoghuman.lib.action.api.ActionFacade;
 import com.github.naoghuman.lib.action.api.IRegisterActions;
 import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,14 +56,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.util.Callback;
 
 /**
  *
@@ -69,24 +74,18 @@ import javafx.stage.Modality;
 public class ApplicationPresenter implements Initializable, IActionConfiguration, 
         IApplicationConfiguration, IDefaultConfiguration, IRegisterActions 
 {
-    
-    @FXML private Button bNavigationCreateNewTopic;
+    @FXML private Button bNavigationCreateNewExercise;
     @FXML private Button bNavigationCreateNewTerm;
-    @FXML private Button bNavigationToHome;
-    @FXML private Button bNavigationToNext;
-    @FXML private Button bNavigationToPrevious;
-    @FXML private Button bNavigationShowAll;
     @FXML private ComboBox<Topic> cbNavigationTopics;
+    @FXML private Label lInfoFoundedElements;
     @FXML private Label lInfoFoundedTerms;
+    @FXML private Label lInfoFoundedTopics;
+    @FXML private ListView<NavigationEntity> lvNavigationElements;
     @FXML private ListView<Term> lvNavigationTerms;
+    @FXML private ListView<Topic> lvNavigationTopics;
     @FXML private SplitPane spApplication;
     @FXML private TabPane tpNavigation;
-    @FXML private TreeView<NavigationEntity> tvNavigationTopics;
     @FXML private VBox vbWorkingArea;
-    
-    private final ObservableList<Navigation> navigationViews = FXCollections.observableArrayList();
-    
-    private int indexShownNavigationView = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,66 +98,172 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         final Project project = reader.read();
         LoggerFacade.getDefault().info(this.getClass(), "release.json: " + project.toString()); // NOI18N
 
-        this.initializeNavigation();
+        this.initializeNavigationButtons();
+        this.initializeNavigationTabTerms();
+        this.initializeNavigationTabTopics();
         this.initializeWelcomeView();
-        
-        NavigationProvider.getDefault().initialize(tvNavigationTopics, cbNavigationTopics, lInfoFoundedTerms, lvNavigationTerms);
 
         this.registerActions();
             
         // Update gui
         final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-        NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(topics);
-        NavigationProvider.getDefault().onActionRefreshNavigationTabTerms(topics);
+        this.onActionRefreshNavigationTabTopics(topics);
+//        NavigationProvider.getDefault().onActionRefreshNavigationTabTerms(topics);
     }
     
-    private void initializeNavigation() {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation]"); // NOI18N
+    private void initializeNavigationButtons() {
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] buttons"); // NOI18N
 
         // Buttons
-        bNavigationCreateNewTopic.managedProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TOPICS));
-        bNavigationCreateNewTopic.visibleProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TOPICS));
+        bNavigationCreateNewExercise.disableProperty().bind(lvNavigationTopics.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
         
         bNavigationCreateNewTerm.managedProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TERMS));
         bNavigationCreateNewTerm.visibleProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TERMS));
+    }
+    
+    private void initializeNavigationTabTerms() {
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Term]s"); // NOI18N
+
+        /*
+        TODO
+         - configure ComboBox cbExistingTopics
+         - configure ListView lvAssociatedTerms
+        */
+    }
+    
+    private void initializeNavigationTabTopics() {
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Topic]s"); // NOI18N
+        
+        // Info label for Topics
+        lInfoFoundedTopics.setText(this.getProperty(INFO__FOUNDED_TOPICS).replaceFirst(INFO__DEFAULT_REGEX, INFO__NO_ENTITIES_FOUND));
+
+        // ListView lvNavigationTopics
+        final Callback callbackTerms = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
+            @Override
+            protected void updateItem(Topic topic, boolean empty) {
+                super.updateItem(topic, empty);
+                
+                this.setGraphic(null);
+                
+                if (topic == null || empty) {
+                    this.setText(null);
+                } else {
+                    this.setText(topic.getTitle());
+                }
+            }
+        };
+        
+        lvNavigationTopics.setCellFactory(callbackTerms);
+        lvNavigationTopics.setOnMouseClicked(event -> {
+            // Open the Topic
+            if (
+                    event.getClickCount() == 2
+                    && !lvNavigationTopics.getSelectionModel().isEmpty()
+            ) {
+                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                this.onActionOpenTopic(topic);
+            }
+            
+            // Show all TopicChilds
+            if (
+                    event.getClickCount() == 1
+                    && !lvNavigationTopics.getSelectionModel().isEmpty()
+            ) {
+                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                this.onActionShowAllExercisesWithTopicId(topic);
+            }
+        });
+        lvNavigationTopics.setOnKeyPressed(event -> {
+            final KeyCode keyCode = event.getCode();
+            
+            // Open Topic
+            if (keyCode.equals(KeyCode.TAB)) {
+                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                this.onActionOpenTopic(topic);
+            }
+            
+            // Show all TopicChilds
+            if (
+                    keyCode.equals(KeyCode.ENTER)
+                    || keyCode.equals(KeyCode.SPACE)
+            ) {
+                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                this.onActionShowAllExercisesWithTopicId(topic);
+            }
+        });
+        
+        // Info label for TopicElements
+        lInfoFoundedElements.setText(this.getProperty(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(INFO__DEFAULT_REGEX, INFO__NO_ENTITIES_FOUND));
+        
+        // ListView lvNavigationElements
+        final Callback callbackNavigationEntitys = (Callback<ListView<NavigationEntity>, ListCell<NavigationEntity>>) (ListView<NavigationEntity> listView) -> new ListCell<NavigationEntity>() {
+            @Override
+            protected void updateItem(NavigationEntity navigationEntity, boolean empty) {
+                super.updateItem(navigationEntity, empty);
+                
+                // Check if ...
+                if (navigationEntity == null) {
+                    this.setGraphic(null);
+                    this.setText(null);
+
+                    return;
+                }
+                
+                this.setGraphic(null);
+                this.setText(!empty ? navigationEntity.getEntityConverter().getRepresentation() : null);
+            }
+        };
+        // TODO rename NavigationEntity to NavigationElement ? or NavigationTopicChild
+        lvNavigationElements.setCellFactory(callbackNavigationEntitys);
+        lvNavigationElements.setOnMouseClicked(event -> {
+            if (
+                    event.getClickCount() == 2
+                    && !lvNavigationElements.getSelectionModel().isEmpty()
+            ) {
+                final TransferData transferData = new TransferData();
+                transferData.setActionId(ACTION__APPLICATION__OPEN_EXERCISE);
+                
+                final NavigationEntity topic = lvNavigationElements.getSelectionModel().getSelectedItem();
+                final long exercseId = topic.getNavigation().getEntityId();
+                transferData.setLong(exercseId);
+                
+                ActionFacade.getDefault().handle(transferData);
+            }
+        });
     }
     
     private void initializeWelcomeView() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize [WelcomeView]"); // NOI18N
         
         final WelcomeView welcomeView = new WelcomeView();
-        
-        final Navigation navigation = new Navigation(ENavigationType.WELCOME, DEFAULT_ID);
-        navigationViews.add(navigation);
-        indexShownNavigationView = 0;
-        LoggerFacade.getDefault().debug(this.getClass(), "Add [WelcomeView (index=" + indexShownNavigationView + ")]"); // NOI18N
-        
         final Parent parent = welcomeView.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
         vbWorkingArea.getChildren().add(parent);
     }
     
-    private void onActionCreateNewExerciseWithTopicId(long entityId) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Exercise] with [Topic.Id]"); // NOI18N
-        
-        // Load [Topic] from the [Database]
-        final Optional<Topic> optional = SqlProvider.getDefault().findById(Topic.class, entityId);
-        if (!optional.isPresent()) {
-            LoggerFacade.getDefault().warn(this.getClass(), "Can't find a [Topic] with [id=" + entityId + "] in [Database]"); // NOI18N
+    private String getProperty(String propertyKey) {
+        return PropertiesFacade.getDefault().getProperty(KEY__APPLICATION__RESOURCE_BUNDLE, propertyKey);
+    }
+    
+    public void onActionCreateNewExercise() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Exercise]"); // NOI18N
+
+        // Check if empty
+        if (lvNavigationTopics.getSelectionModel().isEmpty()) {
+            LoggerFacade.getDefault().warn(this.getClass(), "No [Topic] is selected! Can't create a new [Exercise]"); // NOI18N
             return;
         }
-        final Topic topic = optional.get();
         
         // Create a new Exercise
+        final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
         final Exercise exercise = ModelProvider.getDefault().getExercise(IDefaultConfiguration.DEFAULT_ID, topic.getId());
         SqlProvider.getDefault().createExercise(exercise);
         
-        // Open the new exercise
-        this.onActionOpenExercise(exercise);
-            
-        // Update the gui
-        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-        NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(topics);
+        // Open it
+        this.onActionShowExerciseInWorkingArea(exercise);
+        
+        // Refresh gui
+        this.onActionShowAllExercisesWithTopicId(topic);
     }
     
     public void onActionCreateNewTerm() {
@@ -190,14 +295,14 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             SqlProvider.getDefault().createTerm(term);
             
             // Update gui
-            NavigationProvider.getDefault().onActionSelectPreviousSelectedIndex();
+//            NavigationProvider.getDefault().onActionSelectPreviousSelectedIndex();
         }
     }
     
     public void onActionCreateNewTopic() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Topic]"); // NOI18N
         
-        // TODO replace it with AnchorPane, show warning when title exists
+        // TODO replace it with AnchorPane (transparent dialog), show warning when title exists
         final TextInputDialog dialog = new TextInputDialog(); // NOI18N
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setHeaderText("Create Topic"); // NOI18N
@@ -225,106 +330,34 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             // Update gui
             topics.clear();
             topics.addAll(SqlProvider.getDefault().findAllTopics());
-            NavigationProvider.getDefault().onActionRefreshNavigationTabTopics(topics);
+            this.onActionRefreshNavigationTabTopics(topics);
         }
     }
     
-    /*
-    TODO Navigation handling
-    
-    @FXML private Button bNavigationToHome;
-    @FXML private Button bNavigationToNext;
-    @FXML private Button bNavigationToPrevious;
-    @FXML private Button bNavigationShowAll;
-    
-    bNavigationToHome
-     - If [indexShownNavigationView] != 0
-        -> activate button bNavigationToHome
-        - else disable the button.
-    
-    bNavigationToNext
-     - If [navigationViews.size()] > 0 && [indexShownNavigationView] < [navigationViews.size() - 1] 
-        -> activate button bNavigationToNext
-        - else disable the button.
-    
-    bNavigationToPrevious
-     - If [navigationViews.size()] > 0 && [indexShownNavigationView] > 0
-        -> activate button bNavigationToPrevious
-        - else disable the button.
-    
-    bNavigationShowAll
-     - If the size from [navigationViews] > 1
-        -> activate button bNavigationShowAll
-    */
-    
-    public void onActionNavigationToHome() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action [Navigation] to [Home]"); // NOI18N
-        
-        /*
-        TODO
-         - show the [WelcomeView] (index == 0)
-         - set [indexShownNavigationView] to 0
-        */
-    }
-    
-    public void onActionNavigationToNext() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action [Navigation] to [Next]"); // NOI18N
-        /*
-        TODO
-         - show the [XyView] ([indexShownNavigationView] + 1)
-            - if ([indexShownNavigationView] + 1) >= [navigationViews.size()] throw error
-         - set [indexShownNavigationView] to ([indexShownNavigationView] + 1)
-        */
-    }
-    
-    public void onActionNavigationToPrevious() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action [Navigation] to [Previous]"); // NOI18N
-        /*
-        TODO
-         - show the [XyView] ([indexShownNavigationView] - 1)
-            - if ([indexShownNavigationView] - 1) < [0] throw error
-         - set [indexShownNavigationView] to ([indexShownNavigationView] - 1)
-        */
-    }
-    
-    public void onActionNavigationShowAll() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action [Navigation] show all"); // NOI18N
-        
-        /*
-        TODO
-         - show little popup with all [NameFromView] in the order they was added.
-            - use [navigationViews]
-         - User click on one open the [XyView]
-         - set [indexShownNavigationView] to user click index
-        */
-    }
-    
-    private void onActionOpenExercise(Exercise exercise) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action open [Exercise]"); // NOI18N
-        
-        vbWorkingArea.getChildren().clear();
+    private void onActionShowExerciseInWorkingArea(Exercise exercise) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show [Exercise] in [WorkingArea]"); // NOI18N
         
         final ExerciseView exerciseView = new ExerciseView();
         final ExercisePresenter exercisePresenter = exerciseView.getRealPresenter();
         exercisePresenter.configure(exercise);
         
-        final Navigation navigation = new Navigation(ENavigationType.EXERCISE, exercise.getId());
-        navigationViews.add(navigation);
-        indexShownNavigationView = navigationViews.size() - 1;
-        LoggerFacade.getDefault().debug(this.getClass(), "Add [ExerciseView (index=" + indexShownNavigationView + ")]"); // NOI18N
+        // TODO bind NavigationEntiy.readyProperty() to exercise.readyProperty()
+        // if exercise is remove then the binding should also removed.
         
         final Parent parent = exerciseView.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
+        
+        vbWorkingArea.getChildren().clear();
         vbWorkingArea.getChildren().add(parent);
     }
 
-    private void onActionOpenExerciseWithId(long entityId) {
+    private void onActionOpenExerciseWithId(long exerciseId) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action open [Exercise] with [Id]"); // NOI18N
  
         // Load [Exercise] from the [Database]
-        final Optional<Exercise> optional = SqlProvider.getDefault().findById(Exercise.class, entityId);
+        final Optional<Exercise> optional = SqlProvider.getDefault().findById(Exercise.class, exerciseId);
         if (optional.isPresent()) {
-            this.onActionOpenExercise(optional.get());
+            this.onActionShowExerciseInWorkingArea(optional.get());
         }
     }
     
@@ -336,11 +369,6 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         final TermView termView = new TermView();
         final TermPresenter termPresenter = termView.getRealPresenter();
         termPresenter.configure(term);
-        
-        final Navigation navigation = new Navigation(ENavigationType.TERM, term.getId());
-        navigationViews.add(navigation);
-        indexShownNavigationView = navigationViews.size() - 1;
-        LoggerFacade.getDefault().debug(this.getClass(), "Add [TermView (index=" + indexShownNavigationView + ")]"); // NOI18N
         
         final Parent parent = termView.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
@@ -387,53 +415,48 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         final TopicPresenter topicPresenter = topicView.getRealPresenter();
         topicPresenter.configure(topic);
         
-        final Navigation navigation = new Navigation(ENavigationType.TOPIC, topic.getId());
-        navigationViews.add(navigation);
-        indexShownNavigationView = navigationViews.size() - 1;
-        LoggerFacade.getDefault().debug(this.getClass(), "Add [TopicView (index=" + indexShownNavigationView + ")]"); // NOI18N
-        
         final Parent parent = topicView.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
         vbWorkingArea.getChildren().add(parent);
     }
     
-    private void onActionOpenTopicWithId(long entityId) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action open [Topic] with [Id]"); // NOI18N
+    public void onActionRefreshNavigationTabTopics(ObservableList<Topic> topics) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action refres [Navigation] tab [Topics]"); // NOI18N
+
+        lvNavigationTopics.getItems().clear();
+        lvNavigationTopics.getItems().addAll(topics);
         
-        // Load [Topic] from the [Database]
-        final Optional<Topic> optional = SqlProvider.getDefault().findById(Topic.class, entityId);
-        if (optional.isPresent()) {
-            this.onActionOpenTopic(optional.get());
-        }
+        lInfoFoundedTopics.setText(this.getProperty(INFO__FOUNDED_TOPICS).replaceFirst(INFO__DEFAULT_REGEX, String.valueOf(topics.size())));
+    }
+
+    private void onActionShowAllExercisesWithTopicId(Topic topic) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show all [Exercise]s with [Topic.Id]"); // NOI18N
+
+        final ObservableList<Exercise> exercises = SqlProvider.getDefault().findAllExercisesWithTopicId(topic.getId());
+        topic.setExercises(exercises.size());
+        
+        final List<NavigationEntity> navigationEntities = exercises.stream()
+                .map((exercise) -> ModelProvider.getDefault().getNavigationEntity(ENavigationType.EXERCISE, exercise.getId(), new ExerciseNavigationConverter(exercise)))
+                .collect(Collectors.toList());
+
+        lvNavigationElements.getItems().clear();
+        lvNavigationElements.getItems().addAll(navigationEntities);
+        
+        lInfoFoundedElements.setText(this.getProperty(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(INFO__DEFAULT_REGEX, String.valueOf(navigationEntities.size())));
     }
     
     public void onActionShowTermsFromSelectedTopic() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action show [Terms]s from selected [Topic]"); // NOI18N
 
-        NavigationProvider.getDefault().onActionShowTermsFromSelectedTopic();
+//        NavigationProvider.getDefault().onActionShowTermsFromSelectedTopic();
     }
     
     @Override
     public void registerActions() {
         LoggerFacade.getDefault().debug(this.getClass(), "Register actions in [ApplicationPresenter]"); // NOI18N
         
-        this.registerOnActionCreateNewExercise();
-        
         this.registerOnActionOpenExercise();
         this.registerOnActionOpenTerm();
-        this.registerOnActionOpenTopic();
-    }
-    
-    private void registerOnActionCreateNewExercise() {
-        LoggerFacade.getDefault().debug(this.getClass(), "Register on action create new [Exercise]"); // NOI18N
-        
-        ActionFacade.getDefault().register(
-                ACTION__APPLICATION__CREATE_NEW_EXERCISE,
-                (ActionEvent event) -> {
-                    final TransferData transferData = (TransferData) event.getSource();
-                    final long entityId = transferData.getLong();
-                    this.onActionCreateNewExerciseWithTopicId(entityId);
-                });
     }
     
     private void registerOnActionOpenExercise() {
@@ -443,8 +466,8 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 ACTION__APPLICATION__OPEN_EXERCISE,
                 (ActionEvent event) -> {
                     final TransferData transferData = (TransferData) event.getSource();
-                    final long entityId = transferData.getLong();
-                    this.onActionOpenExerciseWithId(entityId);
+                    final long exercseId = transferData.getLong();
+                    this.onActionOpenExerciseWithId(exercseId);
                 });
     }
     
@@ -458,18 +481,6 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                     final long entityId = transferData.getLong();
                     this.onActionOpenTermWithId(entityId);
                     // TODO select tab terms, select index from the topic in the combobox
-                });
-    }
-    
-    private void registerOnActionOpenTopic() {
-        LoggerFacade.getDefault().debug(this.getClass(), "Register on action open [Topic]"); // NOI18N
-        
-        ActionFacade.getDefault().register(
-                ACTION__APPLICATION__OPEN_TOPIC,
-                (ActionEvent event) -> {
-                    final TransferData transferData = (TransferData) event.getSource();
-                    final long entityId = transferData.getLong();
-                    this.onActionOpenTopicWithId(entityId);
                 });
     }
     

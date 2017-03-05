@@ -9,8 +9,9 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: AQUAMARINE;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.view.application.ApplicationPresenter">
@@ -21,19 +22,49 @@
                     <children>
                         <ToolBar minHeight="-Infinity" prefHeight="40.0">
                             <items>
-                                <Button fx:id="bNavigationCreateNewTopic" mnemonicParsing="false" onAction="#onActionCreateNewTopic" text="+To" />
                                 <Button fx:id="bNavigationCreateNewTerm" mnemonicParsing="false" onAction="#onActionCreateNewTerm" text="+Te" />
-                                <Button fx:id="bNavigationToHome" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToHome" text="H" />
-                                <Button fx:id="bNavigationToPrevious" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToPrevious" text="&lt;" />
-                                <Button fx:id="bNavigationToNext" disable="true" mnemonicParsing="false" onAction="#onActionNavigationToNext" text="&gt;" />
-                                <Button fx:id="bNavigationShowAll" disable="true" mnemonicParsing="false" onAction="#onActionNavigationShowAll" text="_" />
                             </items>
                         </ToolBar>
                         <TabPane fx:id="tpNavigation" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                             <tabs>
                                 <Tab closable="false" text="Topics">
                                     <content>
-                                        <TreeView fx:id="tvNavigationTopics" showRoot="false" />
+                                        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+                                            <items>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                    <children>
+                                                        <HBox alignment="BOTTOM_LEFT">
+                                                            <children>
+                                                                <Label fx:id="lInfoFoundedTopics" text="&lt;info founded topics&gt;">
+                                                                    <HBox.margin>
+                                                                        <Insets left="7.0" />
+                                                                    </HBox.margin>
+                                                                </Label>
+                                                                <Pane HBox.hgrow="ALWAYS" />
+                                                                <Button mnemonicParsing="false" onAction="#onActionCreateNewTopic" text="+" />
+                                                            </children>
+                                                        </HBox>
+                                                        <ListView fx:id="lvNavigationTopics" VBox.vgrow="ALWAYS" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                    <children>
+                                                        <HBox alignment="BOTTOM_LEFT">
+                                                            <children>
+                                                                <Label fx:id="lInfoFoundedElements" text="&lt;info founded elements&gt;">
+                                                                    <HBox.margin>
+                                                                        <Insets left="7.0" />
+                                                                    </HBox.margin>
+                                                                </Label>
+                                                                <Pane HBox.hgrow="ALWAYS" />
+                                                                <Button fx:id="bNavigationCreateNewExercise" mnemonicParsing="false" onAction="#onActionCreateNewExercise" text="+" />
+                                                            </children>
+                                                        </HBox>
+                                                        <ListView fx:id="lvNavigationElements" VBox.vgrow="ALWAYS" />
+                                                    </children>
+                                                </VBox>
+                                            </items>
+                                        </SplitPane>
                                     </content>
                                 </Tab>
                                 <Tab closable="false" text="Terms">
@@ -50,11 +81,11 @@
                                                         <Insets bottom="14.0" left="14.0" right="14.0" />
                                                     </VBox.margin>
                                                 </ComboBox>
-                                    <Label fx:id="lInfoFoundedTerms" text="Found 0 Terms">
-                                       <VBox.margin>
-                                          <Insets left="14.0" />
-                                       </VBox.margin>
-                                    </Label>
+                                                <Label fx:id="lInfoFoundedTerms" text="Found 0 Terms">
+                                                    <VBox.margin>
+                                                        <Insets left="14.0" />
+                                                    </VBox.margin>
+                                                </Label>
                                                 <ListView fx:id="lvNavigationTerms" VBox.vgrow="ALWAYS" />
                                             </children>
                                         </VBox>

@@ -22,6 +22,7 @@ topic through `key terms`.
 
 #### Enhancement
 #13 [JUnit] Create UnitTests for the class DataConverter.
+#10 [Performance] Loading more then 3000 testdata entities slows very Navigation Topics.
 
 
 

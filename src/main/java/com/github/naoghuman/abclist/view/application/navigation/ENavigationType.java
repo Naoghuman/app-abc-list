@@ -21,10 +21,10 @@ package com.github.naoghuman.abclist.view.application.navigation;
  * @author Naoghuman
  */
 public enum ENavigationType {
-        
-        EXERCISE,
-        TERM,
-        TOPIC,
-        WELCOME;
-    
+
+    EXERCISE,
+    TERM,
+    TOPIC,
+    WELCOME;
+
 }
