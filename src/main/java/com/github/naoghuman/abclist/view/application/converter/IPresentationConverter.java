@@ -20,7 +20,7 @@ package com.github.naoghuman.abclist.view.application.converter;
  *
  * @author Naoghuman
  */
-public interface INavigationConverter {
+public interface IPresentationConverter {
     
     public void convert(Object entity) throws IllegalArgumentException;
     

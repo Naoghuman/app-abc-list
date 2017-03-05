@@ -21,7 +21,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import com.github.naoghuman.abclist.view.application.converter.INavigationConverter;
+import com.github.naoghuman.abclist.view.application.converter.IPresentationConverter;
 
 /**
  *
@@ -29,15 +29,15 @@ import com.github.naoghuman.abclist.view.application.converter.INavigationConver
  */
 public final class NavigationEntity implements Comparable<NavigationEntity> {
     
-    private final INavigationConverter entityConverter;
+    private final IPresentationConverter entityConverter;
     private final Navigation navigation;
     
-    public NavigationEntity(Navigation navigation, INavigationConverter entityConverter) {
+    public NavigationEntity(Navigation navigation, IPresentationConverter entityConverter) {
         this.navigation = navigation;
         this.entityConverter = entityConverter;
     }
 
-    public INavigationConverter getEntityConverter() {
+    public IPresentationConverter getEntityConverter() {
         return entityConverter;
     }
 

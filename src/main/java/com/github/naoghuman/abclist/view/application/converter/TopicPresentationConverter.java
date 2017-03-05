@@ -22,12 +22,12 @@ import com.github.naoghuman.abclist.model.Topic;
  *
  * @author Naoghuman
  */
-public final class TopicNavigationConverter implements INavigationConverter {
+public final class TopicPresentationConverter implements IPresentationConverter {
     
     private final StringBuilder representation = new StringBuilder();
     private final StringBuilder tooltip = new StringBuilder();
     
-    public TopicNavigationConverter(Topic topic) {
+    public TopicPresentationConverter(Topic topic) {
         this.convert(topic);
     }
 

@@ -24,14 +24,14 @@ import java.util.Date;
  *
  * @author Naoghuman
  */
-public final class ExerciseNavigationConverter implements INavigationConverter {
+public final class ExercisePresentationConverter implements IPresentationConverter {
     
     private final Date date = new Date();
     private final StringBuilder representation = new StringBuilder();
     private final StringBuilder tooltip = new StringBuilder();
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // NOI18N
 
-    public ExerciseNavigationConverter(Exercise exercise) {
+    public ExercisePresentationConverter(Exercise exercise) {
         this.convert(exercise);
     }
     

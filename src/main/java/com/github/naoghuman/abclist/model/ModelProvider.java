@@ -18,8 +18,8 @@ package com.github.naoghuman.abclist.model;
 
 import com.github.naoghuman.abclist.view.application.navigation.ENavigationType;
 import com.github.naoghuman.abclist.view.application.navigation.Navigation;
-import com.github.naoghuman.abclist.view.application.converter.INavigationConverter;
 import java.util.Optional;
+import com.github.naoghuman.abclist.view.application.converter.IPresentationConverter;
 
 /**
  *
@@ -57,7 +57,7 @@ public class ModelProvider {
         return new ExerciseTerm(exerciseId, termId);
     }
     
-    public NavigationEntity getNavigationEntity(ENavigationType navigationType, long entityId, INavigationConverter entityConverter) {
+    public NavigationEntity getNavigationEntity(ENavigationType navigationType, long entityId, IPresentationConverter entityConverter) {
         final Navigation navigation = new Navigation(navigationType, entityId);
         final NavigationEntity navigationEntity = new NavigationEntity(navigation, entityConverter);
         

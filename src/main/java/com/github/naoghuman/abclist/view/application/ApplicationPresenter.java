@@ -31,7 +31,7 @@ import com.github.naoghuman.abclist.model.NavigationEntity;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.abclist.view.application.converter.ExerciseNavigationConverter;
+import com.github.naoghuman.abclist.view.application.converter.ExercisePresentationConverter;
 import com.github.naoghuman.abclist.view.application.navigation.ENavigationType;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
 import com.github.naoghuman.abclist.view.term.TermView;
@@ -436,7 +436,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         topic.setExercises(exercises.size());
         
         final List<NavigationEntity> navigationEntities = exercises.stream()
-                .map((exercise) -> ModelProvider.getDefault().getNavigationEntity(ENavigationType.EXERCISE, exercise.getId(), new ExerciseNavigationConverter(exercise)))
+                .map((exercise) -> ModelProvider.getDefault().getNavigationEntity(ENavigationType.EXERCISE, exercise.getId(), new ExercisePresentationConverter(exercise)))
                 .collect(Collectors.toList());
 
         lvNavigationElements.getItems().clear();
