@@ -49,7 +49,6 @@ public final class TopicPresentationConverter implements IPresentationConverter 
         presentation.append(")"); // NOI18N
         
         // Convert the tooltip
-        tooltip.append(""); // NOI18N
         tooltip.append("Topic '"); // NOI18N
         tooltip.append(topic.getTitle());
         tooltip.append("' contains "); // NOI18N
