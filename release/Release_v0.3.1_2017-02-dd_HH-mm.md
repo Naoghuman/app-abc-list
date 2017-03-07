@@ -23,6 +23,7 @@ topic through `key terms`.
 #### Enhancement
 #14 [JUnit] Add UnitTests for the implementations from the interface IPresentationConverter.
 #13 [JUnit] Create UnitTests for the class DataConverter.
+#11 [Performance] Loading more then 3000 testdata entities slows very Navigation Terms.
 #10 [Performance] Loading more then 3000 testdata entities slows very Navigation Topics.
 
 

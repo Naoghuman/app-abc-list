@@ -16,7 +16,7 @@
  */
 package com.github.naoghuman.abclist.model;
 
-import com.github.naoghuman.abclist.view.application.navigation.Navigation;
+import com.github.naoghuman.abclist.view.application.Navigation;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

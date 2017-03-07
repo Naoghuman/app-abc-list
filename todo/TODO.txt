@@ -2,10 +2,13 @@
 TODO
 --------------------------------------------------------------------------------
 ERROR
+ - In TestdataApplication the %Xy message in the ComboBox ExerciseTerms isn't 
+   correct.
 
 --------------------------------------------------------------------------------
 REFACTORING
-#11 [Performance] Loading more then 3000 testdata entities slows very Navigation Terms.
+NavigationTabTerms
+ - findAllTermsInExerciseTermWithoutParent need to much time
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]

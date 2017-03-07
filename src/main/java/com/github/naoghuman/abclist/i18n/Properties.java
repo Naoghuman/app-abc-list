@@ -14,29 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.view.application.navigation;
+package com.github.naoghuman.abclist.i18n;
+
+import com.github.naoghuman.abclist.configuration.IConverterConfiguration;
+import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 
 /**
  *
  * @author Naoghuman
  */
-public final class Navigation {
-
-    private final ENavigationType navigationType;
-
-    private final long entityId;
-
-    public Navigation(ENavigationType navigationType, long entityId) {
-        this.navigationType = navigationType;
-        this.entityId = entityId;
+public final class Properties {
+    
+    public static String getPropertyForConverter(String propertyKey) {
+        return PropertiesFacade.getDefault().getProperty(IConverterConfiguration.KEY__CONVERTER__RESOURCE_BUNDLE, propertyKey);
     }
-
-    public long getEntityId() {
-        return entityId;
-    }
-
-    public ENavigationType getNavigationType() {
-        return navigationType;
-    }
-
+    
 }

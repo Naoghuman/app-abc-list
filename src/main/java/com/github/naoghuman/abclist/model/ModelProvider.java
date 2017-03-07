@@ -16,8 +16,8 @@
  */
 package com.github.naoghuman.abclist.model;
 
-import com.github.naoghuman.abclist.view.application.navigation.ENavigationType;
-import com.github.naoghuman.abclist.view.application.navigation.Navigation;
+import com.github.naoghuman.abclist.view.application.ENavigationType;
+import com.github.naoghuman.abclist.view.application.Navigation;
 import java.util.Optional;
 import com.github.naoghuman.abclist.view.application.converter.IPresentationConverter;
 

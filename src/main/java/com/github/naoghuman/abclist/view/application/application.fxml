@@ -71,12 +71,12 @@
                                     <content>
                                         <VBox>
                                             <children>
-                                                <Label text="Show all Terms from the selected Topic">
+                                                <Label text="Show all Terms from Topic">
                                                     <VBox.margin>
                                                         <Insets left="14.0" right="14.0" top="14.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="cbNavigationTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowTermsFromSelectedTopic">
+                                                <ComboBox fx:id="cbNavigationTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllTermsFromSelectedTopic">
                                                     <VBox.margin>
                                                         <Insets bottom="14.0" left="14.0" right="14.0" />
                                                     </VBox.margin>
