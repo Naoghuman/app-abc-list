@@ -20,7 +20,7 @@ package com.github.naoghuman.abclist;
 import com.airhacks.afterburner.injection.Injector;
 import com.github.naoghuman.abclist.view.application.ApplicationView;
 import com.github.naoghuman.abclist.configuration.IApplicationConfiguration;
-import com.github.naoghuman.abclist.configuration.IConverterConfiguration;
+import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
@@ -49,7 +49,7 @@ public class StartApplication extends Application implements IApplicationConfigu
         super.init();
         
         PropertiesFacade.getDefault().register(KEY__APPLICATION__RESOURCE_BUNDLE);
-        PropertiesFacade.getDefault().register(IConverterConfiguration.KEY__CONVERTER__RESOURCE_BUNDLE);
+        PropertiesFacade.getDefault().register(IPropertiesConfiguration.KEY__CONVERTER__RESOURCE_BUNDLE);
         
         final char borderSign = this.getProperty(KEY__APPLICATION__BORDER_SIGN).charAt(0);
         final String message = this.getProperty(KEY__APPLICATION__MESSAGE_START);

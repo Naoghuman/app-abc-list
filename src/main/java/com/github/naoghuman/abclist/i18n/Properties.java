@@ -16,17 +16,17 @@
  */
 package com.github.naoghuman.abclist.i18n;
 
-import com.github.naoghuman.abclist.configuration.IConverterConfiguration;
+import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 
 /**
  *
  * @author Naoghuman
  */
-public final class Properties {
+public final class Properties implements IPropertiesConfiguration {
     
     public static String getPropertyForConverter(String propertyKey) {
-        return PropertiesFacade.getDefault().getProperty(IConverterConfiguration.KEY__CONVERTER__RESOURCE_BUNDLE, propertyKey);
+        return PropertiesFacade.getDefault().getProperty(KEY__CONVERTER__RESOURCE_BUNDLE, propertyKey);
     }
     
 }

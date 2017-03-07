@@ -26,4 +26,7 @@ public interface IPropertiesConfiguration {
     
     public static final String STRING_DEFAULT_REGEX = "%s"; // NOI18N
     
+    public static final String INFO__FOUNDED_TERMS = "converter.info.founded.terms"; // NOI18N
+    
+    public static final String KEY__CONVERTER__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/converter.properties"; // NOI18N
 }

@@ -16,7 +16,6 @@
  */
 package com.github.naoghuman.abclist.view.application.converter;
 
-import com.github.naoghuman.abclist.configuration.IConverterConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.abclist.i18n.Properties;
 
@@ -24,7 +23,7 @@ import com.github.naoghuman.abclist.i18n.Properties;
  *
  * @author Naoghuman
  */
-public class TermPresentationConverter implements IConverterConfiguration, IPresentationConverter, IPropertiesConfiguration {
+public class TermPresentationConverter implements IPresentationConverter, IPropertiesConfiguration {
     
     public static String getI18nMsgFoundedTerms(int countFoundedTerms) {
         final String text = Properties.getPropertyForConverter(INFO__FOUNDED_TERMS);
