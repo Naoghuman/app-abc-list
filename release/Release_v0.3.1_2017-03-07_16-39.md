@@ -7,8 +7,8 @@ topic through `key terms`.
 
 
 #### Summary
-* ...
-* ...
+* Update the navigation to master / details view for performance.
+* Add JUnitTests for stabilization.
 
 
 
