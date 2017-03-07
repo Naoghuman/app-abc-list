@@ -16,6 +16,8 @@
  */
 package com.github.naoghuman.abclist.configuration;
 
+import javafx.util.Duration;
+
 /**
  *
  * @author Naoghuman
@@ -28,5 +30,16 @@ public interface IPropertiesConfiguration {
     
     public static final String INFO__FOUNDED_TERMS = "converter.info.founded.terms"; // NOI18N
     
+    public static final Duration LITTLE_DELAY__DURATION_125 = Duration.millis(125.0d);
+    
     public static final String KEY__CONVERTER__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/converter.properties"; // NOI18N
+    public static final String KEY__TESTDATA__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/testdataapplication.properties"; // NOI18N
+    
+    public static final String KEY__TESTDATA_APPLICATION__BORDER_SIGN = "application.testdata.border.sign"; // NOI18N
+    public static final String KEY__TESTDATA_APPLICATION__DATABASE = "application.database"; // NOI18N
+    public static final String KEY__TESTDATA_APPLICATION__MESSAGE_START = "application.testdata.message.start"; // NOI18N
+    public static final String KEY__TESTDATA_APPLICATION__MESSAGE_STOP = "application.testdata.message.stop"; // NOI18N
+    public static final String KEY__TESTDATA_APPLICATION__TITLE = "application.testdata.title"; // NOI18N
+    public static final String KEY__TESTDATA_APPLICATION__VERSION = "application.testdata.version"; // NOI18N
+    
 }
