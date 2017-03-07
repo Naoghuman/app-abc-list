@@ -18,6 +18,7 @@ package com.github.naoghuman.abclist;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
+import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.testdata.TestdataFacade;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
@@ -41,9 +42,9 @@ public class TestdataApplication extends Application implements IPropertiesConfi
     public void init() throws Exception {
         PropertiesFacade.getDefault().register(KEY__TESTDATA__RESOURCE_BUNDLE);
         
-        final char borderSign = this.getProperty(KEY__TESTDATA_APPLICATION__BORDER_SIGN).charAt(0);
-        final String message = this.getProperty(KEY__TESTDATA_APPLICATION__MESSAGE_START);
-        final String title = this.getProperty(KEY__TESTDATA_APPLICATION__TITLE);
+        final char borderSign = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__BORDER_SIGN).charAt(0);
+        final String message = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__MESSAGE_START);
+        final String title = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__TITLE);
         LoggerFacade.getDefault().message(borderSign, 80, message + title);
         
         final Boolean dropPreferencesFileAtStart = Boolean.FALSE;
@@ -53,7 +54,8 @@ public class TestdataApplication extends Application implements IPropertiesConfi
     @Override
     public void start(Stage primaryStage) throws Exception {
         final Scene scene = new Scene(TestdataFacade.getDefault().getView(), 1280.0d, 720.0d);
-        primaryStage.setTitle(this.getProperty(KEY__TESTDATA_APPLICATION__TITLE) + this.getProperty(KEY__TESTDATA_APPLICATION__VERSION));
+        primaryStage.setTitle(Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__TITLE)
+                + Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__VERSION));
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
            we.consume();
@@ -64,14 +66,10 @@ public class TestdataApplication extends Application implements IPropertiesConfi
         primaryStage.show();
     }
     
-    private String getProperty(String propertyKey) {
-        return PropertiesFacade.getDefault().getProperty(KEY__TESTDATA__RESOURCE_BUNDLE, propertyKey);
-    }
-    
     private void onCloseRequest() {
-        final char borderSign = this.getProperty(KEY__TESTDATA_APPLICATION__BORDER_SIGN).charAt(0);
-        final String message = this.getProperty(KEY__TESTDATA_APPLICATION__MESSAGE_STOP);
-        final String title = this.getProperty(KEY__TESTDATA_APPLICATION__TITLE);
+        final char borderSign = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__BORDER_SIGN).charAt(0);
+        final String message = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__MESSAGE_STOP);
+        final String title = Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__TITLE);
         LoggerFacade.getDefault().message(borderSign, 80, message + title);
         
         try {

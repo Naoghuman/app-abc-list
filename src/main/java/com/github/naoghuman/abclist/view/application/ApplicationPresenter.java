@@ -17,9 +17,9 @@
 package com.github.naoghuman.abclist.view.application;
 
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
-import com.github.naoghuman.abclist.configuration.IApplicationConfiguration;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
+import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.json.Project;
 import com.github.naoghuman.abclist.json.SimpleJsonReader;
 import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
@@ -48,7 +48,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,7 +74,7 @@ import javafx.util.Callback;
  * @author Naoghuman
  */
 public class ApplicationPresenter implements Initializable, IActionConfiguration, 
-        IApplicationConfiguration, IDefaultConfiguration, IRegisterActions 
+        IDefaultConfiguration, IPropertiesConfiguration, IRegisterActions 
 {
     @FXML private Button bNavigationCreateNewExercise;
     @FXML private Button bNavigationCreateNewTerm;
@@ -198,7 +197,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Topic]s"); // NOI18N
         
         // Info label for Topics
-        lInfoFoundedTopics.setText(this.getProperty(INFO__FOUNDED_TOPICS).replaceFirst(INFO__DEFAULT_REGEX, INFO__NO_ENTITIES_FOUND));
+        lInfoFoundedTopics.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPICS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(NO_ENTITY)));
 
         // ListView lvNavigationTopics
         final Callback callbackTopics = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
@@ -255,7 +254,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         });
         
         // Info label for TopicElements
-        lInfoFoundedElements.setText(this.getProperty(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(INFO__DEFAULT_REGEX, INFO__NO_ENTITIES_FOUND));
+        lInfoFoundedElements.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(NO_ENTITY)));
         
         // ListView lvNavigationElements
         final Callback callbackNavigationEntitys = (Callback<ListView<NavigationEntity>, ListCell<NavigationEntity>>) (ListView<NavigationEntity> listView) -> new ListCell<NavigationEntity>() {
@@ -299,10 +298,6 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         VBox.setVgrow(parent, Priority.ALWAYS);
         
         vbWorkingArea.getChildren().add(parent);
-    }
-    
-    private String getProperty(String propertyKey) {
-        return PropertiesFacade.getDefault().getProperty(KEY__APPLICATION__RESOURCE_BUNDLE, propertyKey);
     }
     
     public void onActionCreateNewExercise() {
@@ -502,7 +497,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         lvNavigationTopics.getItems().clear();
         lvNavigationTopics.getItems().addAll(topics);
         
-        lInfoFoundedTopics.setText(this.getProperty(INFO__FOUNDED_TOPICS).replaceFirst(INFO__DEFAULT_REGEX, String.valueOf(topics.size())));
+        lInfoFoundedTopics.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPICS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(topics.size())));
     }
 
     private void onActionShowAllExercisesWithTopicId(Topic topic) {
@@ -518,7 +513,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         lvNavigationElements.getItems().clear();
         lvNavigationElements.getItems().addAll(navigationEntities);
         
-        lInfoFoundedElements.setText(this.getProperty(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(INFO__DEFAULT_REGEX, String.valueOf(navigationEntities.size())));
+        lInfoFoundedElements.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(navigationEntities.size())));
     }
     
     public void onActionShowAllTermsFromSelectedTopic() {

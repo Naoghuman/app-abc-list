@@ -20,6 +20,7 @@ import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import static com.github.naoghuman.abclist.configuration.IPropertiesConfiguration.KEY__TESTDATA_APPLICATION__DATABASE;
+import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.Term;
@@ -42,7 +43,6 @@ import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
-import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -319,10 +319,6 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         return model;
     }
     
-    private String getProperty(String propertyKey) {
-        return PropertiesFacade.getDefault().getProperty(KEY__TESTDATA__RESOURCE_BUNDLE, propertyKey);
-    }
-    
     public void onActionCreateTestdata() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create Testdata"); // NOI18N
 
@@ -339,7 +335,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
             ptDropDatabase.setDuration(Duration.millis(50.0d));
             ptDropDatabase.setOnFinished((ActionEvent event) -> {
                 LoggerFacade.getDefault().debug(this.getClass(), "Drop database"); // NOI18N
-                DatabaseFacade.getDefault().drop(this.getProperty(KEY__TESTDATA_APPLICATION__DATABASE));
+                DatabaseFacade.getDefault().drop(Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__DATABASE));
             });
             sequentialTransition.getChildren().add(ptDropDatabase);
         }
@@ -348,7 +344,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         ptRegisterDatabase.setDuration(Duration.millis(150.0d));
         ptRegisterDatabase.setOnFinished((ActionEvent event) -> {
             LoggerFacade.getDefault().debug(this.getClass(), "Register database"); // NOI18N
-            DatabaseFacade.getDefault().register(this.getProperty(KEY__TESTDATA_APPLICATION__DATABASE));
+            DatabaseFacade.getDefault().register(Properties.getPropertyForTestdataApplication(KEY__TESTDATA_APPLICATION__DATABASE));
         });
         sequentialTransition.getChildren().add(ptRegisterDatabase);
         

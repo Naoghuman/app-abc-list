@@ -26,14 +26,28 @@ public interface IPropertiesConfiguration {
     
     public static final int NO_ENTITY = 0;
     
+    public static final int TAB_INDEX__TERMS = 1;
+    public static final int TAB_INDEX__TOPICS = 0;
+    
     public static final String STRING_DEFAULT_REGEX = "%s"; // NOI18N
     
     public static final String INFO__FOUNDED_TERMS = "converter.info.founded.terms"; // NOI18N
+    public static final String INFO__FOUNDED_TOPICS = "application.info.founded.topics"; // NOI18N
+    public static final String INFO__FOUNDED_TOPIC_ELEMENTS = "application.info.founded.topicelements"; // NOI18N
     
     public static final Duration LITTLE_DELAY__DURATION_125 = Duration.millis(125.0d);
     
+    public static final String KEY__APPLICATION__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/application.properties"; // NOI18N
     public static final String KEY__CONVERTER__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/converter.properties"; // NOI18N
     public static final String KEY__TESTDATA__RESOURCE_BUNDLE = "/com/github/naoghuman/abclist/i18n/testdataapplication.properties"; // NOI18N
+    
+    public static final String KEY__APPLICATION__BORDER_SIGN = "application.border.sign"; // NOI18N
+    public static final String KEY__APPLICATION__BUILD_DATETIME = "application.build.datetime"; // NOI18N
+    public static final String KEY__APPLICATION__DATABASE = "application.database"; // NOI18N
+    public static final String KEY__APPLICATION__MESSAGE_START = "application.message.start"; // NOI18N
+    public static final String KEY__APPLICATION__MESSAGE_STOP = "application.message.stop"; // NOI18N
+    public static final String KEY__APPLICATION__TITLE = "application.title"; // NOI18N
+    public static final String KEY__APPLICATION__VERSION = "application.version"; // NOI18N
     
     public static final String KEY__TESTDATA_APPLICATION__BORDER_SIGN = "application.testdata.border.sign"; // NOI18N
     public static final String KEY__TESTDATA_APPLICATION__DATABASE = "application.database"; // NOI18N

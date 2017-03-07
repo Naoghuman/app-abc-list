@@ -25,8 +25,16 @@ import com.github.naoghuman.lib.properties.api.PropertiesFacade;
  */
 public final class Properties implements IPropertiesConfiguration {
     
+    public static String getPropertyForApplication(String propertyKey) {
+        return PropertiesFacade.getDefault().getProperty(KEY__APPLICATION__RESOURCE_BUNDLE, propertyKey);
+    }
+    
     public static String getPropertyForConverter(String propertyKey) {
         return PropertiesFacade.getDefault().getProperty(KEY__CONVERTER__RESOURCE_BUNDLE, propertyKey);
+    }
+    
+    public static String getPropertyForTestdataApplication(String propertyKey) {
+        return PropertiesFacade.getDefault().getProperty(KEY__TESTDATA__RESOURCE_BUNDLE, propertyKey);
     }
     
 }

@@ -19,8 +19,8 @@ package com.github.naoghuman.abclist;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.github.naoghuman.abclist.view.application.ApplicationView;
-import com.github.naoghuman.abclist.configuration.IApplicationConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
+import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
@@ -38,7 +38,7 @@ import static javafx.application.Application.launch;
  *
  * @author Naoghuman
  */
-public class StartApplication extends Application implements IApplicationConfiguration {
+public class StartApplication extends Application implements IPropertiesConfiguration {
 
     public static void main(String[] args) {
         launch(args);
@@ -49,24 +49,26 @@ public class StartApplication extends Application implements IApplicationConfigu
         super.init();
         
         PropertiesFacade.getDefault().register(KEY__APPLICATION__RESOURCE_BUNDLE);
-        PropertiesFacade.getDefault().register(IPropertiesConfiguration.KEY__CONVERTER__RESOURCE_BUNDLE);
+        PropertiesFacade.getDefault().register(KEY__CONVERTER__RESOURCE_BUNDLE);
         
-        final char borderSign = this.getProperty(KEY__APPLICATION__BORDER_SIGN).charAt(0);
-        final String message = this.getProperty(KEY__APPLICATION__MESSAGE_START);
-        final String title = this.getProperty(KEY__APPLICATION__TITLE) + this.getProperty(KEY__APPLICATION__VERSION);
+        final char borderSign = Properties.getPropertyForApplication(KEY__APPLICATION__BORDER_SIGN).charAt(0);
+        final String message = Properties.getPropertyForApplication(KEY__APPLICATION__MESSAGE_START);
+        final String title = Properties.getPropertyForApplication(KEY__APPLICATION__TITLE)
+                + Properties.getPropertyForApplication(KEY__APPLICATION__VERSION);
         LoggerFacade.getDefault().message(borderSign, 80, String.format(message, title));
         
         final Boolean dropPreferencesFileAtStart = Boolean.FALSE;
         PreferencesFacade.getDefault().init(dropPreferencesFileAtStart);
         
-        DatabaseFacade.getDefault().register(this.getProperty(KEY__APPLICATION__DATABASE));
+        DatabaseFacade.getDefault().register(Properties.getPropertyForApplication(KEY__APPLICATION__DATABASE));
     }
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         final ApplicationView applicationView = new ApplicationView();
         final Scene scene = new Scene(applicationView.getView(), 1280, 720);
-        primaryStage.setTitle(this.getProperty(KEY__APPLICATION__TITLE) + this.getProperty(KEY__APPLICATION__VERSION));
+        primaryStage.setTitle(Properties.getPropertyForApplication(KEY__APPLICATION__TITLE)
+                + Properties.getPropertyForApplication(KEY__APPLICATION__VERSION));
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
            we.consume();
@@ -83,10 +85,6 @@ public class StartApplication extends Application implements IApplicationConfigu
         Injector.forgetAll();
     }
     
-    private String getProperty(String propertyKey) {
-        return PropertiesFacade.getDefault().getProperty(KEY__APPLICATION__RESOURCE_BUNDLE, propertyKey);
-    }
-    
     private void onCloseRequest() {
         // afterburner.fx
         Injector.forgetAll();
@@ -95,13 +93,14 @@ public class StartApplication extends Application implements IApplicationConfigu
         DatabaseFacade.getDefault().shutdown();
         
         // Message
-        final char borderSign = this.getProperty(KEY__APPLICATION__BORDER_SIGN).charAt(0);
-        final String message = this.getProperty(KEY__APPLICATION__MESSAGE_STOP);
-        final String title = this.getProperty(KEY__APPLICATION__TITLE) + this.getProperty(KEY__APPLICATION__VERSION);
+        final char borderSign = Properties.getPropertyForApplication(KEY__APPLICATION__BORDER_SIGN).charAt(0);
+        final String message = Properties.getPropertyForApplication(KEY__APPLICATION__MESSAGE_STOP);
+        final String title = Properties.getPropertyForApplication(KEY__APPLICATION__TITLE)
+                + Properties.getPropertyForApplication(KEY__APPLICATION__VERSION);
         LoggerFacade.getDefault().message(borderSign, 80, String.format(message, title));
         
         // Timer
-        final PauseTransition pt = new PauseTransition(DURATION__125);
+        final PauseTransition pt = new PauseTransition(LITTLE_DELAY__DURATION_125);
         pt.setOnFinished((ActionEvent event) -> {
             Platform.exit();
         });
