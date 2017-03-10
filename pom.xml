@@ -144,6 +144,7 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
             <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
+        
         <dependency>
             <groupId>com.airhacks</groupId>
             <artifactId>afterburner.fx</artifactId>

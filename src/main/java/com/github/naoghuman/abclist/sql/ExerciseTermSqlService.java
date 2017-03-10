@@ -21,6 +21,7 @@ import com.github.naoghuman.abclist.configuration.IExerciseTermConfiguration;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
+import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.Query;
+import org.apache.commons.lang3.time.StopWatch;
 
 /**
  *
@@ -73,6 +75,9 @@ public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseT
     }
 
     void deleteAllExerciseTermsWithExerciseId(long exerciseId) {
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        
         final ObservableList<ExerciseTerm> exerciseTerms = SqlProvider.getDefault().findAllExerciseTermsWithExerciseId(exerciseId);
         
         DatabaseFacade.getDefault().getCrudService().beginTransaction();
@@ -81,6 +86,11 @@ public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseT
                     DatabaseFacade.getDefault().getCrudService().getEntityManager().remove(exerciseTerm);
                 });
         DatabaseFacade.getDefault().getCrudService().commitTransaction();
+        
+        stopWatch.split();
+        LoggerFacade.getDefault().debug(this.getClass(), "  + Need " + stopWatch.toSplitString() + " for executing [deleteAllExerciseTermsWithExerciseId(long)]"); // NOI18N
+        this.printToLog(stopWatch.toSplitString(), exerciseTerms.size(), "deleteAllExerciseTermsWithExerciseId(long exerciseId)"); // NOI18N
+        stopWatch.stop();
     }
     
     ObservableList<ExerciseTerm> findAllExerciseTermsWithExerciseId(long exerciseId) {
@@ -159,6 +169,19 @@ public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseT
         }
         
         return isExerciseTermMarkAsWrong;
+    }
+    
+    private void printToLog(String split, int entities, String method) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("  + Need "); // NOI18N
+        sb.append(split);
+        sb.append(" for [");
+        sb.append(entities);
+        sb.append("] entities in [");
+        sb.append(method);
+        sb.append("]");
+        
+        LoggerFacade.getDefault().debug(this.getClass(), sb.toString());
     }
 
     void update(ExerciseTerm exerciseTerm) {

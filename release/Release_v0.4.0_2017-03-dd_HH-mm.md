@@ -21,6 +21,7 @@ topic through `key terms`.
 
 
 #### Enhancement
+#20 [Performance] Add StopWatch to every methods in SqlProvider.
 
 
 

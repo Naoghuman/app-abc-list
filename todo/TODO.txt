@@ -4,11 +4,11 @@ TODO
 ERROR
  - In TestdataApplication the %Xy message in the ComboBox ExerciseTerms isn't 
    correct.
+ - NavigationTabTerms
+    - findAllTermsInExerciseTermWithoutParent need to much time
 
 --------------------------------------------------------------------------------
 REFACTORING
-NavigationTabTerms
- - findAllTermsInExerciseTermWithoutParent need to much time
 
 ExerciseView
  - [Term]s have more options in the [ContextMenu]
