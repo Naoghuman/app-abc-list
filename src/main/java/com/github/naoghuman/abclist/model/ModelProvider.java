@@ -27,10 +27,10 @@ import com.github.naoghuman.abclist.view.application.converter.IPresentationConv
  */
 public class ModelProvider {
     
-    private static final Optional<ModelProvider> instance = Optional.of(new ModelProvider());
+    private static final Optional<ModelProvider> INSTANCE = Optional.of(new ModelProvider());
 
     public static final ModelProvider getDefault() {
-        return instance.get();
+        return INSTANCE.get();
     }
     
     private ModelProvider() {

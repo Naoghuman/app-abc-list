@@ -120,7 +120,7 @@ public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseT
         return allTermsInExerciseTerms;
     }
     
-    ObservableList<Term> findAllTermsInExerciseTermWithoutParent(ObservableList<Term> terms) {
+    ObservableList<Term> findAllTermsInExerciseTermsWithoutParent(ObservableList<Term> terms) {
         final ObservableList<Term> allTermsWithOutParent = FXCollections.observableArrayList();
         
         long counterTermInExercise = NO_TERMS_FOUND;

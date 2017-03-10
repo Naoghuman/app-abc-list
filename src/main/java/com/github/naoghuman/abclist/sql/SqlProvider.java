@@ -153,17 +153,17 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return terms;
     }
 
-    public ObservableList<Term> findAllTermsInExerciseTermWithoutParent() {
+    public ObservableList<Term> findAllTermsInExerciseTermsWithoutParent() {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
         final ObservableList<Term> allTerms = FXCollections.observableArrayList();
         allTerms.addAll(this.findAllTerms());
         
-        final ObservableList<Term> terms = ExerciseTermSqlService.getDefault().findAllTermsInExerciseTermWithoutParent(allTerms);
+        final ObservableList<Term> terms = ExerciseTermSqlService.getDefault().findAllTermsInExerciseTermsWithoutParent(allTerms);
         
         stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTermsInExerciseTermWithoutParent()"); // NOI18N
+        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTermsInExerciseTermsWithoutParent()"); // NOI18N
         stopWatch.stop();
         
         return terms;
@@ -224,7 +224,8 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         
         return topics;
     }
-
+    
+    // TODO UnitTest
     public <T extends Object> Optional<T> findById(Class<T> type, long entityId) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();

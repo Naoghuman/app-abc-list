@@ -535,7 +535,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             terms.addAll(SqlProvider.getDefault().findAllTerms());
         }
         else if (Objects.equals(topicId, DEFAULT_ID__TOPIC__SHOW_ALL_TERMS_WITHOUT_PARENT)) {
-            terms.addAll(SqlProvider.getDefault().findAllTermsInExerciseTermWithoutParent());
+            terms.addAll(SqlProvider.getDefault().findAllTermsInExerciseTermsWithoutParent());
         }
         else {
             terms.addAll(SqlProvider.getDefault().findAllTermsWithTopicId(topicId));
