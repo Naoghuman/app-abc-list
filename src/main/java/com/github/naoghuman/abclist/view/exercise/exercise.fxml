@@ -51,7 +51,7 @@
                 <Insets left="7.0" />
             </padding>
         </HBox>
-        <ScrollPane fx:id="spSigns" fitToHeight="true" fitToWidth="true" prefWidth="400.0" VBox.vgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="400.0" VBox.vgrow="ALWAYS">
             <content>
                 <HBox spacing="7.0">
                <padding>

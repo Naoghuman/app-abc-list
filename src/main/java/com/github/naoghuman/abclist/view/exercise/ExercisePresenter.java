@@ -72,7 +72,6 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
     @FXML private Label lCounterTerms;
     @FXML private Label lCounterTime;
     @FXML private Label lGenerationTime;
-    @FXML private ScrollPane spSigns;
     @FXML private TextField tfUserInput;
     @FXML private VBox vbSignFlowPanesEven;
     @FXML private VBox vbSignFlowPanesUneven;
@@ -145,11 +144,6 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
     private void initializeFlowPaneTerms() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize [FlowPane] [Term]s"); // NOI18N
         
-        spSigns.viewportBoundsProperty().addListener((ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) -> {
-            final Node content = spSigns.getContent();
-            spSigns.setFitToHeight(content.prefHeight(-1) < newValue.getHeight());
-        });
-
         int index = 0;
         for (ESign sign : ESign.values()) {
             final SignFlowPane signFlowPane = new SignFlowPane();
