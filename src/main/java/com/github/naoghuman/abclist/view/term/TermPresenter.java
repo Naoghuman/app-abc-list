@@ -28,9 +28,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 
 /**
  *
@@ -38,6 +40,8 @@ import javafx.scene.control.TextField;
  */
 public class TermPresenter implements Initializable, IActionConfiguration {
     
+    @FXML private Accordion aLinkWorkingArea;
+    @FXML private FlowPane fpThumbnails;
     @FXML private Button bSave;
     @FXML private TextArea taDescription;
     @FXML private TextField tfTitle;
@@ -76,6 +80,16 @@ public class TermPresenter implements Initializable, IActionConfiguration {
     
     public long getId() {
         return term.getId();
+    }
+    
+    public void onActionCreateNewLinkPane() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [LinkPane]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionEditThumbnails() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action edit [Thumbnails]"); // NOI18N
+        // TODO
     }
     
     public void onActionSaveTerm() {
