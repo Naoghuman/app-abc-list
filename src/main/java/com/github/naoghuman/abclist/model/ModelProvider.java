@@ -57,6 +57,14 @@ public class ModelProvider {
         return new ExerciseTerm(exerciseId, termId);
     }
     
+    public Link getLink() {
+        return new Link();
+    }
+    
+    public Link getLink(long id) {
+        return new Link(id);
+    }
+    
     public NavigationEntity getNavigationEntity(ENavigationType navigationType, long entityId, IPresentationConverter entityConverter) {
         final Navigation navigation = new Navigation(navigationType, entityId);
         final NavigationEntity navigationEntity = new NavigationEntity(navigation, entityConverter);
