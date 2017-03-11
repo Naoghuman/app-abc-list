@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.view.exercise;
+package com.github.naoghuman.abclist.view.components;
 
+import com.github.naoghuman.abclist.view.components.CharacterExtractor;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
