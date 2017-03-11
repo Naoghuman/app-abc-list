@@ -1,0 +1,33 @@
+/*
+Copyright (C) 2017 Naoghuman
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* 
+ * This file can be manually injected into your file linkpane.fxml via:
+ * 
+ * <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.naoghuman.abclist.view.components.linkpane.LinkPanePresenter">
+ *     <stylesheets>
+ *         <URL value="@linkpane.css"/>
+ *     </stylesheets>
+ * </AnchorPane>
+ * 
+ * The above shown soucecode will be automatically generated if you have the
+ * options to create (and to inject) the 'optional' .css file into your 
+ * file linkpane.fxml selected in the page 'Optional Files'.
+ * 
+ * Created on : 11.03.2017, 17:35:43
+ * Author     : Naoghuman
+ */
