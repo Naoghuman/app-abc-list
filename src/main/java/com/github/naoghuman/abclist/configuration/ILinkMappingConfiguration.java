@@ -24,8 +24,14 @@ public interface ILinkMappingConfiguration {
     
     public static final String ENTITY__TABLE_NAME__LINK_MAPPING = "LinkMapping"; // NOI18N
     
-    public static final String NAMED_QUERY__NAME__FIND_ALL = "LinkMapping.findAll"; // NOI18N
-    public static final String NAMED_QUERY__QUERY__FIND_ALL = "SELECT lm FROM LinkMapping lm"; // NOI18N
+    public static final String NAMED_QUERY__NAME__COUNT_ALL_LINK_MAPPINGS_WITH_LINK_ID = "LinkMapping.countAllLinkMappingsWithLinkId"; // NOI18N
+    public static final String NAMED_QUERY__QUERY__COUNT_ALL_LINK_MAPPINGS_WITH_LINK_ID = "SELECT COUNT(lm) FROM LinkMapping lm WHERE lm.linkId == :linkId"; // NOI18N
+    
+    public static final String NAMED_QUERY__NAME__FIND_ALL_LINK_MAPPINGS_WITH_PARENT_ID = "LinkMapping.findAllLinkMappingsWithParentId"; // NOI18N
+    public static final String NAMED_QUERY__QUERY__FIND_ALL_LINK_MAPPINGS_WITH_PARENT_ID = "SELECT lm FROM LinkMapping lm WHERE lm.parentId == :parentId"; // NOI18N
+    
+    public static final String NAMED_QUERY__NAME__FIND_LINK_MAPPING_WITH_PARENT_ID_AND_LINK_ID = "LinkMapping.findLinkMappingWithParentIdAndLinkId"; // NOI18N
+    public static final String NAMED_QUERY__QUERY__FIND_LINK_MAPPING_WITH_PARENT_ID_AND_LINK_ID = "SELECT lm FROM LinkMapping lm WHERE lm.parentId == :parentId AND lm.linkId == :linkId"; // NOI18N
     
     public static final String LINK_MAPPING__COLUMN_NAME__ID = "id"; // NOI18N
     public static final String LINK_MAPPING__COLUMN_NAME__LINK_ID = "linkId"; // NOI18N

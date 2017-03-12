@@ -14,7 +14,7 @@
     <children>
         <VBox layoutX="100.0" layoutY="23.0" spacing="7.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
-                <Label text="Entity: Term">
+                <Label text="Entity: Link">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -63,7 +63,7 @@
                             <children>
                                 <VBox>
                                     <children>
-                                        <Label text="Process entities Link">
+                                        <Label text="Process for generation">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>

@@ -24,8 +24,14 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,21 +41,35 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * 
  * @author Naoghuman
  */
-public class MappingLink implements Comparable<MappingLink>, Externalizable, IDefaultConfiguration, ILinkMappingConfiguration {
+@Entity
+@Access(AccessType.PROPERTY)
+@Table(name = ILinkMappingConfiguration.ENTITY__TABLE_NAME__LINK_MAPPING)
+@NamedQueries({
+    @NamedQuery(
+            name = ILinkMappingConfiguration.NAMED_QUERY__NAME__COUNT_ALL_LINK_MAPPINGS_WITH_LINK_ID,
+            query = ILinkMappingConfiguration.NAMED_QUERY__QUERY__COUNT_ALL_LINK_MAPPINGS_WITH_LINK_ID),
+    @NamedQuery(
+            name = ILinkMappingConfiguration.NAMED_QUERY__NAME__FIND_ALL_LINK_MAPPINGS_WITH_PARENT_ID,
+            query = ILinkMappingConfiguration.NAMED_QUERY__QUERY__FIND_ALL_LINK_MAPPINGS_WITH_PARENT_ID),
+    @NamedQuery(
+            name = ILinkMappingConfiguration.NAMED_QUERY__NAME__FIND_LINK_MAPPING_WITH_PARENT_ID_AND_LINK_ID,
+            query = ILinkMappingConfiguration.NAMED_QUERY__QUERY__FIND_LINK_MAPPING_WITH_PARENT_ID_AND_LINK_ID)
+})
+public class LinkMapping implements Comparable<LinkMapping>, Externalizable, IDefaultConfiguration, ILinkMappingConfiguration {
         
-    public MappingLink() {
+    public LinkMapping() {
         this(DEFAULT_ID);
     }
     
-    public MappingLink(long id) {
+    public LinkMapping(long id) {
         this(id, DEFAULT_ID, DEFAULT_ID);
     }
     
-    public MappingLink(long linkId, long parentId) {
+    public LinkMapping(long linkId, long parentId) {
         this(DEFAULT_ID, linkId, parentId);
     }
     
-    public MappingLink(long id, long linkId, long parentId) {
+    public LinkMapping(long id, long linkId, long parentId) {
         this.setId(id);
         this.setLinkId(linkId);
         this.setParentId(parentId);
@@ -149,7 +169,7 @@ public class MappingLink implements Comparable<MappingLink>, Externalizable, IDe
     // END  PARENT-ID ----------------------------------------------------------
 	
     @Override
-    public int compareTo(MappingLink other) {
+    public int compareTo(LinkMapping other) {
         return new CompareToBuilder()
                 .append(this.getParentId(), other.getParentId())
                 .append(this.getLinkId(), other.getLinkId())
@@ -170,7 +190,7 @@ public class MappingLink implements Comparable<MappingLink>, Externalizable, IDe
             return false;
         }
         
-        final MappingLink other = (MappingLink) obj;
+        final LinkMapping other = (LinkMapping) obj;
         return new EqualsBuilder()
                 .append(this.getId(), other.getId())
                 .append(this.getParentId(), other.getParentId())

@@ -36,12 +36,12 @@ import org.apache.commons.lang3.time.StopWatch;
  *
  * @author Naoghuman
  */
-public class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseTermConfiguration {
+final class ExerciseTermSqlService implements IDefaultConfiguration, IExerciseTermConfiguration {
     
-    private static final Optional<ExerciseTermSqlService> instance = Optional.of(new ExerciseTermSqlService());
+    private static final Optional<ExerciseTermSqlService> INSTANCE = Optional.of(new ExerciseTermSqlService());
 
     public static final ExerciseTermSqlService getDefault() {
-        return instance.get();
+        return INSTANCE.get();
     }
     
     private ExerciseTermSqlService() {

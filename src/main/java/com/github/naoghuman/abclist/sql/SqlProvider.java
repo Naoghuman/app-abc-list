@@ -20,6 +20,7 @@ import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.IExerciseTermConfiguration;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
+import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -125,6 +126,19 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
         
         return exercises;
+    }
+    
+    public ObservableList<Link> findAllLinks() {
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        
+        final ObservableList<Link> links = LinkSqlService.getDefault().findAllLinks();
+        
+        stopWatch.split();
+        this.printToLog(stopWatch.toSplitString(), links.size(), "findAllLinks()"); // NOI18N
+        stopWatch.stop();
+        
+        return links;
     }
     
     public ObservableList<Term> findAllTerms() {

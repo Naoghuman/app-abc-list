@@ -32,12 +32,12 @@ import javafx.collections.ObservableList;
  *
  * @author Naoghuman
  */
-public class TermSqlService implements IDefaultConfiguration, ITermConfiguration {
+final class TermSqlService implements IDefaultConfiguration, ITermConfiguration {
     
-    private static final Optional<TermSqlService> instance = Optional.of(new TermSqlService());
+    private static final Optional<TermSqlService> INSTANCE = Optional.of(new TermSqlService());
 
     public static final TermSqlService getDefault() {
-        return instance.get();
+        return INSTANCE.get();
     }
     
     private TermSqlService() {

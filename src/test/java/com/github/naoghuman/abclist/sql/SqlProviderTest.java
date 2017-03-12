@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 PRo
+ * Copyright (C) 2017 Naoghuman
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author PRo
+ * @author Naoghuman
  */
 public class SqlProviderTest implements IDefaultConfiguration {
     
@@ -360,6 +360,15 @@ public class SqlProviderTest implements IDefaultConfiguration {
         DatabaseFacade.getDefault()
                 .getCrudService("testFindAllExercisesWithTopicId()")
                 .delete(Exercise.class, exercise2.getId());
+    }
+
+    @Test
+    public void testFindAllLinks() {
+        LoggerFacade.getDefault().own(SqlProviderTest.class, "testFindAllLinks()"); // NOI18N
+        
+        // ---------------------------------------------------------------------
+        try { Thread.sleep(15); } catch (InterruptedException e) { }
+        // TODO
     }
 
     @Test

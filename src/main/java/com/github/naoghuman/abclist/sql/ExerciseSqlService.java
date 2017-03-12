@@ -32,12 +32,12 @@ import javafx.collections.ObservableList;
  *
  * @author Naoghuman
  */
-public class ExerciseSqlService implements IDefaultConfiguration, IExerciseConfiguration {
+final class ExerciseSqlService implements IDefaultConfiguration, IExerciseConfiguration {
     
-    private static final Optional<ExerciseSqlService> instance = Optional.of(new ExerciseSqlService());
+    private static final Optional<ExerciseSqlService> INSTANCE = Optional.of(new ExerciseSqlService());
 
     public static final ExerciseSqlService getDefault() {
-        return instance.get();
+        return INSTANCE.get();
     }
     
     private ExerciseSqlService() {

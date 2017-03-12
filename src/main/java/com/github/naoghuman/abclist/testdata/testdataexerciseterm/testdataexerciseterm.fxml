@@ -49,7 +49,7 @@
                             <children>
                                 <VBox>
                                     <children>
-                                        <Label text="Process entities ExerciseTerm">
+                                        <Label text="Process for generation">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin>

@@ -65,6 +65,10 @@ public class ModelProvider {
         return new Link(id);
     }
     
+    public LinkMapping getLinkMapping() {
+        return new LinkMapping();
+    }
+    
     public NavigationEntity getNavigationEntity(ENavigationType navigationType, long entityId, IPresentationConverter entityConverter) {
         final Navigation navigation = new Navigation(navigationType, entityId);
         final NavigationEntity navigationEntity = new NavigationEntity(navigation, entityConverter);

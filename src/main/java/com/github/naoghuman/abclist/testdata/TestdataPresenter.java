@@ -23,6 +23,7 @@ import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.Link;
+import com.github.naoghuman.abclist.model.LinkMapping;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
@@ -31,6 +32,7 @@ import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
 import com.github.naoghuman.abclist.testdata.service.ExerciseService;
 import com.github.naoghuman.abclist.testdata.service.ExerciseTermService;
+import com.github.naoghuman.abclist.testdata.service.LinkMappingService;
 import com.github.naoghuman.abclist.testdata.service.LinkService;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
 import com.github.naoghuman.abclist.testdata.service.SequentialThreadFactory;
@@ -41,6 +43,8 @@ import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerci
 import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermView;
 import com.github.naoghuman.abclist.testdata.testdatalink.TestdataLinkPresenter;
 import com.github.naoghuman.abclist.testdata.testdatalink.TestdataLinkView;
+import com.github.naoghuman.abclist.testdata.testdatalinkmapping.TestdataLinkMappingPresenter;
+import com.github.naoghuman.abclist.testdata.testdatalinkmapping.TestdataLinkMappingView;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -171,6 +175,11 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         linkView.setId(Link.class.getSimpleName());
         linkView.getRealPresenter().bind(disableProperty);
         ENTITIES.put(Link.class.getSimpleName(), linkView);
+        
+        final TestdataLinkMappingView linkMappingView = new TestdataLinkMappingView();
+        linkMappingView.setId(LinkMapping.class.getSimpleName());
+        linkMappingView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(LinkMapping.class.getSimpleName(), linkMappingView);
     }
     
     private void initializeListView() {
@@ -454,6 +463,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
                     this.configureServiceForEntityTerm(entityName, lastActiveService);
                     this.configureServiceForEntityExerciseTerm(entityName, lastActiveService);
                     this.configureServiceForEntityLink(entityName, lastActiveService);
+                    this.configureServiceForEntityLinkMapping(entityName, lastActiveService);
                 });
     }
 
@@ -463,14 +473,30 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         }
         
         final ExerciseService service = new ExerciseService(Exercise.class.getName());
-        final TestdataExercisePresenter presenter = (TestdataExercisePresenter) ENTITIES.get(
-                Exercise.class.getSimpleName()).getPresenter();
+        final TestdataExercisePresenter presenter = (TestdataExercisePresenter) ENTITIES.get(Exercise.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity Exercise..."); // NOI18N
+        service.setOnStart("Start with testdata generation for entity Exercise..."); // NOI18N
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity Exercise..."); // NOI18N
+                "Ready with testdata generation for entity Exercise..."); // NOI18N
+        
+        service.start();
+    }
+
+    private void configureServiceForEntityExerciseTerm(String entityName, String lastActiveService) {
+        if (!entityName.equals(ExerciseTerm.class.getSimpleName())) {
+            return;
+        }
+        
+        final ExerciseTermService service = new ExerciseTermService(ExerciseTerm.class.getName());
+        final TestdataExerciseTermPresenter presenter = (TestdataExerciseTermPresenter) ENTITIES.get(ExerciseTerm.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation for entity ExerciseTerm..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation for entity ExerciseTerm..."); // NOI18N
         
         service.start();
     }
@@ -484,28 +510,27 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         final TestdataLinkPresenter presenter = (TestdataLinkPresenter) ENTITIES.get(Link.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity Link..."); // NOI18N
+        service.setOnStart("Start with testdata generation for entity Link..."); // NOI18N
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity Link..."); // NOI18N
+                "Ready with testdata generation for entity Link..."); // NOI18N
         
         service.start();
     }
 
-    private void configureServiceForEntityExerciseTerm(String entityName, String lastActiveService) {
-        if (!entityName.equals(ExerciseTerm.class.getSimpleName())) {
+    private void configureServiceForEntityLinkMapping(String entityName, String lastActiveService) {
+        if (!entityName.equals(LinkMapping.class.getSimpleName())) {
             return;
         }
         
-        final ExerciseTermService service = new ExerciseTermService(ExerciseTerm.class.getName());
-        final TestdataExerciseTermPresenter presenter = (TestdataExerciseTermPresenter) ENTITIES.get(
-                ExerciseTerm.class.getSimpleName()).getPresenter();
+        final LinkMappingService service = new LinkMappingService(LinkMapping.class.getName());
+        final TestdataLinkMappingPresenter presenter = (TestdataLinkMappingPresenter) ENTITIES.get(LinkMapping.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity ExerciseTerm..."); // NOI18N
+        service.setOnStart("Start with testdata generation for entity LinkMapping..."); // NOI18N
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity ExerciseTerm..."); // NOI18N
+                "Ready with testdata generation for entity LinkMapping..."); // NOI18N
         
         service.start();
     }
@@ -519,10 +544,10 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         final TestdataTermPresenter presenter = (TestdataTermPresenter) ENTITIES.get(Term.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity Term..."); // NOI18N
+        service.setOnStart("Start with testdata generation for entity Term..."); // NOI18N
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity Term..."); // NOI18N
+                "Ready with testdata generation for entity Term..."); // NOI18N
         
         service.start();
     }
@@ -536,10 +561,10 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         final TestdataTopicPresenter presenter = (TestdataTopicPresenter) ENTITIES.get(Topic.class.getSimpleName()).getPresenter();
         service.bind(presenter);
         service.setExecutor(sequentialExecutorService);
-        service.setOnStart("Start with testdata generation from entity Topic..."); // NOI18N
+        service.setOnStart("Start with testdata generation for entity Topic..."); // NOI18N
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
-                "Ready with testdata generation from entity Topic..."); // NOI18N
+                "Ready with testdata generation for entity Topic..."); // NOI18N
         
         service.start();
     }

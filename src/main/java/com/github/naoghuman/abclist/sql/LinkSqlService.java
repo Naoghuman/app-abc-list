@@ -17,8 +17,8 @@
 package com.github.naoghuman.abclist.sql;
 
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
-import com.github.naoghuman.abclist.configuration.ITopicConfiguration;
-import com.github.naoghuman.abclist.model.Topic;
+import com.github.naoghuman.abclist.configuration.ILinkConfiguration;
+import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import java.util.Collections;
 import java.util.List;
@@ -31,41 +31,41 @@ import javafx.collections.ObservableList;
  *
  * @author Naoghuman
  */
-final class TopicSqlService implements IDefaultConfiguration {
+final class LinkSqlService implements IDefaultConfiguration, ILinkConfiguration {
     
-    private static final Optional<TopicSqlService> INSTANCE = Optional.of(new TopicSqlService());
+    private static final Optional<LinkSqlService> INSTANCE = Optional.of(new LinkSqlService());
 
-    public static final TopicSqlService getDefault() {
+    public static final LinkSqlService getDefault() {
         return INSTANCE.get();
     }
     
-    private TopicSqlService() {
+    private LinkSqlService() {
         
     }
     
-    void create(Topic topic) {
-        if (Objects.equals(topic.getId(), DEFAULT_ID)) {
-            topic.setId(System.currentTimeMillis());
-            DatabaseFacade.getDefault().getCrudService().create(topic);
+    void create(Link link) {
+        if (Objects.equals(link.getId(), DEFAULT_ID)) {
+            link.setId(System.currentTimeMillis());
+            DatabaseFacade.getDefault().getCrudService().create(link);
         }
         else {
-            this.update(topic);
+            this.update(link);
         }
     }
     
-    ObservableList<Topic> findAllTopics() {
-        final ObservableList<Topic> allTopics = FXCollections.observableArrayList();
-        final List<Topic> topics = DatabaseFacade.getDefault().getCrudService()
-                .findByNamedQuery(Topic.class, ITopicConfiguration.NAMED_QUERY__NAME__FIND_ALL);
+    ObservableList<Link> findAllLinks() {
+        final ObservableList<Link> allLinks = FXCollections.observableArrayList();
+        final List<Link> links = DatabaseFacade.getDefault().getCrudService()
+                .findByNamedQuery(Link.class, NAMED_QUERY__NAME__FIND_ALL);
         
-        allTopics.addAll(topics);
-        Collections.sort(allTopics);
+        allLinks.addAll(links);
+        Collections.sort(allLinks);
 
-        return allTopics;
+        return allLinks;
     }
     
-    void update(Topic topic) {
-        DatabaseFacade.getDefault().getCrudService().update(topic);
+    void update(Link link) {
+        DatabaseFacade.getDefault().getCrudService().update(link);
     }
     
 }

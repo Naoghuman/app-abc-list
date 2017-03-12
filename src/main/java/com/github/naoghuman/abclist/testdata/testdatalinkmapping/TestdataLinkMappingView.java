@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.testdata.testdatalink;
+package com.github.naoghuman.abclist.testdata.testdatalinkmapping;
 
 import com.airhacks.afterburner.views.FXMLView;
 
@@ -22,10 +22,10 @@ import com.airhacks.afterburner.views.FXMLView;
  *
  * @author Naoghuman
  */
-public class TestdataLinkView extends FXMLView {
+public class TestdataLinkMappingView extends FXMLView {
     
-    public TestdataLinkPresenter getRealPresenter() {
-        return (TestdataLinkPresenter) super.getPresenter();
+    public TestdataLinkMappingPresenter getRealPresenter() {
+        return (TestdataLinkMappingPresenter) super.getPresenter();
     }
     
 }
