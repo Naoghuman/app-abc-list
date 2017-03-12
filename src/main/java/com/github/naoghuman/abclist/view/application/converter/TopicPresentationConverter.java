@@ -16,13 +16,22 @@
  */
 package com.github.naoghuman.abclist.view.application.converter;
 
+import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
+import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.model.Topic;
 
 /**
  *
  * @author Naoghuman
  */
-public final class TopicPresentationConverter implements IPresentationConverter {
+public final class TopicPresentationConverter implements IPresentationConverter, IPropertiesConfiguration {
+    
+    public static String getI18nMsgFoundedEntities(String propertyKey, int countFoundedEntities) {
+        final String text = Properties.getPropertyForConverter(propertyKey);
+        final String textFoundedEntities = text.replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(countFoundedEntities));
+        
+        return textFoundedEntities;
+    }
     
     private final StringBuilder presentation = new StringBuilder();
     private final StringBuilder tooltip = new StringBuilder();

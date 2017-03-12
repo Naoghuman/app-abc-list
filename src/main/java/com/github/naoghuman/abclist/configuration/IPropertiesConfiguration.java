@@ -31,9 +31,10 @@ public interface IPropertiesConfiguration {
     
     public static final String STRING_DEFAULT_REGEX = "%s"; // NOI18N
     
+    public static final String INFO__FOUNDED_LINKS = "converter.info.founded.links"; // NOI18N
     public static final String INFO__FOUNDED_TERMS = "converter.info.founded.terms"; // NOI18N
-    public static final String INFO__FOUNDED_TOPICS = "application.info.founded.topics"; // NOI18N
-    public static final String INFO__FOUNDED_TOPIC_ELEMENTS = "application.info.founded.topicelements"; // NOI18N
+    public static final String INFO__FOUNDED_TOPICS = "converter.info.founded.topics"; // NOI18N
+    public static final String INFO__FOUNDED_TOPIC_ELEMENTS = "converter.info.founded.topicelements"; // NOI18N
     
     public static final Duration LITTLE_DELAY__DURATION_125 = Duration.millis(125.0d);
     

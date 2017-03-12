@@ -23,10 +23,10 @@ import com.github.naoghuman.abclist.i18n.Properties;
  *
  * @author Naoghuman
  */
-public class TermPresentationConverter implements IPresentationConverter, IPropertiesConfiguration {
+public class LinkPresentationConverter implements IPresentationConverter, IPropertiesConfiguration {
     
     public static String getI18nMsgFoundedEntities(int countFoundedEntities) {
-        final String text = Properties.getPropertyForConverter(INFO__FOUNDED_TERMS);
+        final String text = Properties.getPropertyForConverter(INFO__FOUNDED_LINKS);
         final String textFoundedEntities = text.replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(countFoundedEntities));
         
         return textFoundedEntities;

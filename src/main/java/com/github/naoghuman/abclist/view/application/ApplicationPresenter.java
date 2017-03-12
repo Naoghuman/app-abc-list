@@ -25,6 +25,7 @@ import com.github.naoghuman.abclist.json.SimpleJsonReader;
 import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
 import com.github.naoghuman.abclist.view.exercise.ExerciseView;
 import com.github.naoghuman.abclist.model.Exercise;
+import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.NavigationEntity;
 import com.github.naoghuman.abclist.model.Term;
@@ -32,6 +33,7 @@ import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.abclist.view.application.converter.ExercisePresentationConverter;
 import com.github.naoghuman.abclist.view.application.converter.TermPresentationConverter;
+import com.github.naoghuman.abclist.view.application.converter.TopicPresentationConverter;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
 import com.github.naoghuman.abclist.view.term.TermView;
 import com.github.naoghuman.abclist.view.topic.TopicPresenter;
@@ -41,7 +43,6 @@ import com.github.naoghuman.lib.action.api.ActionFacade;
 import com.github.naoghuman.lib.action.api.IRegisterActions;
 import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
-import com.github.naoghuman.lib.properties.api.PropertiesFacade;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -79,10 +80,13 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
     @FXML private Button bNavigationCreateNewExercise;
     @FXML private Button bNavigationCreateNewTerm;
     @FXML private ComboBox<Topic> cbNavigationTopics;
+    @FXML private ComboBox<Topic> cbNavigationTopicsAndTerms;
     @FXML private Label lInfoFoundedElements;
+    @FXML private Label lInfoFoundedLinks;
     @FXML private Label lInfoFoundedTerms;
     @FXML private Label lInfoFoundedTopics;
     @FXML private ListView<NavigationEntity> lvNavigationElements;
+    @FXML private ListView<Link> lvNavigationLinks;
     @FXML private ListView<Term> lvNavigationTerms;
     @FXML private ListView<Topic> lvNavigationTopics;
     @FXML private SplitPane spApplication;
@@ -131,7 +135,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                     if (newValue.intValue() == 1) {
                         // Reset gui
                         cbNavigationTopics.getSelectionModel().clearSelection();
-                        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedTerms(IPropertiesConfiguration.NO_ENTITY));
+                        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
                         lvNavigationTerms.getItems().clear();
                         
                         // Load new [Topic]
@@ -164,7 +168,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         cbNavigationTopics.setCellFactory(callbackTopics);
         
         // ListView lvNavigationTerms
-        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedTerms(IPropertiesConfiguration.NO_ENTITY));
+        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
         
         final Callback callbackTerms = (Callback<ListView<Term>, ListCell<Term>>) (ListView<Term> listView) -> new ListCell<Term>() {
             @Override
@@ -197,7 +201,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Topic]s"); // NOI18N
         
         // Info label for Topics
-        lInfoFoundedTopics.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPICS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(NO_ENTITY)));
+        lInfoFoundedTopics.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPICS, NO_ENTITY));
 
         // ListView lvNavigationTopics
         final Callback callbackTopics = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
@@ -254,7 +258,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         });
         
         // Info label for TopicElements
-        lInfoFoundedElements.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(NO_ENTITY)));
+        lInfoFoundedElements.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, NO_ENTITY));
         
         // ListView lvNavigationElements
         final Callback callbackNavigationEntitys = (Callback<ListView<NavigationEntity>, ListCell<NavigationEntity>>) (ListView<NavigationEntity> listView) -> new ListCell<NavigationEntity>() {
@@ -497,7 +501,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         lvNavigationTopics.getItems().clear();
         lvNavigationTopics.getItems().addAll(topics);
         
-        lInfoFoundedTopics.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPICS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(topics.size())));
+        lInfoFoundedTopics.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPICS, topics.size()));
     }
 
     private void onActionShowAllExercisesWithTopicId(Topic topic) {
@@ -513,13 +517,17 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         lvNavigationElements.getItems().clear();
         lvNavigationElements.getItems().addAll(navigationEntities);
         
-        lInfoFoundedElements.setText(Properties.getPropertyForApplication(INFO__FOUNDED_TOPIC_ELEMENTS).replaceFirst(STRING_DEFAULT_REGEX, String.valueOf(navigationEntities.size())));
+        lInfoFoundedElements.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, navigationEntities.size()));
+    }
+    
+    public void onActionShowAllLinksFromSelectedTopicOrTerm() {
+        
     }
     
     public void onActionShowAllTermsFromSelectedTopic() {
         // Is any [Topic] in the [ComboBox] selected?
         if (cbNavigationTopics.getSelectionModel().isEmpty()) {
-            lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedTerms(IPropertiesConfiguration.NO_ENTITY));
+            lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
             return;
         }
         
@@ -542,7 +550,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         }
         
         // Show them in gui
-        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedTerms(terms.size()));
+        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(terms.size()));
          
         lvNavigationTerms.getItems().clear();
         lvNavigationTerms.getItems().addAll(terms);
