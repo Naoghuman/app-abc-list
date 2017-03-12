@@ -19,10 +19,10 @@ package com.github.naoghuman.abclist.testdata;
 import com.airhacks.afterburner.views.FXMLView;
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
-import static com.github.naoghuman.abclist.configuration.IPropertiesConfiguration.KEY__TESTDATA_APPLICATION__DATABASE;
 import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
+import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.testdata.testdatatopic.TestdataTopicPresenter;
@@ -31,6 +31,7 @@ import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCell;
 import com.github.naoghuman.abclist.testdata.listview.CheckBoxListCellModel;
 import com.github.naoghuman.abclist.testdata.service.ExerciseService;
 import com.github.naoghuman.abclist.testdata.service.ExerciseTermService;
+import com.github.naoghuman.abclist.testdata.service.LinkService;
 import com.github.naoghuman.abclist.testdata.service.TopicService;
 import com.github.naoghuman.abclist.testdata.service.SequentialThreadFactory;
 import com.github.naoghuman.abclist.testdata.service.TermService;
@@ -38,6 +39,8 @@ import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExercisePr
 import com.github.naoghuman.abclist.testdata.testdataexercise.TestdataExerciseView;
 import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermPresenter;
 import com.github.naoghuman.abclist.testdata.testdataexerciseterm.TestdataExerciseTermView;
+import com.github.naoghuman.abclist.testdata.testdatalink.TestdataLinkPresenter;
+import com.github.naoghuman.abclist.testdata.testdatalink.TestdataLinkView;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermPresenter;
 import com.github.naoghuman.abclist.testdata.testdataterm.TestdataTermView;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -163,6 +166,11 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         exerciseTermView.getView().setId(ExerciseTerm.class.getSimpleName());
         exerciseTermView.getRealPresenter().bind(disableProperty);
         ENTITIES.put(ExerciseTerm.class.getSimpleName(), exerciseTermView);
+        
+        final TestdataLinkView linkView = new TestdataLinkView();
+        linkView.setId(Link.class.getSimpleName());
+        linkView.getRealPresenter().bind(disableProperty);
+        ENTITIES.put(Link.class.getSimpleName(), linkView);
     }
     
     private void initializeListView() {
@@ -445,6 +453,7 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
                     this.configureServiceForEntityExercise(entityName, lastActiveService);
                     this.configureServiceForEntityTerm(entityName, lastActiveService);
                     this.configureServiceForEntityExerciseTerm(entityName, lastActiveService);
+                    this.configureServiceForEntityLink(entityName, lastActiveService);
                 });
     }
 
@@ -462,6 +471,23 @@ public class TestdataPresenter implements Initializable, IPreferencesConfigurati
         service.setOnSuccededAfterService(
                 this.getTestdataPresenter(entityName, lastActiveService),
                 "Ready with testdata generation from entity Exercise..."); // NOI18N
+        
+        service.start();
+    }
+
+    private void configureServiceForEntityLink(String entityName, String lastActiveService) {
+        if (!entityName.equals(Link.class.getSimpleName())) {
+            return;
+        }
+        
+        final LinkService service = new LinkService(Link.class.getName());
+        final TestdataLinkPresenter presenter = (TestdataLinkPresenter) ENTITIES.get(Link.class.getSimpleName()).getPresenter();
+        service.bind(presenter);
+        service.setExecutor(sequentialExecutorService);
+        service.setOnStart("Start with testdata generation from entity Link..."); // NOI18N
+        service.setOnSuccededAfterService(
+                this.getTestdataPresenter(entityName, lastActiveService),
+                "Ready with testdata generation from entity Link..."); // NOI18N
         
         service.start();
     }

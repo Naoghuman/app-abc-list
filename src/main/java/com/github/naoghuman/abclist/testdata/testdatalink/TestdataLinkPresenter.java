@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.testdata.testdataexerciseterm;
+package com.github.naoghuman.abclist.testdata.testdatalink;
 
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.abclist.testdata.entity.EntityHelper;
@@ -37,21 +37,23 @@ import javafx.util.Callback;
  *
  * @author Naoghuman
  */
-public class TestdataExerciseTermPresenter implements Initializable, IPreferencesConfiguration {
+public class TestdataLinkPresenter implements Initializable, IPreferencesConfiguration {
     
     @FXML private ComboBox cbQuantityEntities;
+    @FXML private ComboBox cbQuantityTimePeriod;
     @FXML private Label lProgressBarInformation;
     @FXML private Label lProgressBarPercentInformation;
     @FXML private ProgressBar pbEntity;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataExerciseTermPresenter"); // NOI18N
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataLinkPresenter"); // NOI18N
         
-        assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'testdataexerciseterm.fxml'."; // NOI18N
-        assert (lProgressBarInformation != null)        : "fx:id=\"lProgressBarInformation\" was not injected: check your FXML file 'testdataexerciseterm.fxml'."; // NOI18N
-        assert (lProgressBarPercentInformation != null) : "fx:id=\"lProgressBarPercentInformation\" was not injected: check your FXML file 'testdataexerciseterm.fxml'."; // NOI18N
-        assert (pbEntity != null)                       : "fx:id=\"pbEntity\" was not injected: check your FXML file 'testdataexerciseterm.fxml'."; // NOI18N
+        assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'testdatalink.fxml'."; // NOI18N
+        assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'testdatalink.fxml'."; // NOI18N
+        assert (lProgressBarInformation != null)        : "fx:id=\"lProgressBarInformation\" was not injected: check your FXML file 'testdatalink.fxml'."; // NOI18N
+        assert (lProgressBarPercentInformation != null) : "fx:id=\"lProgressBarPercentInformation\" was not injected: check your FXML file 'testdatalink.fxml'."; // NOI18N
+        assert (pbEntity != null)                       : "fx:id=\"pbEntity\" was not injected: check your FXML file 'testdatalink.fxml'."; // NOI18N
     
         this.initializeComboBoxes();
     }
@@ -60,8 +62,6 @@ public class TestdataExerciseTermPresenter implements Initializable, IPreference
         LoggerFacade.getDefault().info(this.getClass(), "Initialize ComboBoxes"); // NOI18N
         
         cbQuantityEntities.getItems().addAll(EntityHelper.getDefault().getQuantityEntities());
-//        cbQuantityEntities.getItems().remove(cbQuantityEntities.getItems().size() - 1);
-//        cbQuantityEntities.getItems().remove(cbQuantityEntities.getItems().size() - 1);
         cbQuantityEntities.setCellFactory(new Callback<ListView<Integer>, ListCell<Integer>>() {
 
             @Override
@@ -84,14 +84,44 @@ public class TestdataExerciseTermPresenter implements Initializable, IPreference
         });
         
         final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
-                PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE_TERM,
-                PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE_TERM_DEFAULT_VALUE);
+                PREF__TESTDATA__QUANTITY_ENTITIES__LINK,
+                PREF__TESTDATA__QUANTITY_ENTITIES__LINK_DEFAULT_VALUE);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
+        
+        cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
+        cbQuantityTimePeriod.setCellFactory(new Callback<ListView<Integer>, ListCell<Integer>>() {
+
+            @Override
+            public ListCell<Integer> call(ListView<Integer> param) {
+                return new ListCell<Integer>() {
+
+                        @Override
+                        protected void updateItem(Integer item, boolean empty) {
+                            super.updateItem(item, empty);
+                            
+                            if (item == null) {
+                                super.setText(null);
+                                return;
+                            }
+                            
+                            super.setText("" + item); // NOI18N
+                        }
+                    };
+            }
+        });
+        
+        final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__LINK,
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__LINK_DEFAULT_VALUE);
+        cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 
     public void bind(BooleanProperty disableProperty) {
         cbQuantityEntities.disableProperty().unbind();
         cbQuantityEntities.disableProperty().bind(disableProperty);
+        
+        cbQuantityTimePeriod.disableProperty().unbind();
+        cbQuantityTimePeriod.disableProperty().bind(disableProperty);
     }
     
     public Label getProgressBarPercentInformation() {
@@ -106,12 +136,28 @@ public class TestdataExerciseTermPresenter implements Initializable, IPreference
         
         return saveMaxEntitites;
     }
+
+    public int getTimePeriod() {
+        Integer timePeriod = (Integer) cbQuantityTimePeriod.getSelectionModel().getSelectedItem();
+        if (timePeriod == null) {
+            timePeriod = 0;
+        }
+        
+        return timePeriod;
+    }
     
     public void onActionQuantityEntities() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity Entities"); // NOI18N
         
         final Integer quantityEntities = (Integer) cbQuantityEntities.getSelectionModel().getSelectedItem();
-        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE_TERM, quantityEntities);
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_ENTITIES__LINK, quantityEntities);
+    }
+    
+    public void onActionQuantityTimePeriod() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action Quantity TimePeriod"); // NOI18N
+        
+        final Integer quantityTimePeriod = (Integer) cbQuantityTimePeriod.getSelectionModel().getSelectedItem();
+        PreferencesFacade.getDefault().putInt(PREF__TESTDATA__QUANTITY_TIMEPERIOD__LINK, quantityTimePeriod);
     }
     
     public DoubleProperty progressPropertyFromEntityDream() {

@@ -25,10 +25,10 @@ import javafx.scene.Parent;
  */
 public final class TestdataFacade {
     
-    private static final Optional<TestdataFacade> instance = Optional.of(new TestdataFacade());
+    private static final Optional<TestdataFacade> INSTANCE = Optional.of(new TestdataFacade());
 
     public static final TestdataFacade getDefault() {
-        return instance.get();
+        return INSTANCE.get();
     }
     
     private TestdataPresenter testdataPresenter = null;

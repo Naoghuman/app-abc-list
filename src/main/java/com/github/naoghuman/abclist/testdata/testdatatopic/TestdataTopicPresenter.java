@@ -47,7 +47,7 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize DreamPresenter"); // NOI18N
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize TestdataTopicPresenter"); // NOI18N
         
         assert (cbQuantityEntities != null)             : "fx:id=\"cbQuantityEntities\" was not injected: check your FXML file 'testdatatopic.fxml'."; // NOI18N
         assert (cbQuantityTimePeriod != null)           : "fx:id=\"cbQuantityTimePeriod\" was not injected: check your FXML file 'testdatatopic.fxml'."; // NOI18N
@@ -85,7 +85,7 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
         
         final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_ENTITIES__TOPIC,
-                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__TOPIC);
+                PREF__TESTDATA__QUANTITY_ENTITIES__TOPIC_DEFAULT_VALUE);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
         
         cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
@@ -112,7 +112,7 @@ public class TestdataTopicPresenter implements Initializable, IPreferencesConfig
         
         final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_TIMEPERIOD__TOPIC,
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__TOPIC);
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__TOPIC_DEFAULT_VALUE);
         cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 

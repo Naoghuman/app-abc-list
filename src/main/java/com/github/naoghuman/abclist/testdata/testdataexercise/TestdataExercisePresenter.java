@@ -85,7 +85,7 @@ public class TestdataExercisePresenter implements Initializable, IPreferencesCon
         
         final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE,
-                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__EXERCISE);
+                PREF__TESTDATA__QUANTITY_ENTITIES__EXERCISE_DEFAULT_VALUE);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
         
         cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
@@ -112,7 +112,7 @@ public class TestdataExercisePresenter implements Initializable, IPreferencesCon
         
         final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_TIMEPERIOD__EXERCISE,
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__EXERCISE);
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__EXERCISE_DEFAULT_VALUE);
         cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 

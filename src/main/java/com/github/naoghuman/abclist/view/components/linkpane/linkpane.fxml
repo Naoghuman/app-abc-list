@@ -52,7 +52,7 @@
                   <Insets top="7.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="taDescription" text="jska fldsf kal dfklas dfjklsa fjlksadfj klsjdf sdjaflks daflksj adfjsda fsdklf sdkl dsfakl djklsa fdklsdf lksdf sdlkfds f" wrapText="true" VBox.vgrow="ALWAYS" />
+            <TextArea fx:id="taDescription" wrapText="true" VBox.vgrow="ALWAYS" />
             <HBox alignment="TOP_RIGHT" spacing="7.0">
                <children>
                   <CheckBox mnemonicParsing="false" onAction="#onActionClickAliasHyperlink" text="Favorite" />

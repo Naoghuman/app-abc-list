@@ -85,7 +85,7 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
         
         final Integer quantityEntities = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_ENTITIES__TERM,
-                PREF__TESTDATA__QUANTITY_ENTITIES__DEFAULT_VALUE__TERM);
+                PREF__TESTDATA__QUANTITY_ENTITIES__TERM_DEFAULT_VALUE);
         cbQuantityEntities.getSelectionModel().select(quantityEntities);
         
         cbQuantityTimePeriod.getItems().addAll(EntityHelper.getDefault().getQuantityTimePeriods());
@@ -112,7 +112,7 @@ public class TestdataTermPresenter implements Initializable, IPreferencesConfigu
         
         final Integer quantityTimePeriod = PreferencesFacade.getDefault().getInt(
                 PREF__TESTDATA__QUANTITY_TIMEPERIOD__TERM,
-                PREF__TESTDATA__QUANTITY_TIMEPERIOD__DEFAULT_VALUE__TERM);
+                PREF__TESTDATA__QUANTITY_TIMEPERIOD__TERM_DEFAULT_VALUE);
         cbQuantityTimePeriod.getSelectionModel().select(quantityTimePeriod);
     }
 
