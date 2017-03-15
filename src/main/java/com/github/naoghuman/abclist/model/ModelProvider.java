@@ -76,8 +76,12 @@ public class ModelProvider {
         return navigationEntity;
     }
     
-    public Term getTerm(String term) {
-        return new Term(term);
+    public Term getTerm(String title) {
+        return new Term(title);
+    }
+    
+    public Term getTerm(long id, String title) {
+        return new Term(id, title);
     }
     
     public Topic getTopic(long id, String title) {

@@ -18,6 +18,7 @@ package com.github.naoghuman.abclist.testdata.service;
 
 import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.LinkMapping;
+import com.github.naoghuman.abclist.model.LinkMappingType;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
@@ -129,7 +130,10 @@ public class LinkMappingService extends Service<Void> {
                                 
                                 final Term term = terms.get(TestdataGenerator.RANDOM.nextInt(sizeTerms));
                                 lm.setParentId(term.getId());
-                                lm.setLinkId(link.getId());
+                                lm.setParentType(LinkMappingType.TERM);
+                                
+                                lm.setChildId(link.getId());
+                                lm.setChildType(LinkMappingType.LINK);
                                 
                                 crudService.create(lm);
                             }
@@ -141,7 +145,10 @@ public class LinkMappingService extends Service<Void> {
                                 
                                 final Topic topic = topics.get(TestdataGenerator.RANDOM.nextInt(sizeTopics));
                                 lm.setParentId(topic.getId());
-                                lm.setLinkId(link.getId());
+                                lm.setParentType(LinkMappingType.TOPIC);
+                                
+                                lm.setChildId(link.getId());
+                                lm.setChildType(LinkMappingType.LINK);
                                 
                                 crudService.create(lm);
                             }

@@ -5,9 +5,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -44,7 +46,7 @@
                                                                 <Button mnemonicParsing="false" onAction="#onActionCreateNewTopic" text="+" />
                                                             </children>
                                                         </HBox>
-                                                        <ListView fx:id="lvNavigationTopics" VBox.vgrow="ALWAYS" />
+                                                        <ListView fx:id="lvFoundedTopics" VBox.vgrow="ALWAYS" />
                                                     </children>
                                                     <padding>
                                                         <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
@@ -54,7 +56,7 @@
                                                     <children>
                                                         <HBox alignment="BOTTOM_LEFT">
                                                             <children>
-                                                                <Label fx:id="lInfoFoundedElements" text="&lt;info founded elements&gt;">
+                                                                <Label fx:id="lInfoFoundedNavigationEntities" text="&lt;info founded elements&gt;">
                                                                     <HBox.margin>
                                                                         <Insets left="7.0" />
                                                                     </HBox.margin>
@@ -63,7 +65,7 @@
                                                                 <Button fx:id="bNavigationCreateNewExercise" mnemonicParsing="false" onAction="#onActionCreateNewExercise" text="+" />
                                                             </children>
                                                         </HBox>
-                                                        <ListView fx:id="lvNavigationElements" VBox.vgrow="ALWAYS" />
+                                                        <ListView fx:id="lvFoundedNavigationEntities" VBox.vgrow="ALWAYS" />
                                                     </children>
                                                     <padding>
                                                         <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
@@ -77,12 +79,12 @@
                                     <content>
                                         <VBox>
                                             <children>
-                                                <Label text="Show all Terms">
+                                                <Label text="Show all Terms from...">
                                                     <VBox.margin>
                                                         <Insets left="7.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="cbNavigationTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllTermsFromSelectedTopic">
+                                                <ComboBox fx:id="cbFindTermsInTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllTermsFromSelectedTopic">
                                                     <VBox.margin>
                                                         <Insets />
                                                     </VBox.margin>
@@ -92,7 +94,7 @@
                                                         <Insets left="7.0" top="7.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ListView fx:id="lvNavigationTerms" VBox.vgrow="ALWAYS" />
+                                                <ListView fx:id="lvFoundedTerms" VBox.vgrow="ALWAYS" />
                                             </children>
                                             <padding>
                                                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
@@ -104,22 +106,36 @@
                                     <content>
                                         <VBox>
                                             <children>
-                                                <Label text="Show all Links">
+                                                <Label text="Show all Links from...">
                                                     <VBox.margin>
                                                         <Insets left="7.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="cbNavigationTopicsAndTerms" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllLinksFromSelectedTopicOrTerm">
+                                                <HBox spacing="7.0">
+                                                    <VBox.margin>
+                                                        <Insets bottom="2.0" left="7.0" />
+                                                    </VBox.margin>
+                                                    <children>
+                                                        <RadioButton mnemonicParsing="false" selected="true" text="Topics">
+                                                            <toggleGroup>
+                                                                <ToggleGroup fx:id="toggleGroup" />
+                                                            </toggleGroup>
+                                                        </RadioButton>
+                                                        <RadioButton fx:id="rbFindInTerms" mnemonicParsing="false" text="Terms" toggleGroup="$toggleGroup" />
+                                                    </children>
+                                                </HBox>
+                                                <ComboBox fx:id="cbFindLinksInTopics" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllLinksFromSelectedTopic">
                                                     <VBox.margin>
                                                         <Insets />
                                                     </VBox.margin>
                                                 </ComboBox>
+                                                <ComboBox fx:id="cbFindLinksInTerms" layoutX="17.0" layoutY="34.0" maxWidth="1.7976931348623157E308" onAction="#onActionShowAllLinksFromSelectedTerm" />
                                                 <Label fx:id="lInfoFoundedLinks" text="Found 0 Links">
                                                     <VBox.margin>
                                                         <Insets left="7.0" top="7.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <ListView fx:id="lvNavigationLinks" VBox.vgrow="ALWAYS" />
+                                                <ListView fx:id="lvFoundedLinks" VBox.vgrow="ALWAYS" />
                                             </children>
                                             <padding>
                                                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />

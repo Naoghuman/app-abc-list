@@ -26,6 +26,7 @@ public interface IPropertiesConfiguration {
     
     public static final int NO_ENTITY = 0;
     
+    public static final int TAB_INDEX__LINKS = 2;
     public static final int TAB_INDEX__TERMS = 1;
     public static final int TAB_INDEX__TOPICS = 0;
     

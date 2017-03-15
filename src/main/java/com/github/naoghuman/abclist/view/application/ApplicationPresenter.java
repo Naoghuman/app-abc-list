@@ -19,19 +19,20 @@ package com.github.naoghuman.abclist.view.application;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
-import com.github.naoghuman.abclist.i18n.Properties;
 import com.github.naoghuman.abclist.json.Project;
 import com.github.naoghuman.abclist.json.SimpleJsonReader;
 import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
 import com.github.naoghuman.abclist.view.exercise.ExerciseView;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.Link;
+import com.github.naoghuman.abclist.model.LinkMappingType;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.NavigationEntity;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.abclist.view.application.converter.ExercisePresentationConverter;
+import com.github.naoghuman.abclist.view.application.converter.LinkPresentationConverter;
 import com.github.naoghuman.abclist.view.application.converter.TermPresentationConverter;
 import com.github.naoghuman.abclist.view.application.converter.TopicPresentationConverter;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
@@ -61,9 +62,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -79,19 +82,23 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
 {
     @FXML private Button bNavigationCreateNewExercise;
     @FXML private Button bNavigationCreateNewTerm;
-    @FXML private ComboBox<Topic> cbNavigationTopics;
-    @FXML private ComboBox<Topic> cbNavigationTopicsAndTerms;
-    @FXML private Label lInfoFoundedElements;
+    @FXML private ComboBox<Topic> cbFindTermsInTopics;
+    @FXML private ComboBox<Term> cbFindLinksInTerms;
+    @FXML private ComboBox<Topic> cbFindLinksInTopics;
+    @FXML private Label lInfoFoundedNavigationEntities;
     @FXML private Label lInfoFoundedLinks;
     @FXML private Label lInfoFoundedTerms;
     @FXML private Label lInfoFoundedTopics;
-    @FXML private ListView<NavigationEntity> lvNavigationElements;
-    @FXML private ListView<Link> lvNavigationLinks;
-    @FXML private ListView<Term> lvNavigationTerms;
-    @FXML private ListView<Topic> lvNavigationTopics;
+    @FXML private ListView<NavigationEntity> lvFoundedNavigationEntities;
+    @FXML private ListView<Link> lvFoundedLinks;
+    @FXML private ListView<Term> lvFoundedTerms;
+    @FXML private ListView<Topic> lvFoundedTopics;
+    @FXML private RadioButton rbFindInTerms;
     @FXML private SplitPane spApplication;
     @FXML private TabPane tpNavigation;
     @FXML private VBox vbWorkingArea;
+    
+    private final ToggleGroup toggleGroup = new ToggleGroup();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -106,6 +113,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
 
         this.initializeNavigationButtons();
         this.initializeNavigationTabPane();
+        this.initializeNavigationTabLinks();
         this.initializeNavigationTabTerms();
         this.initializeNavigationTabTopics();
         this.initializeWelcomeView();
@@ -113,15 +121,14 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         this.registerActions();
             
         // Update gui
-        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-        this.onActionRefreshNavigationTabTopics(topics);
+        this.onActionRefreshNavigationTabTopics();
     }
     
     private void initializeNavigationButtons() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] buttons"); // NOI18N
 
         // Buttons
-        bNavigationCreateNewExercise.disableProperty().bind(lvNavigationTopics.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
+        bNavigationCreateNewExercise.disableProperty().bind(lvFoundedTopics.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
         
         bNavigationCreateNewTerm.managedProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TERMS));
         bNavigationCreateNewTerm.visibleProperty().bind(tpNavigation.getSelectionModel().selectedIndexProperty().isEqualTo(TAB_INDEX__TERMS));
@@ -132,23 +139,41 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
 
         tpNavigation.getSelectionModel().selectedIndexProperty()
                 .addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-                    if (newValue.intValue() == 1) {
-                        // Reset gui
-                        cbNavigationTopics.getSelectionModel().clearSelection();
-                        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
-                        lvNavigationTerms.getItems().clear();
-                        
-                        // Load new [Topic]
-                        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-                        this.onActionRefreshNavigationTabTerms(topics);
+                    if (newValue.intValue() == TAB_INDEX__TERMS) {
+                        this.onActionRefreshNavigationTabTerms();
+                    }
+                    
+                    if (newValue.intValue() == TAB_INDEX__LINKS) {
+                        this.onActionRefreshNavigationTabLinks();
                     }
                 });
     }
     
-    private void initializeNavigationTabTerms() {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Term]s"); // NOI18N
+    private void initializeNavigationTabLinks() {
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Links]"); // NOI18N
 
-        // ComboBox cbNavigationTopics
+        // ComboBox cbFindLinksInTerms
+        final Callback callbackTerms = (Callback<ListView<Term>, ListCell<Term>>) (ListView<Term> listView) -> new ListCell<Term>() {
+            @Override
+            protected void updateItem(Term term, boolean empty) {
+                super.updateItem(term, empty);
+
+                this.setGraphic(null);
+
+                if (term == null || empty) {
+                    this.setText(null);
+                } else {
+                    this.setText(term.getTitle());
+                }
+            }
+        };
+        
+        cbFindLinksInTerms.setButtonCell((ListCell) callbackTerms.call(null));
+        cbFindLinksInTerms.setCellFactory(callbackTerms);
+        cbFindLinksInTerms.setVisible(Boolean.FALSE);
+        cbFindLinksInTerms.setManaged(Boolean.FALSE);
+
+        // ComboBox cbFindLinksInTopics
         final Callback callbackTopics = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
             @Override
             protected void updateItem(Topic topic, boolean empty) {
@@ -164,10 +189,74 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             }
         };
         
-        cbNavigationTopics.setButtonCell((ListCell) callbackTopics.call(null));
-        cbNavigationTopics.setCellFactory(callbackTopics);
+        cbFindLinksInTopics.setButtonCell((ListCell) callbackTopics.call(null));
+        cbFindLinksInTopics.setCellFactory(callbackTopics);
         
-        // ListView lvNavigationTerms
+        // ListView lvNavigationElements
+        lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(NO_ENTITY));
+
+        final Callback callbackLinks = (Callback<ListView<Link>, ListCell<Link>>) (ListView<Link> listView) -> new ListCell<Link>() {
+            @Override
+            protected void updateItem(Link link, boolean empty) {
+                super.updateItem(link, empty);
+                
+                this.setGraphic(null);
+                
+                if (link == null || empty) {
+                    this.setText(null);
+                } else {
+                    this.setText(link.getAlias());
+                }
+            }
+        };
+        lvFoundedLinks.setCellFactory(callbackLinks);
+        lvFoundedLinks.setOnMouseClicked(event -> {
+            // Open the Link
+            if (
+                    event.getClickCount() == 2
+                    && !lvFoundedLinks.getSelectionModel().isEmpty()
+            ) {
+                final Link link = lvFoundedLinks.getSelectionModel().getSelectedItem();
+//                this.onActionOpenLink(link); // TODO
+            }
+        });
+        
+        rbFindInTerms.selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            cbFindLinksInTerms.getSelectionModel().clearSelection();
+            cbFindLinksInTerms.setVisible(newValue);
+            cbFindLinksInTerms.setManaged(newValue);
+            
+            cbFindLinksInTopics.getSelectionModel().clearSelection();
+            cbFindLinksInTopics.setVisible(!newValue);
+            cbFindLinksInTopics.setManaged(!newValue);
+            
+            lvFoundedLinks.getItems().clear();
+        });
+    }
+    
+    private void initializeNavigationTabTerms() {
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Terms]"); // NOI18N
+
+        // ComboBox cbFindTermsInTopics
+        final Callback callbackTopics = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
+            @Override
+            protected void updateItem(Topic topic, boolean empty) {
+                super.updateItem(topic, empty);
+
+                this.setGraphic(null);
+
+                if (topic == null || empty) {
+                    this.setText(null);
+                } else {
+                    this.setText(topic.getTitle());
+                }
+            }
+        };
+        
+        cbFindTermsInTopics.setButtonCell((ListCell) callbackTopics.call(null));
+        cbFindTermsInTopics.setCellFactory(callbackTopics);
+        
+        // ListView lvFoundedTerms
         lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
         
         final Callback callbackTerms = (Callback<ListView<Term>, ListCell<Term>>) (ListView<Term> listView) -> new ListCell<Term>() {
@@ -184,26 +273,26 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 }
             }
         };
-        lvNavigationTerms.setCellFactory(callbackTerms);
-        lvNavigationTerms.setOnMouseClicked(event -> {
+        lvFoundedTerms.setCellFactory(callbackTerms);
+        lvFoundedTerms.setOnMouseClicked(event -> {
             // Open the Term
             if (
                     event.getClickCount() == 2
-                    && !lvNavigationTerms.getSelectionModel().isEmpty()
+                    && !lvFoundedTerms.getSelectionModel().isEmpty()
             ) {
-                final Term term = lvNavigationTerms.getSelectionModel().getSelectedItem();
+                final Term term = lvFoundedTerms.getSelectionModel().getSelectedItem();
                 this.onActionOpenTerm(term);
             }
         });
     }
     
     private void initializeNavigationTabTopics() {
-        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Topic]s"); // NOI18N
+        LoggerFacade.getDefault().info(this.getClass(), "Initialize [Navigation] tab [Topics]"); // NOI18N
         
         // Info label for Topics
         lInfoFoundedTopics.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPICS, NO_ENTITY));
 
-        // ListView lvNavigationTopics
+        // ListView lvFoundedTopics
         final Callback callbackTopics = (Callback<ListView<Topic>, ListCell<Topic>>) (ListView<Topic> listView) -> new ListCell<Topic>() {
             @Override
             protected void updateItem(Topic topic, boolean empty) {
@@ -218,32 +307,32 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 }
             }
         };
-        lvNavigationTopics.setCellFactory(callbackTopics);
-        lvNavigationTopics.setOnMouseClicked(event -> {
+        lvFoundedTopics.setCellFactory(callbackTopics);
+        lvFoundedTopics.setOnMouseClicked(event -> {
             // Open the Topic
             if (
                     event.getClickCount() == 2
-                    && !lvNavigationTopics.getSelectionModel().isEmpty()
+                    && !lvFoundedTopics.getSelectionModel().isEmpty()
             ) {
-                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                final Topic topic = lvFoundedTopics.getSelectionModel().getSelectedItem();
                 this.onActionOpenTopic(topic);
             }
             
             // Show all TopicChilds
             if (
                     event.getClickCount() == 1
-                    && !lvNavigationTopics.getSelectionModel().isEmpty()
+                    && !lvFoundedTopics.getSelectionModel().isEmpty()
             ) {
-                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                final Topic topic = lvFoundedTopics.getSelectionModel().getSelectedItem();
                 this.onActionShowAllExercisesWithTopicId(topic);
             }
         });
-        lvNavigationTopics.setOnKeyPressed(event -> {
+        lvFoundedTopics.setOnKeyPressed(event -> {
             final KeyCode keyCode = event.getCode();
             
             // Open Topic
             if (keyCode.equals(KeyCode.TAB)) {
-                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                final Topic topic = lvFoundedTopics.getSelectionModel().getSelectedItem();
                 this.onActionOpenTopic(topic);
             }
             
@@ -252,15 +341,15 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                     keyCode.equals(KeyCode.ENTER)
                     || keyCode.equals(KeyCode.SPACE)
             ) {
-                final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+                final Topic topic = lvFoundedTopics.getSelectionModel().getSelectedItem();
                 this.onActionShowAllExercisesWithTopicId(topic);
             }
         });
         
-        // Info label for TopicElements
-        lInfoFoundedElements.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, NO_ENTITY));
+        // Info label for NavigationEntity
+        lInfoFoundedNavigationEntities.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, NO_ENTITY));
         
-        // ListView lvNavigationElements
+        // ListView lvFoundedNavigationEntities
         final Callback callbackNavigationEntitys = (Callback<ListView<NavigationEntity>, ListCell<NavigationEntity>>) (ListView<NavigationEntity> listView) -> new ListCell<NavigationEntity>() {
             @Override
             protected void updateItem(NavigationEntity navigationEntity, boolean empty) {
@@ -275,18 +364,18 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 }
             }
         };
-        // TODO rename NavigationEntity to NavigationElement ? or NavigationTopicChild
-        lvNavigationElements.setCellFactory(callbackNavigationEntitys);
-        lvNavigationElements.setOnMouseClicked(event -> {
+        
+        lvFoundedNavigationEntities.setCellFactory(callbackNavigationEntitys);
+        lvFoundedNavigationEntities.setOnMouseClicked(event -> {
             if (
                     event.getClickCount() == 2
-                    && !lvNavigationElements.getSelectionModel().isEmpty()
+                    && !lvFoundedNavigationEntities.getSelectionModel().isEmpty()
             ) {
                 final TransferData transferData = new TransferData();
                 transferData.setActionId(ACTION__APPLICATION__OPEN_EXERCISE);
                 
-                final NavigationEntity topic = lvNavigationElements.getSelectionModel().getSelectedItem();
-                final long exercseId = topic.getNavigation().getEntityId();
+                final NavigationEntity navigationEntity = lvFoundedNavigationEntities.getSelectionModel().getSelectedItem();
+                final long exercseId = navigationEntity.getNavigation().getEntityId();
                 transferData.setLong(exercseId);
                 
                 ActionFacade.getDefault().handle(transferData);
@@ -308,13 +397,13 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Exercise]"); // NOI18N
 
         // Check if empty
-        if (lvNavigationTopics.getSelectionModel().isEmpty()) {
+        if (lvFoundedTopics.getSelectionModel().isEmpty()) {
             LoggerFacade.getDefault().warn(this.getClass(), "No [Topic] is selected! Can't create a new [Exercise]"); // NOI18N
             return;
         }
         
         // Create a new Exercise
-        final Topic topic = lvNavigationTopics.getSelectionModel().getSelectedItem();
+        final Topic topic = lvFoundedTopics.getSelectionModel().getSelectedItem();
         final Exercise exercise = ModelProvider.getDefault().getExercise(IDefaultConfiguration.DEFAULT_ID, topic.getId());
         SqlProvider.getDefault().createExercise(exercise);
         
@@ -384,9 +473,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             SqlProvider.getDefault().createTopic(topic);
             
             // Update gui
-            topics.clear();
-            topics.addAll(SqlProvider.getDefault().findAllTopics());
-            this.onActionRefreshNavigationTabTopics(topics);
+            this.onActionRefreshNavigationTabTopics();
         }
     }
     
@@ -475,13 +562,61 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         vbWorkingArea.getChildren().clear();
         vbWorkingArea.getChildren().add(parent);
     }
-    
-    private void onActionRefreshNavigationTabTerms(final ObservableList<Topic> topics) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Terms]"); // NOI18N
-        // TODO or every time the tab is selected?
-        // Reload the [ComboBox
-        cbNavigationTopics.getItems().clear();
+
+    private void onActionRefreshNavigationTabLinks() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Links]"); // NOI18N
         
+        // Reset gui
+        lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(NO_ENTITY));
+        lvFoundedLinks.getItems().clear();
+
+        // Reload the [ComboBox] cbFindLinksInTerms
+        cbFindLinksInTerms.getSelectionModel().clearSelection();
+        cbFindLinksInTerms.getItems().clear();
+        
+        final ObservableList<Term> terms = SqlProvider.getDefault().findAllTerms();
+        final Term termShowAllExistingLinks = ModelProvider.getDefault().getTerm(
+                DEFAULT_ID__TERM__SHOW_ALL_EXISTING_LINKS,
+                "=== Show all existing Links ==="); // NOI18N
+        terms.add(0, termShowAllExistingLinks);
+        
+        final Term termShowAllLinksWithoutParent = ModelProvider.getDefault().getTerm(
+                DEFAULT_ID__TERM__SHOW_ALL_LINKS_WITHOUT_PARENT,
+                "=== Show all Links without Parent ==="); // NOI18N
+        terms.add(1, termShowAllLinksWithoutParent);
+        
+        cbFindLinksInTerms.getItems().addAll(terms);
+
+        // Reload the [ComboBox] cbFindLinksInTopics
+        cbFindLinksInTopics.getSelectionModel().clearSelection();
+        cbFindLinksInTopics.getItems().clear();
+        
+        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
+        final Topic topicShowAllExistingLinks = ModelProvider.getDefault().getTopic(
+                DEFAULT_ID__TOPIC__SHOW_ALL_EXISTING_LINKS,
+                "=== Show all existing Links ==="); // NOI18N
+        topics.add(0, topicShowAllExistingLinks);
+        
+        final Topic topicShowAllLinksWithoutParent = ModelProvider.getDefault().getTopic(
+                DEFAULT_ID__TOPIC__SHOW_ALL_LINKS_WITHOUT_PARENT,
+                "=== TOPIC Show all Links without Parent ==="); // NOI18N
+        topics.add(1, topicShowAllLinksWithoutParent);
+        
+        cbFindLinksInTopics.getItems().addAll(topics);
+    }
+    
+    private void onActionRefreshNavigationTabTerms() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Terms]"); // NOI18N
+        
+        // Reset gui
+        lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
+        lvFoundedTerms.getItems().clear();
+        
+        // Reload the [ComboBox]
+        cbFindTermsInTopics.getSelectionModel().clearSelection();
+        cbFindTermsInTopics.getItems().clear();
+        
+        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
         final Topic topicShowAllExistingTerms = ModelProvider.getDefault().getTopic(
                 DEFAULT_ID__TOPIC__SHOW_ALL_EXISTING_TERMS,
                 "=== Show all existing Terms ==="); // NOI18N
@@ -492,15 +627,19 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 "=== Show all Terms without Parent ==="); // NOI18N
         topics.add(1, topicShowAllTermsWithoutParent);
         
-        cbNavigationTopics.getItems().addAll(topics);
+        cbFindTermsInTopics.getItems().addAll(topics);
     }
     
-    private void onActionRefreshNavigationTabTopics(ObservableList<Topic> topics) {
+    private void onActionRefreshNavigationTabTopics() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action refresh [Navigation] tab [Topics]"); // NOI18N
 
-        lvNavigationTopics.getItems().clear();
-        lvNavigationTopics.getItems().addAll(topics);
+        // Reload ListView
+        lvFoundedTopics.getItems().clear();
         
+        final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
+        lvFoundedTopics.getItems().addAll(topics);
+        
+        // Show info
         lInfoFoundedTopics.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPICS, topics.size()));
     }
 
@@ -514,27 +653,87 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                 .map((exercise) -> ModelProvider.getDefault().getNavigationEntity(ENavigationType.EXERCISE, exercise.getId(), new ExercisePresentationConverter(exercise)))
                 .collect(Collectors.toList());
 
-        lvNavigationElements.getItems().clear();
-        lvNavigationElements.getItems().addAll(navigationEntities);
+        lvFoundedNavigationEntities.getItems().clear();
+        lvFoundedNavigationEntities.getItems().addAll(navigationEntities);
         
-        lInfoFoundedElements.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, navigationEntities.size()));
+        lInfoFoundedNavigationEntities.setText(TopicPresentationConverter.getI18nMsgFoundedEntities(INFO__FOUNDED_TOPIC_ELEMENTS, navigationEntities.size()));
     }
     
-    public void onActionShowAllLinksFromSelectedTopicOrTerm() {
+    public void onActionShowAllLinksFromSelectedTerm() {
+        // Is any [Term] in the [ComboBox] selected?
+        if (cbFindLinksInTerms.getSelectionModel().isEmpty()) {
+            lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(NO_ENTITY));
+            return;
+        }
         
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show all [Link]s from selected [Term]"); // NOI18N
+
+        // Which [Link]s should be loaded
+        final Term term = cbFindLinksInTerms.getSelectionModel().getSelectedItem();
+        final long parentId = term.getId();
+        
+        // Load [Term]
+        final ObservableList<Link> links = FXCollections.observableArrayList();
+        if (Objects.equals(parentId, DEFAULT_ID__TERM__SHOW_ALL_EXISTING_LINKS)) {
+            links.addAll(SqlProvider.getDefault().findAllLinks());
+        }
+        else if (Objects.equals(parentId, DEFAULT_ID__TERM__SHOW_ALL_LINKS_WITHOUT_PARENT)) {
+            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithoutParent());
+        }
+        else {
+            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithParent(parentId, LinkMappingType.TOPIC));
+        }
+        
+        // Show them in gui
+        lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(links.size()));
+         
+        lvFoundedLinks.getItems().clear();
+        lvFoundedLinks.getItems().addAll(links);
+    }
+    
+    public void onActionShowAllLinksFromSelectedTopic() {
+        // Is any [Topic] in the [ComboBox] selected?
+        if (cbFindLinksInTopics.getSelectionModel().isEmpty()) {
+            lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(NO_ENTITY));
+            return;
+        }
+        
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show all [Link]s from selected [Topic]"); // NOI18N
+
+        // Which [Link]s should be loaded
+        final Topic topic = cbFindLinksInTopics.getSelectionModel().getSelectedItem();
+        final long parentId = topic.getId();
+        
+        // Load [Term]
+        final ObservableList<Link> links = FXCollections.observableArrayList();
+        if (Objects.equals(parentId, DEFAULT_ID__TOPIC__SHOW_ALL_EXISTING_LINKS)) {
+            links.addAll(SqlProvider.getDefault().findAllLinks());
+        }
+        else if (Objects.equals(parentId, DEFAULT_ID__TOPIC__SHOW_ALL_LINKS_WITHOUT_PARENT)) {
+            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithoutParent());
+        }
+        else {
+            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithParent(parentId, LinkMappingType.TOPIC));
+        }
+        
+        // Show them in gui
+        lInfoFoundedLinks.setText(LinkPresentationConverter.getI18nMsgFoundedEntities(links.size()));
+         
+        lvFoundedLinks.getItems().clear();
+        lvFoundedLinks.getItems().addAll(links);
     }
     
     public void onActionShowAllTermsFromSelectedTopic() {
         // Is any [Topic] in the [ComboBox] selected?
-        if (cbNavigationTopics.getSelectionModel().isEmpty()) {
+        if (cbFindTermsInTopics.getSelectionModel().isEmpty()) {
             lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(IPropertiesConfiguration.NO_ENTITY));
             return;
         }
         
-        LoggerFacade.getDefault().debug(this.getClass(), "On action show all [Terms]s from selected [Topic]"); // NOI18N
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show all [Term]s from selected [Topic]"); // NOI18N
 
         // Which [Term]s should be loaded
-        final Topic topic = cbNavigationTopics.getSelectionModel().getSelectedItem();
+        final Topic topic = cbFindTermsInTopics.getSelectionModel().getSelectedItem();
         final long topicId = topic.getId();
         
         // Load [Term]
@@ -552,8 +751,8 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         // Show them in gui
         lInfoFoundedTerms.setText(TermPresentationConverter.getI18nMsgFoundedEntities(terms.size()));
          
-        lvNavigationTerms.getItems().clear();
-        lvNavigationTerms.getItems().addAll(terms);
+        lvFoundedTerms.getItems().clear();
+        lvFoundedTerms.getItems().addAll(terms);
     }
     
     @Override

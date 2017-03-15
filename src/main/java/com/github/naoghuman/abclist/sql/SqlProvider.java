@@ -21,6 +21,8 @@ import com.github.naoghuman.abclist.configuration.IExerciseTermConfiguration;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.Link;
+import com.github.naoghuman.abclist.model.LinkMapping;
+import com.github.naoghuman.abclist.model.LinkMappingType;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
@@ -136,6 +138,48 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         
         stopWatch.split();
         this.printToLog(stopWatch.toSplitString(), links.size(), "findAllLinks()"); // NOI18N
+        stopWatch.stop();
+        
+        return links;
+    }
+
+    public ObservableList<Link> findAllLinksInLinkMappingWithoutParent() {
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        
+        final ObservableList<LinkMapping> allLinkMappingsWithoutParent = LinkMappingSqlService.getDefault().findAllLinksInLinkMappingWithoutParent();
+        final ObservableList<Link> links = FXCollections.observableArrayList();
+        allLinkMappingsWithoutParent.stream()
+                .forEach(linkMapping -> {
+                    final Optional<Link> optional = this.findById(Link.class, linkMapping.getChildId());
+                    if (optional.isPresent()) {
+                        links.add(optional.get());
+                    }
+                });
+        
+        stopWatch.split();
+        this.printToLog(stopWatch.toSplitString(), allLinkMappingsWithoutParent.size(), "findAllLinksInLinkMappingWithoutParent()"); // NOI18N
+        stopWatch.stop();
+        
+        return links;
+    }
+
+    public ObservableList<Link> findAllLinksInLinkMappingWithParent(final long parentId, final LinkMappingType parentType) {
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        
+        final ObservableList<LinkMapping> allLinkMappingsWithParent = LinkMappingSqlService.getDefault().findAllLinksInLinkMappingWithParent(parentId, parentType);
+        final ObservableList<Link> links = FXCollections.observableArrayList();
+        allLinkMappingsWithParent.stream()
+                .forEach(linkMapping -> {
+                    final Optional<Link> optional = this.findById(Link.class, linkMapping.getChildId());
+                    if (optional.isPresent()) {
+                        links.add(optional.get());
+                    }
+                });
+        
+        stopWatch.split();
+        this.printToLog(stopWatch.toSplitString(), allLinkMappingsWithParent.size(), "findAllLinksInLinkMappingWithPrimary(long, LinkMappingType)"); // NOI18N
         stopWatch.stop();
         
         return links;
