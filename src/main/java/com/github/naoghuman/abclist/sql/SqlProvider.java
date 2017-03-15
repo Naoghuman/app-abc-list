@@ -283,16 +283,15 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return topics;
     }
     
-    // TODO UnitTest
     public <T extends Object> Optional<T> findById(Class<T> type, long entityId) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+//        final StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
         
         final Optional<T> optional = Optional.ofNullable(DatabaseFacade.getDefault().getCrudService().findById(type, entityId));
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "findById(Class<T> type, long entityId)"); // NOI18N
-        stopWatch.stop();
+//        stopWatch.split();
+//        this.printToLog(stopWatch.toSplitString(), 1, "findById(Class<T> type, long entityId)"); // NOI18N
+//        stopWatch.stop();
         
         return optional;
     }

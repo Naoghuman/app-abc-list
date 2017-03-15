@@ -16,6 +16,7 @@
  */
 package com.github.naoghuman.abclist.testdata.service;
 
+import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.LinkMapping;
 import com.github.naoghuman.abclist.model.LinkMappingType;
@@ -104,10 +105,11 @@ public class LinkMappingService extends Service<Void> {
                 
                 /*
                  1) over all links
-                 2) if random > 0.001d then do
-                 3) get 1-10 terms, create LinkMapping foreach of them
+                 2) if random > 0.005d then do
+                 3) otherwise create a link without parent
+                 4) get 1-10 terms, create LinkMapping foreach of them
                      - means a link is mapped to 1-10 terms
-                 4) get 0-10 topics, create LinkMapping foreach of them
+                 5) get 0-10 topics, create LinkMapping foreach of them
                      - means a link is mapped to 0-10 topics
                 */
                 
@@ -121,35 +123,51 @@ public class LinkMappingService extends Service<Void> {
                 final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 final AtomicLong id = new AtomicLong(-1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName));
                 links.stream() // 1
-                        .filter(link -> (TestdataGenerator.RANDOM.nextDouble() > 0.001d))// 2
                         .forEach(link -> {
-                            final int maxTerms = TestdataGenerator.RANDOM.nextInt(10) + 1; // 3
-                            for (int i = 0; i < maxTerms; i++) {
-                                final LinkMapping lm = ModelProvider.getDefault().getLinkMapping();
-                                lm.setId(id.getAndIncrement());
-                                
-                                final Term term = terms.get(TestdataGenerator.RANDOM.nextInt(sizeTerms));
-                                lm.setParentId(term.getId());
-                                lm.setParentType(LinkMappingType.TERM);
-                                
-                                lm.setChildId(link.getId());
-                                lm.setChildType(LinkMappingType.LINK);
-                                
-                                crudService.create(lm);
+                            // 2) Should the [Link] have a parent
+                            final double random = TestdataGenerator.RANDOM.nextDouble();
+                            if (random > 0.005d) {
+                                // 4) Create [Link]s with parent [Term]
+                                final int maxTerms = TestdataGenerator.RANDOM.nextInt(10) + 1;
+                                for (int i = 0; i < maxTerms; i++) {
+                                    final LinkMapping lm = ModelProvider.getDefault().getLinkMapping();
+                                    lm.setId(id.getAndIncrement());
+
+                                    final Term term = terms.get(TestdataGenerator.RANDOM.nextInt(sizeTerms));
+                                    lm.setParentId(term.getId());
+                                    lm.setParentType(LinkMappingType.TERM);
+
+                                    lm.setChildId(link.getId());
+                                    lm.setChildType(LinkMappingType.LINK);
+
+                                    crudService.create(lm);
+                                }
+
+                                // 5) Create [Link]s with parent [Topic]
+                                final int maxTopics = TestdataGenerator.RANDOM.nextInt(11);
+                                for (int i = 0; i < maxTopics; i++) {
+                                    final LinkMapping lm = ModelProvider.getDefault().getLinkMapping();
+                                    lm.setId(id.getAndIncrement());
+
+                                    final Topic topic = topics.get(TestdataGenerator.RANDOM.nextInt(sizeTopics));
+                                    lm.setParentId(topic.getId());
+                                    lm.setParentType(LinkMappingType.TOPIC);
+
+                                    lm.setChildId(link.getId());
+                                    lm.setChildType(LinkMappingType.LINK);
+
+                                    crudService.create(lm);
+                                }
                             }
-                            
-                            final int maxTopics = TestdataGenerator.RANDOM.nextInt(11); // 4
-                            for (int i = 0; i < maxTopics; i++) {
+                            else {
+                                // 3) Some [Link]s havn't a parent
                                 final LinkMapping lm = ModelProvider.getDefault().getLinkMapping();
                                 lm.setId(id.getAndIncrement());
-                                
-                                final Topic topic = topics.get(TestdataGenerator.RANDOM.nextInt(sizeTopics));
-                                lm.setParentId(topic.getId());
-                                lm.setParentType(LinkMappingType.TOPIC);
-                                
+                                lm.setParentId(IDefaultConfiguration.DEFAULT_ID);
+                                lm.setParentType(LinkMappingType.NOT_DEFINED);
                                 lm.setChildId(link.getId());
                                 lm.setChildType(LinkMappingType.LINK);
-                                
+
                                 crudService.create(lm);
                             }
                             

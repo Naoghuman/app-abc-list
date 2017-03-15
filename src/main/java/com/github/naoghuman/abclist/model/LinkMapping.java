@@ -49,6 +49,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Table(name = ILinkMappingConfiguration.ENTITY__TABLE_NAME__LINK_MAPPING)
 @NamedQueries({
     @NamedQuery(
+            name = ILinkMappingConfiguration.NAMED_QUERY__NAME__FIND_ALL_WITH_PARENT,
+            query = ILinkMappingConfiguration.NAMED_QUERY__QUERY__FIND_ALL_WITH_PARENT),
+    @NamedQuery(
             name = ILinkMappingConfiguration.NAMED_QUERY__NAME__FIND_ALL_WITH_PARENTTYPE_AND_CHILDTYPE,
             query = ILinkMappingConfiguration.NAMED_QUERY__QUERY__FIND_ALL_WITH_PARENTTYPE_AND_CHILDTYPE)
 })
