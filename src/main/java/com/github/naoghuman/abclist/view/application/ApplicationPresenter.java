@@ -35,6 +35,8 @@ import com.github.naoghuman.abclist.view.application.converter.ExercisePresentat
 import com.github.naoghuman.abclist.view.application.converter.LinkPresentationConverter;
 import com.github.naoghuman.abclist.view.application.converter.TermPresentationConverter;
 import com.github.naoghuman.abclist.view.application.converter.TopicPresentationConverter;
+import com.github.naoghuman.abclist.view.link.LinkPresenter;
+import com.github.naoghuman.abclist.view.link.LinkView;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
 import com.github.naoghuman.abclist.view.term.TermView;
 import com.github.naoghuman.abclist.view.topic.TopicPresenter;
@@ -217,7 +219,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                     && !lvFoundedLinks.getSelectionModel().isEmpty()
             ) {
                 final Link link = lvFoundedLinks.getSelectionModel().getSelectedItem();
-//                this.onActionOpenLink(link); // TODO
+                this.onActionOpenLink(link);
             }
         });
         
@@ -494,7 +496,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         vbWorkingArea.getChildren().add(parent);
     }
 
-    private void onActionOpenExerciseWithId(long exerciseId) {
+    private void onActionOpenExerciseWithId(final long exerciseId) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action open [Exercise] with [Id]"); // NOI18N
  
         // Load [Exercise] from the [Database]
@@ -504,21 +506,35 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         }
     }
     
-    private void onActionOpenTerm(Term term) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action show [Term]"); // NOI18N
+    private void onActionOpenLink(final Link link) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show [Link]"); // NOI18N
 
-        final TermView termView = new TermView();
-        final TermPresenter termPresenter = termView.getRealPresenter();
-        termPresenter.configure(term);
+        final LinkView view = new LinkView();
+        final LinkPresenter presenter = view.getRealPresenter();
+        presenter.configure(link);
         
-        final Parent parent = termView.getView();
+        final Parent parent = view.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
         
         vbWorkingArea.getChildren().clear();
         vbWorkingArea.getChildren().add(parent);
     }
     
-    private void onActionOpenTermWithId(long entityId) {
+    private void onActionOpenTerm(final Term term) {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action show [Term]"); // NOI18N
+
+        final TermView view = new TermView();
+        final TermPresenter presenter = view.getRealPresenter();
+        presenter.configure(term);
+        
+        final Parent parent = view.getView();
+        VBox.setVgrow(parent, Priority.ALWAYS);
+        
+        vbWorkingArea.getChildren().clear();
+        vbWorkingArea.getChildren().add(parent);
+    }
+    
+    private void onActionOpenTermWithId(final long entityId) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action show [Term] with [Id]"); // NOI18N
         
         // Was the [Term] previously open?
@@ -549,14 +565,14 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         }
     }
     
-    private void onActionOpenTopic(Topic topic) {
+    private void onActionOpenTopic(final Topic topic) {
         LoggerFacade.getDefault().debug(this.getClass(), "On action open [Topic]"); // NOI18N
 
-        final TopicView topicView = new TopicView();
-        final TopicPresenter topicPresenter = topicView.getRealPresenter();
-        topicPresenter.configure(topic);
+        final TopicView view = new TopicView();
+        final TopicPresenter presenter = view.getRealPresenter();
+        presenter.configure(topic);
         
-        final Parent parent = topicView.getView();
+        final Parent parent = view.getView();
         VBox.setVgrow(parent, Priority.ALWAYS);
         
         vbWorkingArea.getChildren().clear();

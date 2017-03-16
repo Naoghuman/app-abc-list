@@ -26,6 +26,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 
 /**
@@ -42,12 +43,17 @@ public class LinkPanePresenter implements Initializable {
     @FXML private TextArea taDescription;
     @FXML private TextField tfAlias;
     @FXML private TextField tfUrl;
+    @FXML private TitledPane tpLinkPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize LinkPanePresenter"); // NOI18N
         
         
+    }
+    
+    public TitledPane getTitledPane() {
+        return tpLinkPane;
     }
     
     public void onActionClickAliasHyperlink() {
