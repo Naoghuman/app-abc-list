@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,6 +9,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -19,24 +20,22 @@
         <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0">
             <items>
                 <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveTerm" text="Save Changes" />
-            <Button mnemonicParsing="false" onAction="#onActionCreateNewLinkPane" text="Add Link" />
-            <Button mnemonicParsing="false" onAction="#onActionEditThumbnails" text="Edit Thumbnails" />
             </items>
         </ToolBar>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Term">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <SplitPane dividerPositions="0.33" VBox.vgrow="ALWAYS">
-         <items>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-              <items>
-                  <VBox>
-                     <children>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Term">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+        <SplitPane dividerPositions="0.33" VBox.vgrow="ALWAYS">
+            <items>
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <VBox>
+                            <children>
                                 <Label text="Title">
                                     <VBox.margin>
                                         <Insets />
@@ -49,32 +48,54 @@
                                     </VBox.margin>
                                 </Label>
                                 <TextArea fx:id="taDescription" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS" />
-                     </children>
-                     <padding>
-                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-                     </padding>
-                  </VBox>
-                  <VBox>
-                     <padding>
-                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-                     </padding>
-                     <children>
-                        <Label text="Thumbnails" />
+                            </children>
+                            <padding>
+                                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                            </padding>
+                        </VBox>
+                        <VBox>
+                            <padding>
+                                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="BOTTOM_LEFT" spacing="7.0">
+                                    <children>
+                                        <Label text="Thumbnails" />
+                                        <Pane HBox.hgrow="ALWAYS" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewThumbnail" text="+" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionEditThumbnail" text="E" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionDeleteThumbnail" text="-" />
+                                    </children>
+                                </HBox>
+                                <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <FlowPane fx:id="fpThumbnails" hgap="7.0" prefWrapLength="300.0" vgap="7.0" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </items>
+                </SplitPane>
+                <VBox>
+                    <children>
+                        <HBox alignment="BOTTOM_LEFT" spacing="7.0">
+                            <children>
+                                <Label text="Links" />
+                                <Pane HBox.hgrow="ALWAYS" />
+                                <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewLinkPane" text="+" />
+                            </children>
+                        </HBox>
                         <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
-                           <content>
-                              <FlowPane fx:id="fpThumbnails" hgap="7.0" prefWrapLength="300.0" vgap="7.0" />
-                           </content>
+                            <content>
+                                <VBox fx:id="vbLinkArea" spacing="7.0" />
+                            </content>
                         </ScrollPane>
-                     </children>
-                  </VBox>
-              </items>
-            </SplitPane>
-            <Accordion fx:id="aLinkWorkingArea">
-               <padding>
-                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-               </padding>
-            </Accordion>
-         </items>
-      </SplitPane>
+                    </children>
+                    <padding>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                    </padding>
+                </VBox>
+            </items>
+        </SplitPane>
     </children>
 </VBox>

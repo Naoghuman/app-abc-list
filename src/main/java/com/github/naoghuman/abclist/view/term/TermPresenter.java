@@ -28,11 +28,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -40,11 +40,11 @@ import javafx.scene.layout.FlowPane;
  */
 public class TermPresenter implements Initializable, IActionConfiguration {
     
-    @FXML private Accordion aLinkWorkingArea;
     @FXML private FlowPane fpThumbnails;
     @FXML private Button bSave;
     @FXML private TextArea taDescription;
     @FXML private TextField tfTitle;
+    @FXML private VBox vbLinkArea;
     
     private StringChangeListener stringChangeListener = null;
     private Term term;
@@ -87,8 +87,18 @@ public class TermPresenter implements Initializable, IActionConfiguration {
         // TODO
     }
     
-    public void onActionEditThumbnails() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action edit [Thumbnails]"); // NOI18N
+    public void onActionCreateNewThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Thumbnail]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionDeleteThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action delete [Thumbnail]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionEditThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action edit [Thumbnail]"); // NOI18N
         // TODO
     }
     
