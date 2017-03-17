@@ -17,49 +17,52 @@
     <children>
         <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0">
             <items>
-                <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveLink" text="Save Changes" />
+                <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveLink" text="Save" />
             </items>
         </ToolBar>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Link">
             <font>
                 <Font size="24.0" />
             </font>
+            <VBox.margin>
+                <Insets left="7.0" />
+            </VBox.margin>
         </Text>
         <SplitPane dividerPositions="0.33" VBox.vgrow="ALWAYS">
             <items>
-            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-              <items>
-                      <VBox fx:id="vbLinkDetails">
-                     <padding>
-                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-                     </padding>
-                     <children>
-                        <Label text="Details" />
-                     </children>
-                  </VBox>
-                  <VBox>
-                     <padding>
-                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-                     </padding>
-                     <children>
-                        <HBox alignment="BOTTOM_LEFT" spacing="7.0">
-                           <children>
-                              <Label text="Thumbnails" />
-                              <Pane HBox.hgrow="ALWAYS" />
-                              <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewThumbnail" text="+" />
-                              <Button disable="true" mnemonicParsing="false" onAction="#onActionEditThumbnail" text="E" />
-                              <Button disable="true" mnemonicParsing="false" onAction="#onActionDeleteThumbnail" text="-" />
-                           </children>
-                        </HBox>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
-                           <content>
-                              <FlowPane fx:id="fpThumbnails" hgap="7.0" prefWrapLength="300.0" vgap="7.0" />
-                           </content>
-                        </ScrollPane>
-                     </children>
-                  </VBox>
-              </items>
-            </SplitPane>
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <VBox fx:id="vbLinkDetails">
+                            <padding>
+                                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                            </padding>
+                            <children>
+                                <Label text="Details" />
+                            </children>
+                        </VBox>
+                        <VBox>
+                            <padding>
+                                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="BOTTOM_LEFT" spacing="7.0">
+                                    <children>
+                                        <Label text="Thumbnails" />
+                                        <Pane HBox.hgrow="ALWAYS" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewThumbnail" text="+" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionEditThumbnail" text="E" />
+                                        <Button disable="true" mnemonicParsing="false" onAction="#onActionDeleteThumbnail" text="-" />
+                                    </children>
+                                </HBox>
+                                <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <FlowPane fx:id="fpThumbnails" hgap="7.0" prefWrapLength="300.0" vgap="7.0" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                    </items>
+                </SplitPane>
                 <VBox>
                     <children>
                         <HBox alignment="BOTTOM_LEFT" spacing="7.0">
