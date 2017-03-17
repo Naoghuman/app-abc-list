@@ -19,12 +19,12 @@
     <children>
         <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0">
             <items>
-                <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveTerm" text="Save Changes" />
+                <Button fx:id="bSave" disable="true" mnemonicParsing="false" onAction="#onActionSaveTerm" text="Save" />
             </items>
         </ToolBar>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Term">
             <VBox.margin>
-                <Insets />
+                <Insets left="7.0" />
             </VBox.margin>
             <font>
                 <Font size="24.0" />
