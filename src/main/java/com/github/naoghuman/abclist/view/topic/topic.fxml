@@ -3,11 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -23,32 +26,76 @@
          <font>
             <Font size="24.0" />
          </font>
+         <VBox.margin>
+            <Insets left="7.0" />
+         </VBox.margin>
       </Text>
-        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-            <tabs>
-                <Tab closable="false" text="Details">
-                    <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                            <children>
-                                <Label text="Title">
-                                    <VBox.margin>
-                                        <Insets top="14.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <TextField fx:id="tfTitle" maxWidth="1.7976931348623157E308" />
-                                <Label text="Description">
-                                    <VBox.margin>
-                                        <Insets top="14.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <TextArea fx:id="taDescription" maxWidth="1.7976931348623157E308" prefHeight="128.0" wrapText="true" />
-                            </children>
-                        </VBox>
-                    </content>
-                </Tab>
-                <Tab closable="false" disable="true" text="Images" />
-                <Tab closable="false" disable="true" text="Additional Informations" />
-            </tabs>
-        </TabPane>
+      <SplitPane dividerPositions="0.33" VBox.vgrow="ALWAYS">
+         <items>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+               <items>
+                  <VBox>
+                     <children>
+                        <Label text="Title">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="tfTitle" maxWidth="1.7976931348623157E308" />
+                        <Label text="Description">
+                           <VBox.margin>
+                              <Insets top="14.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextArea fx:id="taDescription" maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </padding>
+                  </VBox>
+                  <VBox>
+                     <padding>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </padding>
+                     <children>
+                        <HBox alignment="BOTTOM_LEFT" spacing="7.0">
+                           <children>
+                              <Label text="Thumbnails" />
+                              <Pane HBox.hgrow="ALWAYS" />
+                              <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewThumbnail" text="+" />
+                              <Button disable="true" mnemonicParsing="false" onAction="#onActionEditThumbnail" text="E" />
+                              <Button disable="true" mnemonicParsing="false" onAction="#onActionDeleteThumbnail" text="-" />
+                           </children>
+                        </HBox>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                           <content>
+                              <FlowPane fx:id="fpThumbnails" hgap="7.0" prefWrapLength="300.0" vgap="7.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
+            <VBox>
+               <children>
+                  <HBox alignment="BOTTOM_LEFT" spacing="7.0">
+                     <children>
+                        <Label text="Links" />
+                        <Pane HBox.hgrow="ALWAYS" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewLinkPane" text="+" />
+                     </children>
+                  </HBox>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="vbLinkArea" spacing="7.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+               <padding>
+                  <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+               </padding>
+            </VBox>
+         </items>
+      </SplitPane>
     </children>
 </VBox>

@@ -20,7 +20,6 @@ import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.action.api.TransferData;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,6 +30,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -38,9 +39,11 @@ import javafx.scene.control.TextField;
  */
 public class TopicPresenter implements Initializable, IActionConfiguration {
     
+    @FXML private FlowPane fpThumbnails;
     @FXML private Button bSave;
     @FXML private TextArea taDescription;
     @FXML private TextField tfTitle;
+    @FXML private VBox vbLinkArea;
     
     private StringChangeListener stringChangeListener = null;
     private Topic topic;
@@ -76,6 +79,26 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
     
     public long getId() {
         return topic.getId();
+    }
+    
+    public void onActionCreateNewLinkPane() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [LinkPane]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionCreateNewThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Thumbnail]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionDeleteThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action delete [Thumbnail]"); // NOI18N
+        // TODO
+    }
+    
+    public void onActionEditThumbnail() {
+        LoggerFacade.getDefault().debug(this.getClass(), "On action edit [Thumbnail]"); // NOI18N
+        // TODO
     }
     
     public void onActionSaveTopic() {
