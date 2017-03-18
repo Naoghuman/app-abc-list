@@ -19,7 +19,7 @@ package com.github.naoghuman.abclist;
 import com.airhacks.afterburner.injection.Injector;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.abclist.i18n.Properties;
-import com.github.naoghuman.abclist.testdata.TestdataFacade;
+import com.github.naoghuman.testdata.abclist.TestdataFacade;
 import com.github.naoghuman.lib.database.api.DatabaseFacade;
 import com.github.naoghuman.lib.logger.api.LoggerFacade;
 import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
