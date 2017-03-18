@@ -139,7 +139,7 @@ public class LinkMapping implements Comparable<LinkMapping>, Externalizable, IDe
     
     // START  PARENT TYPE ------------------------------------------------------
     private ObjectProperty parentTypeProperty = null;
-    private LinkMappingType _parentType;
+    private LinkMappingType _parentType = LinkMappingType.NOT_DEFINED;
     
     @Column(name = LINK_MAPPING__COLUMN_NAME__PARENT_TYPE)
     public LinkMappingType getParentType() {
@@ -200,7 +200,7 @@ public class LinkMapping implements Comparable<LinkMapping>, Externalizable, IDe
     
     // START  CHILD TYPE -------------------------------------------------------
     private ObjectProperty childTypeProperty = null;
-    private LinkMappingType _childType;
+    private LinkMappingType _childType = LinkMappingType.NOT_DEFINED;
     
     @Column(name = LINK_MAPPING__COLUMN_NAME__CHILD_TYPE)
     public LinkMappingType getChildType() {

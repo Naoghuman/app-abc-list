@@ -13,6 +13,7 @@ topic through `key terms`.
 
 
 #### Feature
+#17 [Component] Create a new component [LinkPane].
 
 
 
@@ -43,11 +44,11 @@ Naoghuman
 
 
 [//]: # (Issues which will be integrated in this release)
+#34 [Release] Create all resources, screenshots... for v0.4.0.   (-> Additional)
 #33 [Dialog] Create new component [LinkChooser].  (-> feature)
 #32 [Integration] Integrate the component [LinkPane] into [Topic-, Term- and LinkView]. (-> feature)
 #23 [Refactoring] Refactore the component [SignFlowPane]. (-> refactore)
 #21 [Tests] Check and write JUnitTests for SqlProvider. (-> enhancement)
-#17 [Component] Create a new component [LinkPane]. (-> feature)
 
 
 [//]: # (Links)
