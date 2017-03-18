@@ -14,11 +14,25 @@
     <children>
         <VBox layoutX="100.0" layoutY="23.0" spacing="7.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <children>
-                <Label text="Entity: Link">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Label>
+            <HBox spacing="7.0">
+               <children>
+                      <Label text="Entity: Link">
+                          <font>
+                              <Font size="15.0" />
+                          </font>
+                      </Label>
+                  <Label text="Previous needed entities:" textFill="RED">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label text="None">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
                 <HBox spacing="14.0">
                     <VBox.margin>
                         <Insets left="14.0" />
