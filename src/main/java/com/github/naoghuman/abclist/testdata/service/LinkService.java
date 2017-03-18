@@ -124,7 +124,7 @@ public class LinkService extends Service<Void> {
                     link.setId(id++);
                     link.setImage("image-name");  // NOI18N // TODO add real image name
                     link.setMarkAsChanged(false);
-                    link.setUrl("www.google.com"); // NOI18N
+                    link.setUrl("https:////www.google.com"); // NOI18N
                     
                     crudService.create(link);
                     updateProgress(index, saveMaxEntities);

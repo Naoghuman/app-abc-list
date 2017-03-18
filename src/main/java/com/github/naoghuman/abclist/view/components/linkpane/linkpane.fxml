@@ -35,8 +35,8 @@
                         </VBox>
                         <VBox>
                             <children>
-                                <Label text="Image" />
-                                <ComboBox fx:id="cbImages" onAction="#onActionClickImagesComboBox" prefWidth="64.0" />
+                                <Label text="Type" />
+                                <ComboBox fx:id="cbTypes" onAction="#onActionClickTypesComboBox" prefWidth="64.0" />
                             </children>
                         </VBox>
                     </children>
@@ -55,9 +55,10 @@
                 <TextArea fx:id="taDescription" wrapText="true" VBox.vgrow="ALWAYS" />
                 <HBox alignment="TOP_RIGHT" spacing="7.0">
                     <children>
-                        <CheckBox mnemonicParsing="false" onAction="#onActionClickAliasHyperlink" text="Favorite" />
+                        <CheckBox fx:id="cbFavorite" mnemonicParsing="false" onAction="#onActionClickFavoriteCheckBox" text="Favorite" />
                         <Pane HBox.hgrow="ALWAYS" />
-                        <Button fx:id="bSave" mnemonicParsing="false" onAction="#onActionClickSaveButton" text="Save" />
+                        <Button fx:id="bSave" mnemonicParsing="false" onAction="#onActionClickSaveButton" prefWidth="64.0" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#onActionClickDeleteButton" prefWidth="64.0" text="Delete" />
                     </children>
                     <VBox.margin>
                         <Insets top="7.0" />

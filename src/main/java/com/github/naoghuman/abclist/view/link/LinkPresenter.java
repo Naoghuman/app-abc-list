@@ -78,6 +78,8 @@ public class LinkPresenter implements Initializable {
         LoggerFacade.getDefault().debug(this.getClass(), "configure"); // NOI18N
         
         this.link = link;
+        
+        presenter.configure(this.link);
     }
     
     public void onActionCreateNewThumbnail() {

@@ -55,7 +55,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
 //        return ExerciseTermSqlService.getDefault().countAllExerciseTermsWithTermId(termId);
 //    }
     
-    public void createExercise(Exercise exercise) {
+    public void createExercise(final Exercise exercise) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
                 
@@ -66,7 +66,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
     
-    public void createExerciseTerm(ExerciseTerm exerciseTerm) {
+    public void createExerciseTerm(final ExerciseTerm exerciseTerm) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
             
@@ -77,7 +77,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
     
-    public void createTerm(Term term) {
+    public void createTerm(final Term term) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -88,7 +88,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
     
-    public void createTopic(Topic topic) {
+    public void createTopic(final Topic topic) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -99,12 +99,12 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
 
-    public void deleteAllExerciseTermsWithExerciseId(long exerciseId) {
+    public void deleteAllExerciseTermsWithExerciseId(final long exerciseId) {
         // StopWatch is in delegated method
         ExerciseTermSqlService.getDefault().deleteAllExerciseTermsWithExerciseId(exerciseId);
     }
     
-    public ObservableList<ExerciseTerm> findAllExerciseTermsWithExerciseId(long exerciseId) {
+    public ObservableList<ExerciseTerm> findAllExerciseTermsWithExerciseId(final long exerciseId) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -117,7 +117,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return exerciseTerms;
     }
     
-    public ObservableList<Exercise> findAllExercisesWithTopicId(long topicId) {
+    public ObservableList<Exercise> findAllExercisesWithTopicId(final long topicId) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -198,7 +198,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return terms;
     }
     
-    public ObservableList<Term> findAllTermsInExerciseTerm(ObservableList<ExerciseTerm> exerciseTerms) {
+    public ObservableList<Term> findAllTermsInExerciseTerm(final ObservableList<ExerciseTerm> exerciseTerms) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -227,7 +227,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return terms;
     }
 	
-    public ObservableList<Term> findAllTermsWithTitle(String title) {
+    public ObservableList<Term> findAllTermsWithTitle(final String title) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -240,7 +240,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return terms;
     }
 
-    public ObservableList<Term> findAllTermsWithTopicId(long topicId) {
+    public ObservableList<Term> findAllTermsWithTopicId(final long topicId) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -283,7 +283,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return topics;
     }
     
-    public <T extends Object> Optional<T> findById(Class<T> type, long entityId) {
+    public <T extends Object> Optional<T> findById(final Class<T> type, final long entityId) {
 //        final StopWatch stopWatch = new StopWatch();
 //        stopWatch.start();
         
@@ -296,7 +296,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         return optional;
     }
 
-    public Optional<ExerciseTerm> findExerciseTerm(long exerciseId, long termId) {
+    public Optional<ExerciseTerm> findExerciseTerm(final long exerciseId, final long termId) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -313,7 +313,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
 //        return ExerciseTermSqlService.getDefault().isExerciseTermMarkAsWrong(exerciseId, termId);
 //    }
     
-    private void printToLog(String split, int entities, String method) {
+    private void printToLog(final String split, final int entities, final String method) {
         final StringBuilder sb = new StringBuilder();
         sb.append("  + Need "); // NOI18N
         sb.append(split);
@@ -326,7 +326,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         LoggerFacade.getDefault().debug(this.getClass(), sb.toString());
     }
     
-    public void updateExercise(Exercise exercise) {
+    public void updateExercise(final Exercise exercise) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -337,7 +337,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
 
-    public void updateExerciseTerm(ExerciseTerm exerciseTerm) {
+    public void updateExerciseTerm(final ExerciseTerm exerciseTerm) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -347,8 +347,19 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         this.printToLog(stopWatch.toSplitString(), 1, "updateExerciseTerm(ExerciseTerm exerciseTerm)"); // NOI18N
         stopWatch.stop();
     }
+
+    public void updateLink(final Link link) {
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        
+        LinkSqlService.getDefault().update(link);
+        
+        stopWatch.split();
+        this.printToLog(stopWatch.toSplitString(), 1, "updateLink(Link link)"); // NOI18N
+        stopWatch.stop();
+    }
     
-    public void updateTerm(Term term) {
+    public void updateTerm(final Term term) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         
@@ -359,7 +370,7 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         stopWatch.stop();
     }
     
-    public void updateTopic(Topic topic) {
+    public void updateTopic(final Topic topic) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         

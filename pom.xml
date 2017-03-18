@@ -84,6 +84,7 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
                     <include>**/*.xml</include>
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
             <resource>
@@ -94,6 +95,7 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
                     <include>**/*.xml</include>
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
+                    <include>**/*.png</include>
                 </includes>
             </resource>
         </resources>
