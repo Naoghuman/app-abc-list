@@ -27,9 +27,9 @@ import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.testdata.abclist.TestdataGenerator;
 import com.github.naoghuman.testdata.abclist.TestdataPresenter;
 import com.github.naoghuman.testdata.abclist.view.testdatalinkmapping.TestdataLinkMappingPresenter;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
-import com.github.naoghuman.lib.database.api.ICrudService;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
+import com.github.naoghuman.lib.database.core.CrudService;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import javafx.animation.PauseTransition;
@@ -120,7 +120,7 @@ public class LinkMappingService extends Service<Void> {
                 final int sizeTopics = topics.size();
                 final AtomicInteger index = new AtomicInteger(0);
                 
-                final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
+                final CrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 final AtomicLong id = new AtomicLong(-1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName));
                 links.stream() // 1
                         .forEach(link -> {

@@ -19,7 +19,7 @@ package com.github.naoghuman.abclist.sql;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.IExerciseConfiguration;
 import com.github.naoghuman.abclist.model.Exercise;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

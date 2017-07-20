@@ -19,7 +19,7 @@ package com.github.naoghuman.abclist.view.link;
 import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.view.components.linkpane.LinkPanePresenter;
 import com.github.naoghuman.abclist.view.components.linkpane.LinkPaneView;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;

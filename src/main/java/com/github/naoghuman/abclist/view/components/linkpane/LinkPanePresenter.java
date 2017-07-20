@@ -20,7 +20,7 @@ import com.github.naoghuman.abclist.configuration.IImagesConfiguration;
 import com.github.naoghuman.abclist.images.ImageLoader;
 import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;

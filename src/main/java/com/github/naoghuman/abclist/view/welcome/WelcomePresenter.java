@@ -16,7 +16,7 @@
  */
 package com.github.naoghuman.abclist.view.welcome;
 
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;

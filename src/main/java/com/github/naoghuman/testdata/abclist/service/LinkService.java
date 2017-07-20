@@ -22,9 +22,9 @@ import com.github.naoghuman.testdata.abclist.TestdataGenerator;
 import com.github.naoghuman.testdata.abclist.TestdataPresenter;
 import com.github.naoghuman.testdata.abclist.view.testdatalink.TestdataLinkPresenter;
 import com.github.naoghuman.abclist.view.application.converter.DateConverter;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
-import com.github.naoghuman.lib.database.api.ICrudService;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
+import com.github.naoghuman.lib.database.core.CrudService;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.beans.binding.Bindings;
@@ -113,7 +113,7 @@ public class LinkService extends Service<Void> {
                 final StopWatch stopWatch = new StopWatch();
                 stopWatch.start();
                 
-                final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
+                final CrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 long id = -1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName);
                 for (int index = 0; index < saveMaxEntities; index++) {
                     final Link link = ModelProvider.getDefault().getLink();

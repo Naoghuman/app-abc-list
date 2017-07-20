@@ -16,8 +16,6 @@
  */
 package com.github.naoghuman.abclist.view.application;
 
-import com.github.naoghuman.abclist.view.application.ENavigationType;
-
 /**
  *
  * @author Naoghuman

@@ -26,8 +26,8 @@ import com.github.naoghuman.abclist.model.ExerciseTerm;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -300,7 +300,7 @@ public class ExercisePresenter implements Initializable, IActionConfiguration, I
         
         // Reflect the new state in the gui
         this.onActionPrepareExerciseFor(EState.PREPARE_STATE_FOR__IS_READY);
-        ActionFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
+        ActionHandlerFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
     }
     
     private void onActionLoadAllTerms() {

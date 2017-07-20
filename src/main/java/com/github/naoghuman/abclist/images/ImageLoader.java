@@ -16,7 +16,7 @@
  */
 package com.github.naoghuman.abclist.images;
 
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;

@@ -19,8 +19,8 @@ package com.github.naoghuman.abclist.view.topic;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -112,7 +112,7 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
         topic.setMarkAsChanged(Boolean.FALSE);
         
         // Refresh the [Navigation]
-        ActionFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
+        ActionHandlerFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
     }
     
     private final class StringChangeListener implements ChangeListener<String> {

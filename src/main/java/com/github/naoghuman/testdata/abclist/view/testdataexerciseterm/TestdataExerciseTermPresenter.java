@@ -18,8 +18,8 @@ package com.github.naoghuman.testdata.abclist.view.testdataexerciseterm;
 
 import com.github.naoghuman.abclist.configuration.IPreferencesConfiguration;
 import com.github.naoghuman.testdata.abclist.entity.EntityHelper;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
-import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
+import com.github.naoghuman.lib.preferences.core.PreferencesFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;

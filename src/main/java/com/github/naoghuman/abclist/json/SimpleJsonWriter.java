@@ -17,7 +17,7 @@
 package com.github.naoghuman.abclist.json;
 
 import com.github.naoghuman.abclist.configuration.IJSONConfiguration;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;

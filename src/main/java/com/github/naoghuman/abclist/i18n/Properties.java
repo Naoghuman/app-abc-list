@@ -17,7 +17,7 @@
 package com.github.naoghuman.abclist.i18n;
 
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
-import com.github.naoghuman.lib.properties.api.PropertiesFacade;
+import com.github.naoghuman.lib.properties.core.PropertiesFacade;
 
 /**
  *

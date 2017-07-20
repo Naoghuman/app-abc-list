@@ -16,8 +16,6 @@
  */
 package com.github.naoghuman.abclist.view.components;
 
-import com.github.naoghuman.abclist.view.components.ESign;
-import com.github.naoghuman.abclist.view.components.SignFlowPane;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.geometry.Insets;

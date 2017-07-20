@@ -20,7 +20,7 @@ import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.ILinkMappingConfiguration;
 import com.github.naoghuman.abclist.model.LinkMapping;
 import com.github.naoghuman.abclist.model.LinkMappingType;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

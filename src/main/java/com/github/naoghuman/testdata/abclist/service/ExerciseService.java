@@ -25,9 +25,9 @@ import com.github.naoghuman.testdata.abclist.TestdataGenerator;
 import com.github.naoghuman.testdata.abclist.view.testdataexercise.TestdataExercisePresenter;
 import com.github.naoghuman.abclist.view.application.converter.DateConverter;
 import com.github.naoghuman.abclist.view.exercise.ETime;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
-import com.github.naoghuman.lib.database.api.ICrudService;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
+import com.github.naoghuman.lib.database.core.CrudService;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.beans.binding.Bindings;
@@ -124,7 +124,7 @@ public class ExerciseService extends Service<Void> {
                 }
                 final int sizeTopics = topics.size();
                 
-                final ICrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
+                final CrudService crudService = DatabaseFacade.getDefault().getCrudService(entityName);
                 final ETime[] times = ETime.values();
                 final int sizeTimes = times.length;
                 long id = -1_000_000_000L + DatabaseFacade.getDefault().getCrudService().count(entityName);

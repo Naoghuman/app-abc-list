@@ -42,10 +42,11 @@ import com.github.naoghuman.abclist.view.term.TermView;
 import com.github.naoghuman.abclist.view.topic.TopicPresenter;
 import com.github.naoghuman.abclist.view.topic.TopicView;
 import com.github.naoghuman.abclist.view.welcome.WelcomeView;
-import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.action.api.IRegisterActions;
-import com.github.naoghuman.lib.action.api.TransferData;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
+import com.github.naoghuman.lib.action.core.RegisterActions;
+import com.github.naoghuman.lib.action.core.TransferData;
+import com.github.naoghuman.lib.action.core.TransferDataBuilder;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -80,7 +81,7 @@ import javafx.util.Callback;
  * @author Naoghuman
  */
 public class ApplicationPresenter implements Initializable, IActionConfiguration, 
-        IDefaultConfiguration, IPropertiesConfiguration, IRegisterActions 
+        IDefaultConfiguration, IPropertiesConfiguration, RegisterActions 
 {
     @FXML private Button bNavigationCreateNewExercise;
     @FXML private Button bNavigationCreateNewTerm;
@@ -120,7 +121,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         this.initializeNavigationTabTopics();
         this.initializeWelcomeView();
 
-        this.registerActions();
+        this.register();
             
         // Update gui
         this.onActionRefreshNavigationTabTopics();
@@ -373,14 +374,16 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                     event.getClickCount() == 2
                     && !lvFoundedNavigationEntities.getSelectionModel().isEmpty()
             ) {
-                final TransferData transferData = new TransferData();
-                transferData.setActionId(ACTION__APPLICATION__OPEN_EXERCISE);
                 
                 final NavigationEntity navigationEntity = lvFoundedNavigationEntities.getSelectionModel().getSelectedItem();
                 final long exercseId = navigationEntity.getNavigation().getEntityId();
-                transferData.setLong(exercseId);
                 
-                ActionFacade.getDefault().handle(transferData);
+                final TransferData transferData = TransferDataBuilder.create()
+                        .actionId(ACTION__APPLICATION__OPEN_EXERCISE)
+                        .longValue(exercseId)
+                        .build();
+                
+                ActionHandlerFacade.getDefault().handle(transferData);
             }
         });
     }
@@ -772,8 +775,8 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
     }
     
     @Override
-    public void registerActions() {
-        LoggerFacade.getDefault().debug(this.getClass(), "Register actions in [ApplicationPresenter]"); // NOI18N
+    public void register() {
+        LoggerFacade.getDefault().debug(this.getClass(), "Register in [ApplicationPresenter]"); // NOI18N
         
         this.registerOnActionOpenExercise();
         this.registerOnActionOpenTerm();
@@ -782,24 +785,28 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
     private void registerOnActionOpenExercise() {
         LoggerFacade.getDefault().debug(this.getClass(), "Register on action open [Exercise]"); // NOI18N
         
-        ActionFacade.getDefault().register(
+        ActionHandlerFacade.getDefault().register(
                 ACTION__APPLICATION__OPEN_EXERCISE,
                 (ActionEvent event) -> {
                     final TransferData transferData = (TransferData) event.getSource();
-                    final long exercseId = transferData.getLong();
-                    this.onActionOpenExerciseWithId(exercseId);
+                    final Optional<Long> exercseId = transferData.getLong();
+                    if (exercseId.isPresent()) {
+                        this.onActionOpenExerciseWithId(exercseId.get());
+                    }
                 });
     }
     
     private void registerOnActionOpenTerm() {
         LoggerFacade.getDefault().debug(this.getClass(), "Register on action open [Term]"); // NOI18N
         
-        ActionFacade.getDefault().register(
+        ActionHandlerFacade.getDefault().register(
                 ACTION__APPLICATION__OPEN_TERM,
                 (ActionEvent event) -> {
                     final TransferData transferData = (TransferData) event.getSource();
-                    final long entityId = transferData.getLong();
-                    this.onActionOpenTermWithId(entityId);
+                    final Optional<Long> entityId = transferData.getLong();
+                    if (entityId.isPresent()) {
+                        this.onActionOpenTermWithId(entityId.get());
+                    }
                     // TODO select tab terms, select index from the topic in the combobox
                 });
     }

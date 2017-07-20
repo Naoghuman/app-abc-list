@@ -19,9 +19,10 @@ package com.github.naoghuman.abclist.view.term;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.lib.action.api.ActionFacade;
-import com.github.naoghuman.lib.action.api.TransferData;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
+import com.github.naoghuman.lib.action.core.TransferData;
+import com.github.naoghuman.lib.action.core.TransferDataBuilder;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -113,11 +114,12 @@ public class TermPresenter implements Initializable, IActionConfiguration {
         term.setMarkAsChanged(Boolean.FALSE);
         
         // Refresh the [Navigation]
-        final TransferData transferData = new TransferData();
-        transferData.setActionId(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TERMS_WITH_SELECTION);
-        transferData.setObject(term);
+        final TransferData transferData = TransferDataBuilder.create()
+                .actionId(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TERMS_WITH_SELECTION)
+                .objectValue(term)
+                .build();
         
-        ActionFacade.getDefault().handle(transferData);
+        ActionHandlerFacade.getDefault().handle(transferData);
     }
     
     private final class StringChangeListener implements ChangeListener<String> {

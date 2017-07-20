@@ -17,7 +17,7 @@
 package com.github.naoghuman.abclist.view.components;
 
 import com.github.naoghuman.abclist.model.Term;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.util.Comparator;
 import java.util.List;
 import javafx.animation.Animation;

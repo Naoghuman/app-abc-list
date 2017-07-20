@@ -47,9 +47,9 @@ import com.github.naoghuman.testdata.abclist.view.testdatalinkmapping.TestdataLi
 import com.github.naoghuman.testdata.abclist.view.testdatalinkmapping.TestdataLinkMappingView;
 import com.github.naoghuman.testdata.abclist.view.testdataterm.TestdataTermPresenter;
 import com.github.naoghuman.testdata.abclist.view.testdataterm.TestdataTermView;
-import com.github.naoghuman.lib.database.api.DatabaseFacade;
-import com.github.naoghuman.lib.logger.api.LoggerFacade;
-import com.github.naoghuman.lib.preferences.api.PreferencesFacade;
+import com.github.naoghuman.lib.database.core.DatabaseFacade;
+import com.github.naoghuman.lib.logger.core.LoggerFacade;
+import com.github.naoghuman.lib.preferences.core.PreferencesFacade;
 import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.List;
