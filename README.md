@@ -6,7 +6,7 @@ ABC-List
 Intention
 ---
 
-`ABC-List` is a learn software which allowed the user to train his ability 
+`ABC-List` is a learning software which allowed the user to train his ability 
 `structured thinking` about a choosen topic and `deepen` his knowlegde in this 
 topic through `key terms`.
 

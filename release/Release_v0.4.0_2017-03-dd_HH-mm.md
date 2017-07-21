@@ -31,6 +31,7 @@ topic through `key terms`.
 
 #### Refactoring
 #38 [ReadMe] Update the ReadMe, remove the tag br.
+#37 [Project] Update the project description.
 #36 [pom] Update the dependencies from my libraries to 0.5.0.
 #30 [Refactoring] Refactore the package structure for all testdata-packages.
 
