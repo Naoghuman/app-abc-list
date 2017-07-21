@@ -16,6 +16,7 @@
  */
 package com.github.naoghuman.abclist.view.application.converter;
 
+import com.github.naoghuman.converter.ExercisePresentationConverter;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import org.junit.After;

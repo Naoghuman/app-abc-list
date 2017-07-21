@@ -21,7 +21,7 @@ import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.testdata.abclist.TestdataPresenter;
 import com.github.naoghuman.testdata.abclist.view.testdatatopic.TestdataTopicPresenter;
 import com.github.naoghuman.testdata.abclist.TestdataGenerator;
-import com.github.naoghuman.abclist.view.application.converter.DateConverter;
+import com.github.naoghuman.converter.DateConverter;
 import com.github.naoghuman.lib.database.core.DatabaseFacade;
 import com.github.naoghuman.lib.database.core.CrudService;
 import com.github.naoghuman.lib.logger.core.LoggerFacade;

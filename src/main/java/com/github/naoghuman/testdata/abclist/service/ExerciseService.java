@@ -23,7 +23,7 @@ import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.testdata.abclist.TestdataPresenter;
 import com.github.naoghuman.testdata.abclist.TestdataGenerator;
 import com.github.naoghuman.testdata.abclist.view.testdataexercise.TestdataExercisePresenter;
-import com.github.naoghuman.abclist.view.application.converter.DateConverter;
+import com.github.naoghuman.converter.DateConverter;
 import com.github.naoghuman.abclist.view.exercise.ETime;
 import com.github.naoghuman.lib.database.core.DatabaseFacade;
 import com.github.naoghuman.lib.database.core.CrudService;

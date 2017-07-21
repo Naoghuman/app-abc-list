@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.naoghuman.abclist.view.application.converter;
+package com.github.naoghuman.converter;
 
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.abclist.i18n.Properties;

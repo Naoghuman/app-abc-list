@@ -16,6 +16,7 @@
  */
 package com.github.naoghuman.abclist.view.application.converter;
 
+import com.github.naoghuman.converter.DateConverter;
 import static org.junit.Assert.*;
 import java.time.Instant;
 import java.time.LocalDateTime;

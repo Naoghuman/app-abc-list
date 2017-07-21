@@ -16,6 +16,7 @@
  */
 package com.github.naoghuman.abclist.view.application.converter;
 
+import com.github.naoghuman.converter.TopicPresentationConverter;
 import com.github.naoghuman.abclist.model.ModelProvider;
 import com.github.naoghuman.abclist.model.Topic;
 import java.time.LocalDateTime;
