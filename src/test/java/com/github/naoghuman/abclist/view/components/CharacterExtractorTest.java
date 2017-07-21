@@ -16,6 +16,7 @@
  */
 package com.github.naoghuman.abclist.view.components;
 
+import com.github.naoghuman.abclist.view.components.signflowpane.CharacterExtractor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

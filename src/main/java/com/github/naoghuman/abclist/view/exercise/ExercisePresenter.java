@@ -16,9 +16,9 @@
  */
 package com.github.naoghuman.abclist.view.exercise;
 
-import com.github.naoghuman.abclist.view.components.CharacterExtractor;
-import com.github.naoghuman.abclist.view.components.ESign;
-import com.github.naoghuman.abclist.view.components.SignFlowPane;
+import com.github.naoghuman.abclist.view.components.signflowpane.CharacterExtractor;
+import com.github.naoghuman.abclist.view.components.signflowpane.ESign;
+import com.github.naoghuman.abclist.view.components.signflowpane.SignFlowPane;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.configuration.IExerciseConfiguration;
 import com.github.naoghuman.abclist.model.Exercise;
