@@ -16,20 +16,13 @@ Current `version` is `0.3.1-PRERELEASE` 03-07-2017 (MM-dd-yyyy)
 
 
 
-<br />
-_Image:_ `Testdata generation 0.3.0-PRERELEASE`
+_Image:_ `Testdata generation 0.3.0-PRERELEASE`  
 ![Testdata-Generation_v0.3.0-PRERELEASE.png][Testdata-Generation_v0.3.0-PRERELEASE]
 
-
-
-<br />
-_Image:_ `0.2.0-PRERELEASE`
+_Image:_ `0.2.0-PRERELEASE`  
 ![ABC-List_v0.2.0-PRERELEASE.png][ABC-List_v0.2.0-PRERELEASE]
 
-
-<br />
-_Image:_ `0.1.0-PRERELEASE`: Example ´terms´ extracted from an article
-
+_Image:_ `0.1.0-PRERELEASE`: Example ´terms´ extracted from an article  
 ![ABC-List_example_v0.1.0-PRERELEASE.png][ABC-List_example_v0.1.0-PRERELEASE]
 
 
@@ -45,7 +38,6 @@ Content
 
 
 
-<br />
 Download<a name="Download" />
 ---
 
@@ -56,7 +48,6 @@ click on the `jar-file` to start the application.
 
 
 
-<br />
 Requirements<a name="Requirements" />
 ---
 
@@ -64,7 +55,6 @@ Requirements<a name="Requirements" />
 
 
 
-<br />
 License<a name="License" />
 ---
 
@@ -72,7 +62,6 @@ The project `ABC-List` is licensed under [General Public License 3.0].
 
 
 
-<br />
 Autor<a name="Autor" />
 ---
 
@@ -80,7 +69,6 @@ The project `ABC-List` is maintained by me, Peter Rogge. See [Contact](#Contact)
 
 
 
-<br />
 Contact<a name="Contact" />
 ---
 
