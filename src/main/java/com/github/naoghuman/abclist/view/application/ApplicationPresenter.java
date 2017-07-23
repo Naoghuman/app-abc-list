@@ -19,6 +19,7 @@ package com.github.naoghuman.abclist.view.application;
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
 import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
 import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
+import com.github.naoghuman.abclist.dialog.DialogProvider;
 import com.github.naoghuman.abclist.json.Project;
 import com.github.naoghuman.abclist.json.SimpleJsonReader;
 import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
@@ -452,34 +453,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
     public void onActionCreateNewTopic() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Topic]"); // NOI18N
         
-        // TODO replace it with AnchorPane (transparent dialog), show warning when title exists
-        final TextInputDialog dialog = new TextInputDialog(); // NOI18N
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setHeaderText("Create Topic"); // NOI18N
-        dialog.setResizable(false);
-        dialog.setTitle("Simple Topic Wizard"); // NOI18N
-        
-        final Optional<String> result = dialog.showAndWait();
-        if (
-                result.isPresent()
-                && !result.get().isEmpty()
-        ) {
-            // Check if the [Topic] always exists
-            final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
-            final String title = result.get();
-            for (Topic topic : topics) {
-                if (topic.getTitle().equals(title)) {
-                    return;
-                }
-            }
-            
-            // Create a new [Topic]
-            final Topic topic = ModelProvider.getDefault().getTopic(title);
-            SqlProvider.getDefault().createTopic(topic);
-            
-            // Update gui
-            this.onActionRefreshNavigationTabTopics();
-        }
+        DialogProvider.getDefault().showTopicWizard();
     }
     
     private void onActionShowExerciseInWorkingArea(Exercise exercise) {
@@ -780,6 +754,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         
         this.registerOnActionOpenExercise();
         this.registerOnActionOpenTerm();
+        this.registerOnActionRefreshNavigationTabTopics();
     }
     
     private void registerOnActionOpenExercise() {
@@ -808,6 +783,16 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
                         this.onActionOpenTermWithId(entityId.get());
                     }
                     // TODO select tab terms, select index from the topic in the combobox
+                });
+    }
+    
+    private void registerOnActionRefreshNavigationTabTopics() {
+        LoggerFacade.getDefault().debug(this.getClass(), "Register on action refresh [Navigation] tab [Topic]s"); // NOI18N
+        
+        ActionHandlerFacade.getDefault().register(
+                ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS,
+                (ActionEvent event) -> {
+                    this.onActionRefreshNavigationTabTopics();
                 });
     }
     
