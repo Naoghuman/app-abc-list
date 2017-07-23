@@ -423,37 +423,13 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
     public void onActionCreateNewTerm() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Term]"); // NOI18N
         
-        // TODO replace it with AnchorPane
-        final TextInputDialog dialog = new TextInputDialog(); // NOI18N
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setHeaderText("Create Term"); // NOI18N
-        dialog.setResizable(false);
-        dialog.setTitle("Simple Term Wizard"); // NOI18N
-        
-        final Optional<String> result = dialog.showAndWait();
-        if (
-                result.isPresent()
-                && !result.get().isEmpty()
-        ) {
-            // Check if the [Term] always exists
-            final ObservableList<Term> terms = SqlProvider.getDefault().findAllTerms();
-            final String title = result.get();
-            for (Term term : terms) {
-                if (term.getTitle().equals(title)) {
-                    return;
-                }
-            }
-            
-            // Create a new [Term]
-            final Term term = ModelProvider.getDefault().getTerm(title);
-            SqlProvider.getDefault().createTerm(term);
-        }
+        DialogProvider.getDefault().showNewTermWizard();
     }
     
     public void onActionCreateNewTopic() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Topic]"); // NOI18N
         
-        DialogProvider.getDefault().showTopicWizard();
+        DialogProvider.getDefault().showNewTopicWizard();
     }
     
     private void onActionShowExerciseInWorkingArea(Exercise exercise) {

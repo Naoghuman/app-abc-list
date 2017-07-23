@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @author Naoghuman
  */
-public final class DialogProvider implements TopicDialogs {
+public final class DialogProvider implements TermDialogs, TopicDialogs {
     
     private static final Optional<DialogProvider> INSTANCE = Optional.of(new DialogProvider());
 
@@ -31,6 +31,7 @@ public final class DialogProvider implements TopicDialogs {
         return INSTANCE.get();
     }
     
+    private TermDialogs termDialogs;
     private TopicDialogs topicDialogs;
     
     private DialogProvider() {
@@ -40,12 +41,18 @@ public final class DialogProvider implements TopicDialogs {
     private void initialize() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize DialogProvider"); // NOI18N
         
+        termDialogs  = new TermDialogsImpl();
         topicDialogs = new TopicDialogImpl();
     }
 
     @Override
-    public void showTopicWizard() {
-        topicDialogs.showTopicWizard();
+    public void showNewTermWizard() {
+        termDialogs.showNewTermWizard();
+    }
+
+    @Override
+    public void showNewTopicWizard() {
+        topicDialogs.showNewTopicWizard();
     }
     
 }
