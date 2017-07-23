@@ -30,6 +30,7 @@ topic through `key terms`.
 
 
 #### Refactoring
+#41 [Refactoring] Move all Dialogs in a new package.
 #39 [Refactoring] Move the package xy.converter to com.github.naoghuman.converter.
 #38 [ReadMe] Update the ReadMe, remove the tag br.
 #37 [Project] Update the project description.
