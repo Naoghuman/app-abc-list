@@ -18,6 +18,7 @@ topic through `key terms`.
 
 
 #### Enhancement
+#50 [app] Update .gitignore file.
 
 
 

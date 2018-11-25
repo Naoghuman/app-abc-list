@@ -1,4 +1,7 @@
-/database/*
-/log/*
-/target/*
+/database/
+/log/
+/target/
+/todo/
+/nbproject/
+*.properties
 *.versionsBackup
