@@ -12,7 +12,7 @@ topic through `key terms`.
 
 ABC-List is a [JavaFX] & [Maven] application, written in [NetBeans IDE].
 
-Current `version` is `0.3.1-PRERELEASE` 03-07-2017 (MM-dd-yyyy)
+Current `version` is `0.4.0-PRERELEASE` (11-25-2018 / MM-dd-yyyy)
 
 
 
@@ -41,7 +41,7 @@ Content
 Download<a name="Download" />
 ---
 
-The current `version` `0.3.1-PRERELEASE` can be here downloaded: [v0.3.1-PRERELEASE]
+The current `version` can be here downloaded: [v0.4.0-PRERELEASE]
 
 Download the `zip-file`, extracted it to a place of your choice. Then double 
 click on the `jar-file` to start the application.
@@ -90,4 +90,4 @@ You can reach me under <peter.rogge@yahoo.de>.
 [General Public License 3.0]:http://www.gnu.org/licenses/gpl-3.0.en.html
 [Maven]:http://maven.apache.org/
 [NetBeans IDE]:https://netbeans.org/
-[v0.3.1-PRERELEASE]:https://github.com/Naoghuman/ABC-List/releases/tag/v0.3.1-prerelease
+[v0.4.0-PRERELEASE]:https://github.com/Naoghuman/ABC-List/releases/tag/v0.4.0-PRERELEASE

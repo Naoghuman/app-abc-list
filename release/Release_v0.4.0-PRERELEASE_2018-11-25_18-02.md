@@ -29,6 +29,10 @@ topic through `key terms`.
 
 
 
+#### Documentation
+
+
+
 #### Refactoring
 #41 [Refactoring] Move all Dialogs in a new package.
 #39 [Refactoring] Move the package xy.converter to com.github.naoghuman.converter.
@@ -50,11 +54,6 @@ Naoghuman
 
 
 [//]: # (Issues which will be integrated in this release)
-#34 [Release] Create all resources, screenshots... for v0.4.0.   (-> Additional)
-#33 [Dialog] Create new component [LinkChooser].  (-> feature)
-#32 [Integration] Integrate the component [LinkPane] into [Topic-, Term- and LinkView]. (-> feature)
-#23 [Refactoring] Refactore the component [SignFlowPane]. (-> refactore)
-#21 [Tests] Check and write JUnitTests for SqlProvider. (-> enhancement)
 
 
 [//]: # (Links)

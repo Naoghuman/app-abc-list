@@ -1,0 +1,54 @@
+-------------------------------------------------------------------------------
+FEATURE LINKS
+-------------------------------------------------------------------------------
+INTENTION
+Through the 'Exercise's 'Term's (keywords) will be defined.
+This 'Term's are entry points to specific knowledge around the topic 
+from the keyword.
+
+As a main feature for the deepen knowledge are 'Link's.
+To every 'Topic', 'Term' 'Link's can defined.
+'Link's can navigate to documents, webpages, videos, image aso.
+
+LinkLight
+ - Minimalistic LinkModel
+    - This model wont be persist.
+    - Means the Link model needs all other attributes as @nullable?
+      So I can load only the needed attributes?
+      Idea: Performance -> show 500 Links in a component.
+ - Contains id, alias, url, image
+    - id is the same in Link
+ - Click on alias open the url with java.desktop
+ - Component
+    - HBox with image, alias, edit-button
+    - click edit-button opens the normal Link in Edit-Dialog or TitlePane.
+
+Link
+ - Model for a link with all attributes.
+ - Contains id, alias, url, image, favorite, generationtime,
+   description, markaschange, tags.
+ - This entity will be persist.
+
+Component LinkHeader
+ - Contains a HBox.
+    - Can be shown in a ListView, Table, HTML...
+ - Will be filled with the LinkLight model.
+
+Component LinkContent
+ - Can be shown in a TitledPane, Dialog...
+ - Will be filled with the Link model.
+
+Search
+ - For 'Link's.
+ - Where 'Link's.
+
+-------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

@@ -29,7 +29,7 @@ import javafx.stage.Modality;
  *
  * @author Naoghuman
  */
-public class TermDialogsImpl implements TermDialogs {
+final class TermDialogsImpl implements TermDialogs {
 
     @Override
     public void showNewTermWizard() {

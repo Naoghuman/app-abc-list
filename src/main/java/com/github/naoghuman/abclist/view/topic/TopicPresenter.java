@@ -17,6 +17,7 @@
 package com.github.naoghuman.abclist.view.topic;
 
 import com.github.naoghuman.abclist.configuration.IActionConfiguration;
+import com.github.naoghuman.abclist.dialog.DialogProvider;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
 import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
@@ -83,12 +84,12 @@ public class TopicPresenter implements Initializable, IActionConfiguration {
     
     public void onActionCreateNewLinkPane() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [LinkPane]"); // NOI18N
-        // TODO
+       
+        DialogProvider.getDefault().showNewLinkWizardForTopic(topic);
     }
     
     public void onActionCreateNewThumbnail() {
         LoggerFacade.getDefault().debug(this.getClass(), "On action create new [Thumbnail]"); // NOI18N
-        // TODO
     }
     
     public void onActionDeleteThumbnail() {

@@ -82,7 +82,7 @@
                      <children>
                         <Label text="Links" />
                         <Pane HBox.hgrow="ALWAYS" />
-                        <Button disable="true" mnemonicParsing="false" onAction="#onActionCreateNewLinkPane" text="+" />
+                        <Button mnemonicParsing="false" onAction="#onActionCreateNewLinkPane" text="+" />
                      </children>
                   </HBox>
                   <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">

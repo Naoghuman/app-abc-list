@@ -16,6 +16,8 @@
  */
 package com.github.naoghuman.abclist.dialog;
 
+import com.github.naoghuman.abclist.model.Term;
+import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.util.Optional;
 
@@ -23,7 +25,7 @@ import java.util.Optional;
  *
  * @author Naoghuman
  */
-public final class DialogProvider implements TermDialogs, TopicDialogs {
+public final class DialogProvider implements LinkDialogs, TermDialogs, TopicDialogs {
     
     private static final Optional<DialogProvider> INSTANCE = Optional.of(new DialogProvider());
 
@@ -31,6 +33,7 @@ public final class DialogProvider implements TermDialogs, TopicDialogs {
         return INSTANCE.get();
     }
     
+    private LinkDialogs linkDialogs;
     private TermDialogs termDialogs;
     private TopicDialogs topicDialogs;
     
@@ -41,8 +44,19 @@ public final class DialogProvider implements TermDialogs, TopicDialogs {
     private void initialize() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize DialogProvider"); // NOI18N
         
+        linkDialogs  = new LinkDialogsImpl();
         termDialogs  = new TermDialogsImpl();
         topicDialogs = new TopicDialogImpl();
+    }
+
+    @Override
+    public void showNewLinkWizardForTerm(final Term term) {
+        linkDialogs.showNewLinkWizardForTerm(term);
+    }
+
+    @Override
+    public void showNewLinkWizardForTopic(final Topic topic) {
+        linkDialogs.showNewLinkWizardForTopic(topic);
     }
 
     @Override
