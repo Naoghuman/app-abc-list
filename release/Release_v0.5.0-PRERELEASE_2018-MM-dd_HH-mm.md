@@ -13,6 +13,7 @@ topic through `key terms`.
 
 
 #### Feature
+#52 [app] Connect the GitHub project with Travis CI.
 
 
 
