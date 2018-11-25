@@ -7,8 +7,8 @@ topic through `key terms`.
 
 
 #### Summary
-* ...
-* ...
+* Create a new component [LinkPane].
+* Do some refactoring, performance improvment and other stuff.
 
 
 

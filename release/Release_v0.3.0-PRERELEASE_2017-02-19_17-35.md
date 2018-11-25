@@ -1,4 +1,4 @@
-Welcome to `ABC-List` with the new pre-release `v0.3.0`.
+Welcome to `ABC-List` with the new pre-release `v0.3.0-PRERELEASE`.
 
 `ABC-List` is a learn software which allowed the user to train his ability 
 `structured thinking` about a choosen topic and `deepen` his knowlegde in this 
