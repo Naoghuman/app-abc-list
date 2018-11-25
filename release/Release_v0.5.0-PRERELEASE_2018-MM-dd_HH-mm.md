@@ -14,6 +14,7 @@ topic through `key terms`.
 
 #### Feature
 #52 [app] Connect the GitHub project with Travis CI.
+#51 [app] Add badges from img.shield.io to the ReadMe.md.
 
 
 
