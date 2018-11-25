@@ -123,31 +123,31 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
         <dependency>
             <groupId>com.github.naoghuman</groupId>
             <artifactId>lib-action</artifactId>
-            <version>0.5.0</version>
+            <version>0.6.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.naoghuman</groupId>
             <artifactId>lib-database-objectdb</artifactId>
-            <version>0.5.0</version>
+            <version>0.6.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.naoghuman</groupId>
             <artifactId>lib-logger</artifactId>
-            <version>0.5.0</version>
+            <version>0.6.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.naoghuman</groupId>
             <artifactId>lib-preferences</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.naoghuman</groupId>
             <artifactId>lib-properties</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.1</version>
             <type>jar</type>
         </dependency>
         
