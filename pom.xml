@@ -3,13 +3,13 @@
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.naoghuman</groupId>
-    <artifactId>abc-list</artifactId>
+    <artifactId>app-abc-list</artifactId>
     <version>0.5.0-SNAPSHOT</version> <!-- -SNAPSHOT -PRERELEASE -->
     
     <packaging>jar</packaging>
-    <name>ABC-List</name>
+    <name>App-ABC-List</name>
     <inceptionYear>2016</inceptionYear>
-    <url>https://github.com/Naoghuman/ABC-List.git</url>
+    <url>https://github.com/Naoghuman/app-abc-list.git</url>
     
     <description>ABC-List is a learning software which allowed the user to train his ability `structured thinking` about a choosen topic and `deepen` his knowlegde in this topic through key terms.
 
@@ -21,7 +21,7 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
             <id>Naoghuman</id>
             <name>Peter Rogge</name>
             <timezone>+1</timezone>
-            <url>https://github.com/Naoghuman/ABC-List.git</url>
+            <url>https://github.com/Naoghuman/app-abc-list.git</url>
         </developer>
     </developers>
     
@@ -35,9 +35,9 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
     </licenses>
 
     <scm>
-        <connection>scm:git:ssh://github.com:Naoghuman/ABC-List.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:Naoghuman/ABC-List.git</developerConnection>
-        <url>https://github.com/Naoghuman/ABC-List.git</url>
+        <connection>scm:git:ssh://github.com:Naoghuman/app-abc-list.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:Naoghuman/app-abc-list.git</developerConnection>
+        <url>https://github.com/Naoghuman/app-abc-list.git</url>
     </scm>
     
     <properties>

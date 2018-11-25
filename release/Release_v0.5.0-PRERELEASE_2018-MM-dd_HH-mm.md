@@ -29,6 +29,7 @@ topic through `key terms`.
 
 
 #### Refactoring
+#45 [app] New name convention - add prefix `app` to the application name.
 
 
 
