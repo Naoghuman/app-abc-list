@@ -80,6 +80,28 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
                     <verbose>true</verbose>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <excludes>
+                        <exclude>**/com/github/naoghuman/abclist/TestdataApplication.java</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/entity/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/service/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/listcell/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataexercise/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataexerciseterm/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatalink/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatalinkmapping/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataterm/*</exclude>
+                        <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatatopic/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
         <resources>
             <!--
@@ -94,7 +116,17 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
                     <include>**/*.png</include>
+                    <include>**/*.txt</include>
                 </includes>
+                <excludes>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataexercise/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataexerciseterm/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatalink/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatalinkmapping/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdataterm/*</exclude>
+                    <exclude>**/com/github/naoghuman/testdata/abclist/view/testdatatopic/*</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
@@ -105,7 +137,11 @@ ABC-List is a JavaFX &amp; Maven application, written in NetBeans IDE.</descript
                     <include>**/*.css</include>
                     <include>**/*.properties</include>
                     <include>**/*.png</include>
+                    <include>**/*.txt</include>
                 </includes>
+                <excludes>
+                    <exclude>**/com/github/naoghuman/abclist/i18n/testdataapplication.properties</exclude>
+                </excludes>
             </resource>
         </resources>
         <finalName>${project.artifactId}-${project.version}</finalName>

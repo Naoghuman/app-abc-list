@@ -21,6 +21,7 @@ topic through `key terms`.
 
 #### Enhancement
 #50 [app] Update .gitignore file.
+#48 [pom] Exclude the packages for the testdata generation with maven-compiler-plugin.
 
 
 
