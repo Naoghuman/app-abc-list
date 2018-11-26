@@ -1,0 +1,39 @@
+--------------------------------------------------------------------------------
+CONCEPT SQL v0.5.0
+--------------------------------------------------------------------------------
+DESCRIPTION
+In this concept I want to write the 'actual' and 'future' condition from the 
+topic 'SQL' in the application 'ABC-List'.
+
+--------------------------------------------------------------------------------
+ACTUAL CONDITION
+Following class structure exists momentary:
+ - SqlProvider
+    - Allowed access to the methods from the other sql-services.
+    - ExerciseSqlService, ExerciseTermSqlService, LinkMappingSqlService,
+      LinkSqlService, TermSqlService, TopicSqlService.
+
+--------------------------------------------------------------------------------
+FUTURE CONDITION
+SqlProvider
+ - Move SqlPerformanceLogging to own class SqlPerformanceLogger
+    - Managed start, stop, logging.
+    - Methods for the logging msg will be refactored. Remove the variable name.
+       - Old: updateExercise(Exercise exercise)
+       - New: updateExercise(Exercise)
+ - Implement XySqlService getter (return Interface)
+
+XySqlService
+ - Split into (public) Interface and (package) Implementation
+    - TermSqlService, DefaultTermSqlService
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
