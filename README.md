@@ -10,8 +10,8 @@ Intention
 ---
 
 `ABC-List` is a learning software which allowed the user to train his ability 
-`structured thinking` about a choosen topic and `deepen` his knowlegde in this 
-topic through `key terms`.
+`structured thinking` about a choosen topic and `deepen` his knowlegde in the 
+topics through `key terms`.
 
 ABC-List is a [JavaFX] & [Maven] application, written in [NetBeans IDE].
 

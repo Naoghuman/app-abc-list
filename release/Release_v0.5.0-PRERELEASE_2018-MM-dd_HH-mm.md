@@ -30,6 +30,7 @@ topic through `key terms`.
 
 
 #### Documentation
+#47 [doc] Update the application description.
 
 
 
