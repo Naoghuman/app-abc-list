@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------------
+CONCEPT I18N v0.5.0
+--------------------------------------------------------------------------------
+DESCRIPTION
+In this concept I want to write the 'actual' and 'future' condition from the 
+topic 'I18N' in the application 'ABC-List'.
+
+--------------------------------------------------------------------------------
+ACTUAL CONDITION
+Access to the .properties file from src/main/resources.
+ - Class Properties.
+    - Access to application.propertiers, converter.properties, testdataapplication.properties.
+    - The class is a simple facade.
+
+--------------------------------------------------------------------------------
+FUTURE CONDITION
+Class Properties.
+ - Will be deleted.
+
+Class TestDataProperties
+ - Access only to testdataapplication.properties.
+ - Can be excluded in pom.xml.
+
+Class PropertiesProvider
+ - Include features from Lib-I18N.
+ - Have a look in App-Yin-Yang.
+ - Handle also application.properties.
+
+Lib-I18N
+ - messages_de, messages_en
+    - converter.properties will be included.
+    - Which XYConverter can be deleted?
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

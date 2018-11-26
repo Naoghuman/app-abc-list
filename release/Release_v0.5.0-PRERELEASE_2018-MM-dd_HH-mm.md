@@ -30,6 +30,7 @@ topic through `key terms`.
 
 
 #### Documentation
+#58 [doc] Write new concept for the topic 'i18n' in the application.
 #47 [doc] Update the application description.
 
 
