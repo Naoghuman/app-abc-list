@@ -34,6 +34,7 @@ topic through `key terms`.
 
 
 #### Refactoring
+#55 [app] Refactore name from the classes, interfaces in the 'dialog' package.
 #45 [app] New name convention - add prefix `app` to the application name.
 
 

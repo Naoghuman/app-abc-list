@@ -20,8 +20,8 @@ package com.github.naoghuman.abclist.dialog;
  *
  * @author Naoghuman
  */
-interface TopicDialogs {
+interface TermDialog {
     
-    void showNewTopicWizard();
+    void showNewTermWizard();
     
 }

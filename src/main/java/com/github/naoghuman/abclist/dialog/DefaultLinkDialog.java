@@ -24,18 +24,17 @@ import com.github.naoghuman.lib.logger.core.LoggerFacade;
  *
  * @author Naoghuman
  */
-final class LinkDialogsImpl implements LinkDialogs {
+final class DefaultLinkDialog implements LinkDialog {
 
     @Override
-    public void showNewLinkWizardForTerm(Term term) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action show new [Link] wizard for [Term]: " + term.getTitle()); // NOI18N
+    public void showNewLinkWizardForTerm(final Term term) {
+        LoggerFacade.getDefault().debug(this.getClass(), String.format("showNewLinkWizardForTerm(Term=%s)", term.getTitle())); // NOI18N
         
     }
 
     @Override
-    public void showNewLinkWizardForTopic(Topic topic) {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action show new [Link] wizard for [Topic]: " + topic.getTitle()); // NOI18N
-        
+    public void showNewLinkWizardForTopic(final Topic topic) {
+        LoggerFacade.getDefault().debug(this.getClass(), String.format("showNewLinkWizardForTerm(Term=%s)", topic.getTitle())); // NOI18N
         /*
         TODO
          - vbLinkArea: container for all links

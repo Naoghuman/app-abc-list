@@ -16,16 +16,12 @@
  */
 package com.github.naoghuman.abclist.dialog;
 
-import com.github.naoghuman.abclist.model.Term;
-import com.github.naoghuman.abclist.model.Topic;
-
 /**
  *
  * @author Naoghuman
  */
-interface LinkDialogs {
+interface TopicDialog {
     
-    void showNewLinkWizardForTerm(final Term term);
-    void showNewLinkWizardForTopic(final Topic topic);
+    void showNewTopicWizard();
     
 }

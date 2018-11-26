@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author Naoghuman
  */
-public final class DialogProvider implements LinkDialogs, TermDialogs, TopicDialogs {
+public final class DialogProvider implements LinkDialog, TermDialog, TopicDialog {
     
     private static final Optional<DialogProvider> INSTANCE = Optional.of(new DialogProvider());
 
@@ -33,9 +33,9 @@ public final class DialogProvider implements LinkDialogs, TermDialogs, TopicDial
         return INSTANCE.get();
     }
     
-    private LinkDialogs linkDialogs;
-    private TermDialogs termDialogs;
-    private TopicDialogs topicDialogs;
+    private LinkDialog  linkDialog;
+    private TermDialog  termDialog;
+    private TopicDialog topicDialog;
     
     private DialogProvider() {
         this.initialize();
@@ -44,29 +44,29 @@ public final class DialogProvider implements LinkDialogs, TermDialogs, TopicDial
     private void initialize() {
         LoggerFacade.getDefault().info(this.getClass(), "Initialize DialogProvider"); // NOI18N
         
-        linkDialogs  = new LinkDialogsImpl();
-        termDialogs  = new TermDialogsImpl();
-        topicDialogs = new TopicDialogImpl();
+        linkDialog  = new DefaultLinkDialog();
+        termDialog  = new DefaultTermDialog();
+        topicDialog = new DefaultTopicDialog();
     }
 
     @Override
     public void showNewLinkWizardForTerm(final Term term) {
-        linkDialogs.showNewLinkWizardForTerm(term);
+        linkDialog.showNewLinkWizardForTerm(term);
     }
 
     @Override
     public void showNewLinkWizardForTopic(final Topic topic) {
-        linkDialogs.showNewLinkWizardForTopic(topic);
+        linkDialog.showNewLinkWizardForTopic(topic);
     }
 
     @Override
     public void showNewTermWizard() {
-        termDialogs.showNewTermWizard();
+        termDialog.showNewTermWizard();
     }
 
     @Override
     public void showNewTopicWizard() {
-        topicDialogs.showNewTopicWizard();
+        topicDialog.showNewTopicWizard();
     }
     
 }

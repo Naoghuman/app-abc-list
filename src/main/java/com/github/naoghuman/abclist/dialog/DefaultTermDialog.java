@@ -16,11 +16,9 @@
  */
 package com.github.naoghuman.abclist.dialog;
 
-import static com.github.naoghuman.abclist.configuration.IActionConfiguration.ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS;
 import com.github.naoghuman.abclist.model.ModelProvider;
-import com.github.naoghuman.abclist.model.Topic;
+import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
 import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.util.Optional;
 import javafx.collections.ObservableList;
@@ -31,39 +29,36 @@ import javafx.stage.Modality;
  *
  * @author Naoghuman
  */
-final class TopicDialogImpl implements TopicDialogs {
+final class DefaultTermDialog implements TermDialog {
 
     @Override
-    public void showNewTopicWizard() {
-        LoggerFacade.getDefault().debug(this.getClass(), "On action show new [Topic] wizard"); // NOI18N
+    public void showNewTermWizard() {
+        LoggerFacade.getDefault().debug(this.getClass(), "showNewTermWizard()"); // NOI18N
         
-        // TODO replace it with AnchorPane (transparent dialog), show warning when title exists
+        // TODO replace it with AnchorPane
         final TextInputDialog dialog = new TextInputDialog(); // NOI18N
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setHeaderText("Create Topic"); // NOI18N
+        dialog.setHeaderText("Create Term"); // NOI18N
         dialog.setResizable(false);
-        dialog.setTitle("Topic Wizard"); // NOI18N
+        dialog.setTitle("Term Wizard"); // NOI18N
         
         final Optional<String> result = dialog.showAndWait();
         if (
                 result.isPresent()
                 && !result.get().isEmpty()
         ) {
-            // Check if the [Topic] always exists
-            final ObservableList<Topic> topics = SqlProvider.getDefault().findAllTopics();
+            // Check if the [Term] always exists
+            final ObservableList<Term> terms = SqlProvider.getDefault().findAllTerms();
             final String title = result.get();
-            for (Topic topic : topics) {
-                if (topic.getTitle().equals(title)) {
+            for (Term term : terms) {
+                if (term.getTitle().equals(title)) {
                     return;
                 }
             }
             
-            // Create a new [Topic]
-            final Topic topic = ModelProvider.getDefault().getTopic(title);
-            SqlProvider.getDefault().createTopic(topic);
-            
-            // Update gui
-            ActionHandlerFacade.getDefault().handle(ACTION__APPLICATION__REFRESH_NAVIGATION_TAB_TOPICS);
+            // Create a new [Term]
+            final Term term = ModelProvider.getDefault().getTerm(title);
+            SqlProvider.getDefault().createTerm(term);
         }
     }
     
