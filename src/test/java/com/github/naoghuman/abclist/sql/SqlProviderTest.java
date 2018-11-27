@@ -444,7 +444,7 @@ public class SqlProviderTest implements IDefaultConfiguration {
         try { Thread.sleep(15); } catch (InterruptedException e) { }
         
         ObservableList<ExerciseTerm> exerciseTerms = SqlProvider.getDefault().findAllExerciseTermsWithExerciseId(1111L);
-        ObservableList<Term> terms = SqlProvider.getDefault().findAllTermsInExerciseTerm(exerciseTerms);
+        ObservableList<Term> terms = SqlProvider.getDefault().findAllTermsInExerciseTerms(exerciseTerms);
         
         assertFalse(terms.isEmpty());
         assertTrue(terms.size() == 2);

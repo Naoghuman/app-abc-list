@@ -22,8 +22,6 @@ import com.github.naoghuman.abclist.configuration.IPropertiesConfiguration;
 import com.github.naoghuman.abclist.dialog.DialogProvider;
 import com.github.naoghuman.abclist.json.Project;
 import com.github.naoghuman.abclist.json.SimpleJsonReader;
-import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
-import com.github.naoghuman.abclist.view.exercise.ExerciseView;
 import com.github.naoghuman.abclist.model.Exercise;
 import com.github.naoghuman.abclist.model.Link;
 import com.github.naoghuman.abclist.model.LinkMappingType;
@@ -32,10 +30,8 @@ import com.github.naoghuman.abclist.model.NavigationEntity;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
 import com.github.naoghuman.abclist.sql.SqlProvider;
-import com.github.naoghuman.converter.ExercisePresentationConverter;
-import com.github.naoghuman.converter.LinkPresentationConverter;
-import com.github.naoghuman.converter.TermPresentationConverter;
-import com.github.naoghuman.converter.TopicPresentationConverter;
+import com.github.naoghuman.abclist.view.exercise.ExercisePresenter;
+import com.github.naoghuman.abclist.view.exercise.ExerciseView;
 import com.github.naoghuman.abclist.view.link.LinkPresenter;
 import com.github.naoghuman.abclist.view.link.LinkView;
 import com.github.naoghuman.abclist.view.term.TermPresenter;
@@ -43,6 +39,10 @@ import com.github.naoghuman.abclist.view.term.TermView;
 import com.github.naoghuman.abclist.view.topic.TopicPresenter;
 import com.github.naoghuman.abclist.view.topic.TopicView;
 import com.github.naoghuman.abclist.view.welcome.WelcomeView;
+import com.github.naoghuman.converter.ExercisePresentationConverter;
+import com.github.naoghuman.converter.LinkPresentationConverter;
+import com.github.naoghuman.converter.TermPresentationConverter;
+import com.github.naoghuman.converter.TopicPresentationConverter;
 import com.github.naoghuman.lib.action.core.ActionHandlerFacade;
 import com.github.naoghuman.lib.action.core.RegisterActions;
 import com.github.naoghuman.lib.action.core.TransferData;
@@ -451,7 +451,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
         LoggerFacade.getDefault().debug(this.getClass(), "On action open [Exercise] with [Id]"); // NOI18N
  
         // Load [Exercise] from the [Database]
-        final Optional<Exercise> optional = SqlProvider.getDefault().findById(Exercise.class, exerciseId);
+        final Optional<Exercise> optional = SqlProvider.getDefault().findExercise(exerciseId);
         if (optional.isPresent()) {
             this.onActionShowExerciseInWorkingArea(optional.get());
         }
@@ -510,7 +510,7 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
 //        }
  
         // Load [Term] from the [Database]
-        final Optional<Term> optional = SqlProvider.getDefault().findById(Term.class, entityId);
+        final Optional<Term> optional = SqlProvider.getDefault().findTerm(entityId);
         if (optional.isPresent()) {
             this.onActionOpenTerm(optional.get());
         }
@@ -645,10 +645,12 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             links.addAll(SqlProvider.getDefault().findAllLinks());
         }
         else if (Objects.equals(parentId, DEFAULT_ID__TERM__SHOW_ALL_LINKS_WITHOUT_PARENT)) {
-            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithoutParent());
+            links.addAll(SqlProvider.getDefault().findAllLinks(
+                    SqlProvider.getDefault().findAllLinksWithoutParent()));
         }
         else {
-            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithParent(parentId, LinkMappingType.TOPIC));
+            links.addAll(SqlProvider.getDefault().findAllLinks(
+                    SqlProvider.getDefault().findAllLinksWithParent(parentId, LinkMappingType.TOPIC)));
         }
         
         // Show them in gui
@@ -677,10 +679,12 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             links.addAll(SqlProvider.getDefault().findAllLinks());
         }
         else if (Objects.equals(parentId, DEFAULT_ID__TOPIC__SHOW_ALL_LINKS_WITHOUT_PARENT)) {
-            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithoutParent());
+            links.addAll(SqlProvider.getDefault().findAllLinks(
+                    SqlProvider.getDefault().findAllLinksWithoutParent()));
         }
         else {
-            links.addAll(SqlProvider.getDefault().findAllLinksInLinkMappingWithParent(parentId, LinkMappingType.TOPIC));
+            links.addAll(SqlProvider.getDefault().findAllLinks(
+                    SqlProvider.getDefault().findAllLinksWithParent(parentId, LinkMappingType.TOPIC)));
         }
         
         // Show them in gui
@@ -709,7 +713,8 @@ public class ApplicationPresenter implements Initializable, IActionConfiguration
             terms.addAll(SqlProvider.getDefault().findAllTerms());
         }
         else if (Objects.equals(topicId, DEFAULT_ID__TOPIC__SHOW_ALL_TERMS_WITHOUT_PARENT)) {
-            terms.addAll(SqlProvider.getDefault().findAllTermsInExerciseTermsWithoutParent());
+            terms.addAll(SqlProvider.getDefault().findAllTermsInExerciseTermsWithoutParent(
+                    SqlProvider.getDefault().findAllTerms()));
         }
         else {
             terms.addAll(SqlProvider.getDefault().findAllTermsWithTopicId(topicId));

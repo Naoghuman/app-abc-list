@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Naoghuman
+ * Copyright (C) 2018 Naoghuman's dream
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,79 +16,22 @@
  */
 package com.github.naoghuman.abclist.sql;
 
-import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
-import com.github.naoghuman.abclist.configuration.ILinkMappingConfiguration;
 import com.github.naoghuman.abclist.model.LinkMapping;
 import com.github.naoghuman.abclist.model.LinkMappingType;
-import com.github.naoghuman.lib.database.core.DatabaseFacade;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Naoghuman
  */
-public final class LinkMappingSqlService implements IDefaultConfiguration, ILinkMappingConfiguration {
-    
-    private static final Optional<LinkMappingSqlService> INSTANCE = Optional.of(new LinkMappingSqlService());
+public interface LinkMappingSqlService {
 
-    public static final LinkMappingSqlService getDefault() {
-        return INSTANCE.get();
-    }
-    
-    private LinkMappingSqlService() {
-        
-    }
-    
-    void create(final LinkMapping linkMapping) {
-        if (Objects.equals(linkMapping.getId(), DEFAULT_ID)) {
-            linkMapping.setId(System.currentTimeMillis());
-            DatabaseFacade.getDefault().getCrudService().create(linkMapping);
-        }
-        else {
-            this.update(linkMapping);
-        }
-    }
-    
-    ObservableList<LinkMapping> findAllLinksInLinkMappingWithoutParent() {
-        final ObservableList<LinkMapping> allLinkMappingsWithoutParent = FXCollections.observableArrayList();
-        
-        final Map<String, Object> parameters = FXCollections.observableHashMap();
-        parameters.put(LINK_MAPPING__COLUMN_NAME__PARENT_TYPE, LinkMappingType.NOT_DEFINED);
-        parameters.put(LINK_MAPPING__COLUMN_NAME__CHILD_TYPE,  LinkMappingType.LINK);
-        
-        final List<LinkMapping> linkMappings = DatabaseFacade.getDefault().getCrudService()
-                .findByNamedQuery(LinkMapping.class, NAMED_QUERY__NAME__FIND_ALL_WITH_PARENTTYPE_AND_CHILDTYPE, parameters);
-        
-        allLinkMappingsWithoutParent.addAll(linkMappings);
-        Collections.sort(allLinkMappingsWithoutParent);
+    void createLinkMapping(final LinkMapping linkMapping);
 
-        return allLinkMappingsWithoutParent;
-    }
+    ObservableList<LinkMapping> findAllLinksWithParent(final long parentId, final LinkMappingType parentType);
 
-    ObservableList<LinkMapping> findAllLinksInLinkMappingWithParent(final long parentId, final LinkMappingType parentType) {
-        final ObservableList<LinkMapping> allLinkMappingsWithParent = FXCollections.observableArrayList();
-        
-        final Map<String, Object> parameters = FXCollections.observableHashMap();
-        parameters.put(LINK_MAPPING__COLUMN_NAME__PARENT_ID,   parentId);
-        parameters.put(LINK_MAPPING__COLUMN_NAME__PARENT_TYPE, parentType);
-        
-        final List<LinkMapping> linkMappings = DatabaseFacade.getDefault().getCrudService()
-                .findByNamedQuery(LinkMapping.class, NAMED_QUERY__NAME__FIND_ALL_WITH_PARENT, parameters);
-        
-        allLinkMappingsWithParent.addAll(linkMappings);
-        Collections.sort(allLinkMappingsWithParent);
+    ObservableList<LinkMapping> findAllLinksWithoutParent();
 
-        return allLinkMappingsWithParent;
-    }
-    
-    void update(final LinkMapping linkMapping) {
-        DatabaseFacade.getDefault().getCrudService().update(linkMapping);
-    }
+    void updateLinkMapping(final LinkMapping linkMapping);
     
 }

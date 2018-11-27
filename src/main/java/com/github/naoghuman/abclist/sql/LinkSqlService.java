@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Naoghuman
+ * Copyright (C) 2018 Naoghuman's dream
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,56 +16,22 @@
  */
 package com.github.naoghuman.abclist.sql;
 
-import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
-import com.github.naoghuman.abclist.configuration.ILinkConfiguration;
 import com.github.naoghuman.abclist.model.Link;
-import com.github.naoghuman.lib.database.core.DatabaseFacade;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import javafx.collections.FXCollections;
+import com.github.naoghuman.abclist.model.LinkMapping;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Naoghuman
  */
-final class LinkSqlService implements IDefaultConfiguration, ILinkConfiguration {
-    
-    private static final Optional<LinkSqlService> INSTANCE = Optional.of(new LinkSqlService());
+public interface LinkSqlService {
 
-    public static final LinkSqlService getDefault() {
-        return INSTANCE.get();
-    }
-    
-    private LinkSqlService() {
-        
-    }
-    
-    void create(Link link) {
-        if (Objects.equals(link.getId(), DEFAULT_ID)) {
-            link.setId(System.currentTimeMillis());
-            DatabaseFacade.getDefault().getCrudService().create(link);
-        }
-        else {
-            this.update(link);
-        }
-    }
-    
-    ObservableList<Link> findAllLinks() {
-        final ObservableList<Link> allLinks = FXCollections.observableArrayList();
-        final List<Link> links = DatabaseFacade.getDefault().getCrudService()
-                .findByNamedQuery(Link.class, NAMED_QUERY__NAME__FIND_ALL);
-        
-        allLinks.addAll(links);
-        Collections.sort(allLinks);
+    void createLink(final Link link);
 
-        return allLinks;
-    }
-    
-    void update(Link link) {
-        DatabaseFacade.getDefault().getCrudService().update(link);
-    }
+    ObservableList<Link> findAllLinks();
+
+    ObservableList<Link> findAllLinks(final ObservableList<LinkMapping> linkMappings);
+
+    void updateLink(final Link link);
     
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Naoghuman
+ * Copyright (C) 2018 Naoghuman's dream
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,56 +16,19 @@
  */
 package com.github.naoghuman.abclist.sql;
 
-import com.github.naoghuman.abclist.configuration.IDefaultConfiguration;
-import com.github.naoghuman.abclist.configuration.ITopicConfiguration;
 import com.github.naoghuman.abclist.model.Topic;
-import com.github.naoghuman.lib.database.core.DatabaseFacade;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Naoghuman
  */
-final class TopicSqlService implements IDefaultConfiguration {
-    
-    private static final Optional<TopicSqlService> INSTANCE = Optional.of(new TopicSqlService());
+public interface TopicSqlService {
 
-    public static final TopicSqlService getDefault() {
-        return INSTANCE.get();
-    }
-    
-    private TopicSqlService() {
-        
-    }
-    
-    void create(Topic topic) {
-        if (Objects.equals(topic.getId(), DEFAULT_ID)) {
-            topic.setId(System.currentTimeMillis());
-            DatabaseFacade.getDefault().getCrudService().create(topic);
-        }
-        else {
-            this.update(topic);
-        }
-    }
-    
-    ObservableList<Topic> findAllTopics() {
-        final ObservableList<Topic> allTopics = FXCollections.observableArrayList();
-        final List<Topic> topics = DatabaseFacade.getDefault().getCrudService()
-                .findByNamedQuery(Topic.class, ITopicConfiguration.NAMED_QUERY__NAME__FIND_ALL);
-        
-        allTopics.addAll(topics);
-        Collections.sort(allTopics);
+    void createTopic(final Topic topic);
 
-        return allTopics;
-    }
-    
-    void update(Topic topic) {
-        DatabaseFacade.getDefault().getCrudService().update(topic);
-    }
+    ObservableList<Topic> findAllTopics();
+
+    void updateTopic(final Topic topic);
     
 }

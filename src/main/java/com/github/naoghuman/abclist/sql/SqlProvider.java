@@ -25,224 +25,246 @@ import com.github.naoghuman.abclist.model.LinkMapping;
 import com.github.naoghuman.abclist.model.LinkMappingType;
 import com.github.naoghuman.abclist.model.Term;
 import com.github.naoghuman.abclist.model.Topic;
-import com.github.naoghuman.lib.database.core.DatabaseFacade;
-import com.github.naoghuman.lib.logger.core.LoggerFacade;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.commons.lang3.time.StopWatch;
 
 /**
  *
  * @author Naoghuman
  */
-public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfiguration {
-    
+public class SqlProvider implements 
+        IDefaultConfiguration, IExerciseTermConfiguration,
+        ExerciseSqlService,    ExerciseTermSqlService,     LinkMappingSqlService,
+        LinkSqlService,        TermSqlService,             TopicSqlService
+{
     private static final Optional<SqlProvider> INSTANCE = Optional.of(new SqlProvider());
 
     public static final SqlProvider getDefault() {
         return INSTANCE.get();
     }
     
+    private final ExerciseSqlService     exerciseSqlService     = new DefaultExerciseSqlService();
+    private final ExerciseTermSqlService exerciseTermSqlService = new DefaultExerciseTermSqlService();
+    private final LinkMappingSqlService  linkMappingSqlService  = new DefaultLinkMappingSqlService();
+    private final LinkSqlService         linkSqlService         = new DefaultLinkSqlService();
+    private final TermSqlService         termSqlService         = new DefaultTermSqlService();
+    private final TopicSqlService        topicSqlService        = new DefaultTopicSqlService();
+    
     private SqlProvider() {
         
     }
     
-//    public long countAllExerciseTermsWithTermId(long termId) {
-//        return ExerciseTermSqlService.getDefault().countAllExerciseTermsWithTermId(termId);
-//    }
+    @Override
+    public long countAllExerciseTermsWithTermId(final long termId) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        final long countedExerciseTerms = exerciseTermSqlService.countAllExerciseTermsWithTermId(termId);
+        
+        sqlPerformance.stop(-1, "countAllExerciseTermsWithTermId(long)"); // NOI18N
+        
+        return countedExerciseTerms;
+    }
     
+    @Override
     public void createExercise(final Exercise exercise) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-                
-        ExerciseSqlService.getDefault().create(exercise);
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "createExercise(Exercise exercise)"); // NOI18N
-        stopWatch.stop();
+        exerciseSqlService.createExercise(exercise);
+        
+        sqlPerformance.stop(1, "createExercise(Exercise)"); // NOI18N
     }
     
+    @Override
     public void createExerciseTerm(final ExerciseTerm exerciseTerm) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-            
-        ExerciseTermSqlService.getDefault().create(exerciseTerm);
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "createExerciseTerm(ExerciseTerm exerciseTerm)"); // NOI18N
-        stopWatch.stop();
-    }
-    
-    public void createTerm(final Term term) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        exerciseTermSqlService.createExerciseTerm(exerciseTerm);
         
-        TermSqlService.getDefault().create(term);
-        
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "createTerm(Term term)"); // NOI18N
-        stopWatch.stop();
-    }
-    
-    public void createTopic(final Topic topic) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        
-        TopicSqlService.getDefault().create(topic);
-        
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "createTopic(Topic topic)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "createExerciseTerm(ExerciseTerm)"); // NOI18N
     }
 
-    public void deleteAllExerciseTermsWithExerciseId(final long exerciseId) {
-        // StopWatch is in delegated method
-        ExerciseTermSqlService.getDefault().deleteAllExerciseTermsWithExerciseId(exerciseId);
+    @Override
+    public void createLink(final Link link) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        linkSqlService.createLink(link);
+        
+        sqlPerformance.stop(1, "createLink(Link)"); // NOI18N
+    }
+
+    @Override
+    public void createLinkMapping(final LinkMapping linkMapping) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        linkMappingSqlService.createLinkMapping(linkMapping);
+        
+        sqlPerformance.stop(1, "createLinkMapping(LinkMapping)"); // NOI18N
     }
     
+    @Override
+    public void createTerm(final Term term) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        termSqlService.createTerm(term);
+        
+        sqlPerformance.stop(1, "createTerm(Term)"); // NOI18N
+    }
+    
+    @Override
+    public void createTopic(final Topic topic) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        topicSqlService.createTopic(topic);
+        
+        sqlPerformance.stop(1, "createTopic(Topic)"); // NOI18N
+    }
+
+    @Override
+    public int deleteAllExerciseTermsWithExerciseId(final long exerciseId) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        int deletedEntities = exerciseTermSqlService.deleteAllExerciseTermsWithExerciseId(exerciseId);
+        
+        sqlPerformance.stop(deletedEntities, "deleteAllExerciseTermsWithExerciseId(long)"); // NOI18N
+        
+        return deletedEntities;
+    }
+    
+    @Override
     public ObservableList<ExerciseTerm> findAllExerciseTermsWithExerciseId(final long exerciseId) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<ExerciseTerm>  exerciseTerms = ExerciseTermSqlService.getDefault().findAllExerciseTermsWithExerciseId(exerciseId);
+        final ObservableList<ExerciseTerm>  exerciseTerms = exerciseTermSqlService.findAllExerciseTermsWithExerciseId(exerciseId);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), exerciseTerms.size(), "findAllExerciseTermsWithExerciseId(long exerciseId)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(exerciseTerms.size(), "deleteAllExerciseTermsWithExerciseId(long)"); // NOI18N
         
         return exerciseTerms;
     }
     
+    @Override
     public ObservableList<Exercise> findAllExercisesWithTopicId(final long topicId) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Exercise> exercises =  ExerciseSqlService.getDefault().findAllExercisesWithTopicId(topicId);
+        final ObservableList<Exercise> exercises =  exerciseSqlService.findAllExercisesWithTopicId(topicId);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), exercises.size(), "findAllExercisesWithTopicId(long topicId)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(exercises.size(), "findAllExercisesWithTopicId(long)"); // NOI18N
         
         return exercises;
     }
     
+    @Override
     public ObservableList<Link> findAllLinks() {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Link> links = LinkSqlService.getDefault().findAllLinks();
+        final ObservableList<Link> links = linkSqlService.findAllLinks();
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), links.size(), "findAllLinks()"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(links.size(), "findAllLinks()"); // NOI18N
         
         return links;
     }
 
-    public ObservableList<Link> findAllLinksInLinkMappingWithoutParent() {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    @Override
+    public ObservableList<Link> findAllLinks(final ObservableList<LinkMapping> linkMappings) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<LinkMapping> allLinkMappingsWithoutParent = LinkMappingSqlService.getDefault().findAllLinksInLinkMappingWithoutParent();
-        final ObservableList<Link> links = FXCollections.observableArrayList();
-        allLinkMappingsWithoutParent.stream()
-                .forEach(linkMapping -> {
-                    final Optional<Link> optional = this.findById(Link.class, linkMapping.getChildId());
-                    if (optional.isPresent()) {
-                        links.add(optional.get());
-                    }
-                });
+        final ObservableList<Link> links = linkSqlService.findAllLinks(linkMappings);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), allLinkMappingsWithoutParent.size(), "findAllLinksInLinkMappingWithoutParent()"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(links.size(), "findAllLinks(ObservableList<LinkMapping>)"); // NOI18N
         
         return links;
     }
 
-    public ObservableList<Link> findAllLinksInLinkMappingWithParent(final long parentId, final LinkMappingType parentType) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    @Override
+    public ObservableList<LinkMapping> findAllLinksWithParent(final long parentId, final LinkMappingType parentType) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<LinkMapping> allLinkMappingsWithParent = LinkMappingSqlService.getDefault().findAllLinksInLinkMappingWithParent(parentId, parentType);
-        final ObservableList<Link> links = FXCollections.observableArrayList();
-        allLinkMappingsWithParent.stream()
-                .forEach(linkMapping -> {
-                    final Optional<Link> optional = this.findById(Link.class, linkMapping.getChildId());
-                    if (optional.isPresent()) {
-                        links.add(optional.get());
-                    }
-                });
+        final ObservableList<LinkMapping> linkMappings = linkMappingSqlService.findAllLinksWithParent(parentId, parentType);
+
+        sqlPerformance.stop(linkMappings.size(), "findAllLinksInLinkMappingWithParent(long, LinkMappingType)"); // NOI18N
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), allLinkMappingsWithParent.size(), "findAllLinksInLinkMappingWithPrimary(long, LinkMappingType)"); // NOI18N
-        stopWatch.stop();
+        return linkMappings;
+    }
+
+    @Override
+    public ObservableList<LinkMapping> findAllLinksWithoutParent() {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        return links;
+        final ObservableList<LinkMapping> linkMappings = linkMappingSqlService.findAllLinksWithoutParent();
+
+        sqlPerformance.stop(linkMappings.size(), "findAllLinksInLinkMappingWithoutParent()"); // NOI18N
+        
+        return linkMappings;
     }
     
+    @Override
     public ObservableList<Term> findAllTerms() {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Term> terms = TermSqlService.getDefault().findAllTerms();
+        final ObservableList<Term> terms = termSqlService.findAllTerms();
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTerms()"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(terms.size(), "findAllTerms()"); // NOI18N
         
         return terms;
     }
     
-    public ObservableList<Term> findAllTermsInExerciseTerm(final ObservableList<ExerciseTerm> exerciseTerms) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    @Override
+    public ObservableList<Term> findAllTermsInExerciseTerms(final ObservableList<ExerciseTerm> exerciseTerms) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Term> terms = ExerciseTermSqlService.getDefault().findAllTermsInExerciseTerm(exerciseTerms);
+        final ObservableList<Term> terms = exerciseTermSqlService.findAllTermsInExerciseTerms(exerciseTerms);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTermsInExerciseTerm(ObservableList<ExerciseTerm> exerciseTerms)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(terms.size(), "findAllTermsInExerciseTerms(ObservableList<ExerciseTerm>)"); // NOI18N
         
         return terms;
     }
-
-    public ObservableList<Term> findAllTermsInExerciseTermsWithoutParent() {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    
+    @Override
+    public ObservableList<Term> findAllTermsInExerciseTermsWithoutParent(final ObservableList<Term> terms) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Term> allTerms = FXCollections.observableArrayList();
-        allTerms.addAll(this.findAllTerms());
+        final ObservableList<Term> termsWithoutParent = exerciseTermSqlService.findAllTermsInExerciseTermsWithoutParent(terms);
         
-        final ObservableList<Term> terms = ExerciseTermSqlService.getDefault().findAllTermsInExerciseTermsWithoutParent(allTerms);
+        sqlPerformance.stop(termsWithoutParent.size(), "findAllTermsInExerciseTermsWithoutParent()"); // NOI18N
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTermsInExerciseTermsWithoutParent()"); // NOI18N
-        stopWatch.stop();
-        
-        return terms;
+        return termsWithoutParent;
     }
 	
+    @Override
     public ObservableList<Term> findAllTermsWithTitle(final String title) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Term> terms = TermSqlService.getDefault().findAllTermsWithTitle(title);
+        final ObservableList<Term> terms = termSqlService.findAllTermsWithTitle(title);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), terms.size(), "findAllTermsWithTitle(String title)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(terms.size(), "findAllTermsWithTitle(String)"); // NOI18N
         
         return terms;
     }
 
     public ObservableList<Term> findAllTermsWithTopicId(final long topicId) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
         final ObservableList<Term> allTermsWithTopicId = FXCollections.observableArrayList();
         
@@ -259,126 +281,136 @@ public class SqlProvider implements IDefaultConfiguration, IExerciseTermConfigur
         
         uniqueTermIds.stream()
                 .forEach(termId -> {
-                    allTermsWithTopicId.add(TermSqlService.getDefault().findById(termId));
+                    final Optional<Term> optional = termSqlService.findTerm(termId);
+                    if (optional.isPresent()) {
+                        allTermsWithTopicId.add(optional.get());
+                    }
                 });
         Collections.sort(allTermsWithTopicId);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), allTermsWithTopicId.size(), "findAllTermsWithTopicId(long topicId)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(allTermsWithTopicId.size(), "findAllTermsWithTopicId(long)"); // NOI18N
 
         return allTermsWithTopicId;
     }
     
+    @Override
     public ObservableList<Topic> findAllTopics() {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final ObservableList<Topic> topics = TopicSqlService.getDefault().findAllTopics();
+        final ObservableList<Topic> topics = topicSqlService.findAllTopics();
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), topics.size(), "findAllTopics()"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(topics.size(), "findAllTopics()"); // NOI18N
         
         return topics;
     }
-    
-    public <T extends Object> Optional<T> findById(final Class<T> type, final long entityId) {
-//        final StopWatch stopWatch = new StopWatch();
-//        stopWatch.start();
+
+    @Override
+    public Optional<Exercise> findExercise(long exerciseId) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final Optional<T> optional = Optional.ofNullable(DatabaseFacade.getDefault().getCrudService().findById(type, entityId));
+        final Optional<Exercise> optional = exerciseSqlService.findExercise(exerciseId);
         
-//        stopWatch.split();
-//        this.printToLog(stopWatch.toSplitString(), 1, "findById(Class<T> type, long entityId)"); // NOI18N
-//        stopWatch.stop();
+        sqlPerformance.stop(1, "findExercise(long)"); // NOI18N
         
         return optional;
     }
 
+    @Override
     public Optional<ExerciseTerm> findExerciseTerm(final long exerciseId, final long termId) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        final Optional<ExerciseTerm> optional = ExerciseTermSqlService.getDefault().findExerciseTerm(exerciseId, termId);
+        final Optional<ExerciseTerm> optional = exerciseTermSqlService.findExerciseTerm(exerciseId, termId);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "findExerciseTerm(long exerciseId, long termId)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "findExerciseTerm(long, long)"); // NOI18N
         
         return optional;
     }
 
-//    public boolean isExerciseTermMarkAsWrong(long exerciseId, long termId) {
-//        return ExerciseTermSqlService.getDefault().isExerciseTermMarkAsWrong(exerciseId, termId);
-//    }
-    
-    private void printToLog(final String split, final int entities, final String method) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("  + Need "); // NOI18N
-        sb.append(split);
-        sb.append(" for [");
-        sb.append(entities);
-        sb.append("] entities in [");
-        sb.append(method);
-        sb.append("]");
+    @Override
+    public Optional<Term> findTerm(final long termId) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        LoggerFacade.getDefault().debug(this.getClass(), sb.toString());
+        final Optional<Term> optional = termSqlService.findTerm(termId);
+        
+        sqlPerformance.stop(1, "findTerm(long)"); // NOI18N
+        
+        return optional;
+    }
+
+    @Override
+    public boolean isExerciseTermMarkAsWrong(final long exerciseId, final long termId) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        final boolean isExerciseTermMarkAsWrong = exerciseTermSqlService.isExerciseTermMarkAsWrong(exerciseId, termId);
+        
+        sqlPerformance.stop(1, "isExerciseTermMarkAsWrong(long, long)"); // NOI18N
+        
+        return isExerciseTermMarkAsWrong;
     }
     
+    @Override
     public void updateExercise(final Exercise exercise) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        ExerciseSqlService.getDefault().update(exercise);
+        exerciseSqlService.updateExercise(exercise);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "updateExercise(Exercise exercise)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "updateExercise(Exercise)"); // NOI18N
     }
 
+    @Override
     public void updateExerciseTerm(final ExerciseTerm exerciseTerm) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        ExerciseTermSqlService.getDefault().update(exerciseTerm);
+        exerciseTermSqlService.updateExerciseTerm(exerciseTerm);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "updateExerciseTerm(ExerciseTerm exerciseTerm)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "updateExerciseTerm(ExerciseTerm)"); // NOI18N
     }
 
+    @Override
     public void updateLink(final Link link) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        LinkSqlService.getDefault().update(link);
+        linkSqlService.updateLink(link);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "updateLink(Link link)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "updateLink(Link)"); // NOI18N
+    }
+
+    @Override
+    public void updateLinkMapping(final LinkMapping linkMapping) {
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
+        
+        linkMappingSqlService.updateLinkMapping(linkMapping);
+        
+        sqlPerformance.stop(1, "updateLinkMapping(Link)"); // NOI18N
     }
     
+    @Override
     public void updateTerm(final Term term) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        TermSqlService.getDefault().update(term);
+        termSqlService.updateTerm(term);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "updateTerm(Term term)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "updateTerm(Term )"); // NOI18N
     }
     
+    @Override
     public void updateTopic(final Topic topic) {
-        final StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        final SqlPerformance sqlPerformance = SqlPerformance.create();
+        sqlPerformance.start();
         
-        TopicSqlService.getDefault().update(topic);
+        topicSqlService.updateTopic(topic);
         
-        stopWatch.split();
-        this.printToLog(stopWatch.toSplitString(), 1, "updateTopic(Topic topic)"); // NOI18N
-        stopWatch.stop();
+        sqlPerformance.stop(1, "updateTopic(Topic)"); // NOI18N
     }
     
 }
