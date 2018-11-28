@@ -1,0 +1,71 @@
+--------------------------------------------------------------------------------
+CONCEPT JSON v0.5.0-PRERELEASE
+--------------------------------------------------------------------------------
+DESCRIPTION
+
+In this concept I want to write the 'actual' and 'future' condition from the 
+topic 'JSON' in the application 'ABC-List'.
+
+--------------------------------------------------------------------------------
+ACTUAL CONDITION
+Files in packages
+ - /release
+     - releases.json
+ - src/main/java
+     - com.github.naoghuman.abclist.json
+        - Project.java
+        - Release.java
+        - Releases.java
+        - SimpleJsonReader.java
+        - SimpleJsonWriter.java
+ - src/main/test
+     - com.github.naoghuman.abclist.json
+        - ReleaseTest.java
+        - ReleasesTest.java
+        - VisualTestForOrderReleaes.java
+
+Commentary
+ - Release.java
+    - Have wrong error message (replace prefix with suffix)
+    - Typo in constant: RELEASE_lENGHT (L)
+    - isValid(...) checks condition not correct. (nr-pattern + suffix)
+ - SimpleJsonReader.java, SimpleJsonWriter.java
+    - Extract Interface for read(...) and write(...) methods.
+
+--------------------------------------------------------------------------------
+FUTURE CONDITION
+When the application starts, the application should try to connect with the 
+repository and read the 'releases.json' file.
+ - Depending from the reading a msg will be shown.
+    - "Application is uptodate".
+    - "Application have new update".
+
+Options (view)
+ - Check automatically during start -> is new update available.
+    - Disable/enable.
+ - Manually check unter help.
+    - Checks snapshots, prereleases, only releases.
+    - Click checks.
+
+Update from 'releaes.json'
+ - With every release the file should be updated. The file should always contains 
+   all releases.
+ - How can I updated the file automatically?
+    - Flag with the list in pom.xml which will then checked.
+    - Automatically writes the new file under /release/ if the file in repository 
+      and the list is different. So the new file can be commited.
+
+--------------------------------------------------------------------------------
+IDEA
+ - New library?
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

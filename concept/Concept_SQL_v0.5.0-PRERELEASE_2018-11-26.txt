@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
-CONCEPT SQL v0.5.0
+CONCEPT SQL v0.5.0-PRERELEASE
 --------------------------------------------------------------------------------
 DESCRIPTION
 In this concept I want to write the 'actual' and 'future' condition from the 
