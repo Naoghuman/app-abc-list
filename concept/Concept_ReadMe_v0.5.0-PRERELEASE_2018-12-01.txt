@@ -31,9 +31,9 @@ Momentary following chapters exists in the ReadMe:
 --------------------------------------------------------------------------------
 FUTURE CONDITION
  - [v] Main title
- - [ ] Intention
-       - [ ] Remove the version info.
-       - [ ] Only one screenshot.
+ - [v] Intention
+       - [v] Remove the version info.
+       - [v] Only one screenshot.
  - [ ] Content
        - Quick links to the different topics from this ReadMe.
  - [ ] Overview features.
@@ -43,10 +43,10 @@ FUTURE CONDITION
        - [ ] Content User help
        - [ ] The user help is generated with the GitHub wiki system.
  - [ ] Testdata generation
- - [ ] Download
-       - [ ] Restructure the infos.
- - [ ] Requirements
-       - [ ] Restructure the infos.
+ - [v] Download
+       - [v] Restructure the infos.
+ - [v] Requirements
+       - [v] Restructure the infos.
  - [v] License
  - [v] Autor
  - [v] Contact
