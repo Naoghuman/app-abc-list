@@ -15,18 +15,8 @@ topics through `key terms`.
 
 ABC-List is a [JavaFX] & [Maven] application, written in [NetBeans IDE].
 
-Current `version` is `0.4.0-PRERELEASE` (11-25-2018 / MM-dd-yyyy)
-
-
-
-_Image:_ `Testdata generation 0.3.0-PRERELEASE`  
-![Testdata-Generation_v0.3.0-PRERELEASE.png][Testdata-Generation_v0.3.0-PRERELEASE]
-
 _Image:_ `0.2.0-PRERELEASE`  
 ![ABC-List_v0.2.0-PRERELEASE.png][ABC-List_v0.2.0-PRERELEASE]
-
-_Image:_ `0.1.0-PRERELEASE`: Example ´terms´ extracted from an article  
-![ABC-List_example_v0.1.0-PRERELEASE.png][ABC-List_example_v0.1.0-PRERELEASE]
 
 
 
@@ -44,17 +34,21 @@ Content
 Download<a name="Download" />
 ---
 
-The current `version` can be here downloaded: [v0.4.0-PRERELEASE]
+The current `version` can be here downloaded:
+* [v0.4.0-PRERELEASE]  (11-25-2018 / MM-dd-yyyy)
 
-Download the `zip-file`, extracted it to a place of your choice. Then double 
-click on the `jar-file` to start the application.
+__How to start the application?__
+1. Download the `zip-file`. 
+2. Extract the zip-file to a place of your choice.
+3. Then double click on the `jar-file` to start the application.
 
 
 
 Requirements<a name="Requirements" />
 ---
 
-* On your system you need [JRE 8] or [JDK 8] installed. That was it :smile: .
+* On your system you need [JRE 8] or [JDK 8] installed.
+* That was it :smile: .
 
 
 
@@ -80,9 +74,7 @@ You can reach me under <peter.rogge@yahoo.de>.
 
 
 [//]: # (Images)
-[ABC-List_example_v0.1.0-PRERELEASE]:https://cloud.githubusercontent.com/assets/8161815/22596782/3201f87e-ea2d-11e6-8441-1df86014cfb2.png
 [ABC-List_v0.2.0-PRERELEASE]:https://cloud.githubusercontent.com/assets/8161815/22865561/f80e086a-f166-11e6-9cce-0b5f7d57832e.png
-[Testdata-Generation_v0.3.0-PRERELEASE]:https://cloud.githubusercontent.com/assets/8161815/23104173/e7a48fb4-f6c8-11e6-8a12-f3e72b6922eb.png
 
 
 

@@ -30,6 +30,7 @@ topic through `key terms`.
 
 
 #### Documentation
+#60 [doc] Update the sections Intention, Download and Requirements in the ReadMe.
 #58 [doc] Write new concept for the topic 'i18n' in the application.
 #57 [doc] Write new concept for the topic 'sql' in the application.
 #56 [doc] Write new concept for the topic 'json' in the application.
